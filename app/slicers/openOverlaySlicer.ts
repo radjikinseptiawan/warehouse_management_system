@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 type InitialState ={
     isOpenOverlay:boolean
+    isOpenDelete:boolean
 }
 
 const initialState : InitialState= {
-    isOpenOverlay : false
+    isOpenOverlay : false,
+    isOpenDelete: false
 }
 
 const isOpen= createSlice({
@@ -14,9 +16,12 @@ const isOpen= createSlice({
     reducers:{
         setIsOpenOverlay:(state, action: PayloadAction<boolean>)=>{
             state.isOpenOverlay = action.payload
+        },
+        setIsOpenDelete:(state,action:PayloadAction<boolean>)=>{
+            state.isOpenDelete = action.payload
         }
     }
 })
 
-export const { setIsOpenOverlay } = isOpen.actions
+export const { setIsOpenDelete,setIsOpenOverlay } = isOpen.actions
 export default isOpen.reducer

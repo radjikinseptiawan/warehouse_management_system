@@ -40,3 +40,24 @@ export async function GET(){
         })
     }
 }
+
+export async function DELETE(req:NextRequest){
+    try{
+        const body = await req.json()
+        const dataDelete = await prisma.category.deleteMany({
+            where:{
+                id:{
+                    in:body.category_id
+                }
+            }
+        })
+        return NextResponse.json({
+            id:body,
+            data:dataDelete
+        })
+    }catch(e){
+        return NextResponse.json({
+            message:e
+        })
+    }
+}

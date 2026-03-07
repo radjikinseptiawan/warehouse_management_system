@@ -6,9 +6,26 @@ function CardView({card}:{card:ReactNode}){
     )
 }
 
-function Basic({vendorName,vendorAddress,color}:{vendorName:string,vendorAddress?:string,color:string}){
+function Basic({
+    vendorName,
+    vendorAddress,
+    color,
+    disableEdit,
+    clickCheck,
+    checklist,
+    btnDel
+}:{
+        btnDel:()=>void
+        disableEdit:boolean ,
+        clickCheck:()=>void
+        vendorName:string,
+        vendorAddress?:string,
+        color:string,
+        checklist?:boolean | null| any,
+        }){
     return(
         <div className="bg-[#fafafa] p-2 rounded-md border-b-3 border-green-500">
+                   <input type="checkbox" checked={checklist} onChange={clickCheck} />
                     <span className="flex justify-between text-gray-600">
                     <h1 className="font-semibold">{vendorName}</h1>
                     <p>{vendorAddress}</p>
@@ -16,8 +33,15 @@ function Basic({vendorName,vendorAddress,color}:{vendorName:string,vendorAddress
                     <div className="flex justify-between items-center">
                         <input type="color" value={color} disabled/>
                     <span>
-                    <button className="mx-1 cursor-pointer bg-yellow-500 p-1 w-20 text-white font-bold rounded-md">Edit</button>
-                    <button className="mx-1 cursor-pointer bg-red-500 p-1 w-20 text-white font-bold rounded-md">Hapus</button>
+                    <button disabled={disableEdit} 
+                    className={`${disableEdit ? 
+                        "mx-1 cursor-not-allowed bg-gray-500 p-1 w-20 text-white font-bold rounded-md": 
+                        "mx-1 cursor-pointer bg-yellow-500 p-1 w-20 text-white font-bold rounded-md"}`}
+                    >Edit</button>
+                    <button 
+                    
+                    onClick={btnDel}
+                    className="mx-1 cursor-pointer bg-red-500 p-1 w-20 text-white font-bold rounded-md">Hapus</button>
                     </span>
                     </div>
                 </div>

@@ -11,6 +11,7 @@ export type GudangType = {
 }
 
 export type CategoryType = {
+    id:number,
     nama_kategori : string,
     warna_category: string
 }

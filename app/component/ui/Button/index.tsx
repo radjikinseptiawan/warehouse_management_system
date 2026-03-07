@@ -8,18 +8,18 @@ export function ButtonLayer({children}:{children:ReactNode}){
     )
 }
 
-export function Button({clicker,text}:{clicker?:()=>void,text:string}){
+export function Button({clicker,text,color = "bg-[#048720]" }:{color?:string,clicker?:()=>void,text:string}){
     return(
     <button 
     onClick={clicker}
-    className="
-    rounded-md bg-[#048720] 
+    className={`
+    rounded-md ${color}
     font-semibold hover:cursor-pointer 
     hover:shadow-2xs 
     transition-all
-    lg:w-40 md:w-36 w-20
+    lg:w-24 md:w-20 w-12
     lg:p-3  md:p-2 p-1
-    "
+    `}
     type="button"
     >{text}</button>
     )

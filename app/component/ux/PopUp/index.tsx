@@ -45,5 +45,31 @@ function PopUpCategory({
         </div>
     )
 }
+
+
+function PopUpDelete({
+    click,
+    cancel
+}:{
+    cancel?:()=>void
+    click?:()=>void,
+}){
+    return(
+        <div className="flex items-center justify-center fixed text-black h-screen z-50">
+            <div className="bg-white shadow-xl p-2 rounded-md lg:w-2xl text-center md:w-xl">
+            <h1 className="text-2xl font-semibold">Hapus Kategori</h1>
+                <span className="text-white">
+                  <h1 className="text-black my-4">Kamu yakin ingin menghapus data ini?</h1>
+                <div className="gap-2 flex items-center justify-center">
+                <ButtonLayer.Button text="Batalkan" color="bg-[#c4c4c4]" clicker={cancel}/>
+                <ButtonLayer.Button color="bg-[#690503]" text="Hapus" clicker={click}/>
+                </div>
+                </span>
+            </div>
+        </div>
+    )
+}
+
+PopUpLayer.PopUpDelete = PopUpDelete
 PopUpLayer.PopUpCategory = PopUpCategory
 export default PopUpLayer

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks"
 import { setCategoryName, setWarnaCategory } from "@/app/slicers/categorySlicer"
 import { setIsOpenDelete, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer"
 import { CategoryType, DataCategory, VendorType } from "@/lib/type"
-import { redirect, usePathname, useRouter } from "next/navigation"
+import { useParams, usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 
@@ -16,6 +16,7 @@ export default function Page(){
     const warnaCategory = useAppSelector(state=>state.category.warnaCategory)
     const dispatch = useAppDispatch()
     const isOpenHapus = useAppSelector((state)=>state.overlay.isOpenDelete)
+    const params = useParams()
     const router = useRouter()
     const [category,setCategory] = useState<CategoryType[]| null>([])
     const [categorySelected,setCategorySelected] = useState<number[]>([])
@@ -78,12 +79,21 @@ export default function Page(){
         }
     }
 
-    const deleteCategory = async(id:number)=>{
-        dispatch(setIsOpenDelete(true)) 
-        router.push(`/category/${id}`)
-    }
-    
+    const deleteCategory = async(id:number | any)=>{
+        try{
+            const response = await fetch(`/api/category/${id}`,{
+                method:"DELETE"
+            })
+        
+            const data = await response.json()
+            dispatch(setIsOpenDelete(false))
+            router.push("/category/")
 
+            return data
+        }catch(e){
+            console.error(e)
+        }
+    }
     return(
         <>
         <div className="flex justify-center h-screen">
@@ -104,7 +114,7 @@ export default function Page(){
                         return(
                             <div className="my-2" key={index}>
                             <CardView.Basic 
-                            btnDel={()=>deleteCategory(item.id)}
+                            btnDel={()=>dispatch(setIsOpenDelete(true))}
                             disableEdit={categorySelected.includes(item.id)}
                             clickCheck={()=>dataCheck(item.id)}
                             checklist={categorySelected.includes(item.id)}
@@ -134,7 +144,9 @@ export default function Page(){
                 click={addCategory}/>
             }
             {
-                isOpenHapus && <PopUpLayer.PopUpDelete cancel={()=>dispatch(setIsOpenDelete(false))}/>
+                isOpenHapus && <PopUpLayer.PopUpDelete cancel={()=>{
+                    dispatch(setIsOpenDelete(false)
+                )}} click={()=>deleteCategory(parseInt(params.id as string))}/>
             }
         </div>
     </>

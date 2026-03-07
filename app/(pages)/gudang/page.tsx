@@ -34,7 +34,11 @@ export default function Page(){
                     vendors?.map((item,index)=>{
                         return(
                             <div className="my-2" key={index}>
-                            <CardView.Basic key={index} color={item.warna_gudang} 
+                            <CardView.Basic
+                            disableEdit
+                                clickCheck={()=>console.log("entardulu")}
+                            btnDel={()=>console.log("sebentar")}
+                            key={index} color={item.warna_gudang} 
                             vendorName={item.nama_gudang} 
                             vendorAddress={item.alamat_gudang}/>
                             </div>
