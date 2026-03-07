@@ -137,6 +137,7 @@ export default function Page(){
         <ButtonLayer.Plus clicker={()=>dispatch(setIsOpenOverlay(true))}/>
             {
                 isOpenOverlay && <PopUpLayer.PopUpCategory
+                close={()=>dispatch(setIsOpenOverlay(false))}
                 valuedColor={warnaCategory}
                 changeColor={(e)=>dispatch(setWarnaCategory(e.target.value))} 
                 valued={namaCategory}

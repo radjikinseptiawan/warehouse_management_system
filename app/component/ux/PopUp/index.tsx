@@ -14,10 +14,12 @@ function PopUpLayer({children}:{children:ReactNode}){
 function PopUpCategory({
     click,
     valued,
+    close,
     change,
     valuedColor,
     changeColor
 }:{
+    close:()=>void
     valued?:string,
     click?:()=>void,
     changeColor:(e:ChangeEvent<HTMLInputElement>)=>void,
@@ -39,6 +41,7 @@ function PopUpCategory({
                 title="Warna Kategori"/>
                 </div>
                 <span className="text-white">
+                <ButtonLayer.Button text="Cancel" color="bg-[#b3b3b3] mx-2" clicker={close}/>
                 <ButtonLayer.Button text="Tambah" clicker={click}/>
                 </span>
             </div>
@@ -61,7 +64,7 @@ function PopUpDelete({
                 <span className="text-white">
                   <h1 className="text-black my-4">Kamu yakin ingin menghapus data ini?</h1>
                 <div className="gap-2 flex items-center justify-center">
-                <ButtonLayer.Button text="Batalkan" color="bg-[#c4c4c4]" clicker={cancel}/>
+                <ButtonLayer.Button text="Batalkan" color="bg-[#910200]" clicker={cancel}/>
                 <ButtonLayer.Button color="bg-[#690503]" text="Hapus" clicker={click}/>
                 </div>
                 </span>
