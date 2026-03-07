@@ -38,13 +38,12 @@ const listSliders = [
 export default function Sliders(){
     const params = usePathname()
     return(
-        <>
+        <div className="p-2">
+        <h1 className=" md:text-[17px] text-[12px] lg:text-xl text-center text-green-600 mt-5 font-bold">SiBumDes</h1>
+        <hr className="text-gray-400"/>
         <div className="bg-white p-5 
-        font-semibold bg fixed top-10 z-10 
-        h-screen shadow-xl lg:w-80 md:w-72 text-green-500">
-           <button>
-
-           </button>
+        font-semibold relative top-5 z-10
+        min-h-screen shadow-xl lg:w-80 md:w-72 text-green-500">
             <ul>
             {
                 listSliders.map((item,index)=>{
@@ -62,6 +61,6 @@ export default function Sliders(){
             }   
             </ul>
         </div>
-        </>
+        </div>
     )
 }
