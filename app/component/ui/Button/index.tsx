@@ -8,7 +8,7 @@ export function ButtonLayer({children}:{children:ReactNode}){
     )
 }
 
-export function Button({clicker,text}:{clicker:()=>void,text:string}){
+export function Button({clicker,text}:{clicker?:()=>void,text:string}){
     return(
     <button 
     onClick={clicker}

@@ -8,11 +8,14 @@ export function Input({children}:{children:ReactNode}){
     )
 }
 
-export function Basic({title,types,mind}:{title:string,types:string,mind:string}){
+export function Basic({title,change,types,mind,value}:{value?:string,change?:(e:ChangeEvent<HTMLInputElement>)=>void,title:string,types:string,mind:string}){
     return(
     <div className="flex items-start flex-col ">
         <label htmlFor={title} className=" text-md  text-gray-600">{title}</label>
-            <input type={types} id={title} className="border-2 text-gray-400 
+            <input 
+            onChange={change}
+            value={value}
+            type={types} id={title} className="border-2 text-gray-400 
             border-green-200 rounded-md
             lg:p-2 md:p-2 p-1  
             lg:my-2 md:my-2 my-1 
@@ -24,8 +27,8 @@ export function Basic({title,types,mind}:{title:string,types:string,mind:string}
     )
 }
 
-export function Color({types = 'color',title,mind=''}:{title:string,types?:string,mind?:string}){
-    const [color,setColor] = useState<string>("#ffffff")
+export function Color({types = 'color',title,mind='',valued,change}:{valued?:string,change?:(e:ChangeEvent<HTMLInputElement>)=>void,
+    title:string,types?:string,mind?:string}){
     const ref = useRef<null | HTMLInputElement>(null)
 
     const selectColorChanger = ()=>{
@@ -36,12 +39,14 @@ export function Color({types = 'color',title,mind=''}:{title:string,types?:strin
         <label htmlFor={title} className=" text-md  text-gray-600">{title}</label>
          
             <div 
-            style={{backgroundColor:color}}
+            style={{backgroundColor:valued}}
             onClick={selectColorChanger}
             className={`p-4 border rounded-full`}>
 
             </div>
-            <input ref={ref} onChange={(e)=>setColor(e.target.value)} type={types} id={title} className="border-2 text-gray-400 
+            <input ref={ref} 
+            value={valued}
+            onChange={change} type={types} id={title} className="border-2 text-gray-400 
             border-green-200 rounded-md hidden
             lg:p-2 md:p-2 p-1  
             lg:my-2 md:my-2 my-1 
