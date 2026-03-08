@@ -40,7 +40,7 @@ export default function Sliders(){
     return(
         <div className="p-2 bg-white">
         <div className="bg-white p-5 
-        font-semibold relative top-5 z-10
+        font-semibold sticky top-5 z-10
         min-h-screen shadow-xl lg:w-80 md:w-72 text-green-500">
         <h1 className=" md:text-[17px] text-[12px] lg:text-xl text-center text-green-600 mt-5 font-bold">SiBumDes</h1>
         <hr className="text-gray-400"/>

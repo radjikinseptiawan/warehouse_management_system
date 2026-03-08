@@ -4,7 +4,8 @@ import CardView from "@/app/component/ux/Card"
 import PopUpLayer from "@/app/component/ux/PopUp"
 import { useAppDispatch, useAppSelector } from "@/app/hooks"
 import { setCategoryName, setWarnaCategory } from "@/app/slicers/categorySlicer"
-import { setIsOpenDelete, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer"
+import { setAlamatGudang } from "@/app/slicers/lokasiGudangSlicers"
+import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer"
 import { setVendorAlamat, setVendorName, setVendorWarna } from "@/app/slicers/vendorSlicers"
 import { DataVendors } from "@/lib/type"
 import { useParams, useRouter } from "next/navigation"
@@ -14,6 +15,7 @@ export default function Page() {
     const dispatch = useAppDispatch()
 
     // Redux States
+    const isOpenEdit = useAppSelector(state=>state.overlay.isOpenEdit)
     const isOpenOverlay = useAppSelector(state => state.overlay.isOpenOverlay)
     const isOpenHapus = useAppSelector((state) => state.overlay.isOpenDelete)
     const namaVendors = useAppSelector((state)=>state.vendor.namaVendor)
@@ -23,7 +25,9 @@ export default function Page() {
     // Local States
     const [vendor, setVendor] = useState<DataVendors[] | null>([])
     const [categorySelected, setCategorySelected] = useState<number[]>([])
+    const [editedVendor,setEditVendor] = useState<DataVendors | null | undefined>(null)
     const [idTargetHapus, setIdTargetHapus] = useState<number | null>(null)
+    const [idTargetEdit, setIdTargetEdit] = useState<number | null>(null)
 
     const getVendors = async () => {
         try {
@@ -34,6 +38,19 @@ export default function Page() {
             console.error(e)
         }
     }
+
+    const getVendorsDetail = async (id:number) => {
+        try {
+            const response = await fetch(`/api/vendors/${id}`, { method: "GET" })
+            const data = await response.json()
+            dispatch(setVendorName(data.data.nama_vendor))
+            dispatch(setVendorAlamat(data.data.alamat_vendor))
+            dispatch(setVendorWarna(data.data.warna_vendor))
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
 
     useEffect(() => {
         getVendors()
@@ -51,9 +68,10 @@ export default function Page() {
             })
             if (response.ok) {
                 dispatch(setIsOpenOverlay(false))
-                dispatch(setWarnaCategory(""))
-                dispatch(setCategoryName(""))
-                getVendors() // Refresh list setelah nambah
+                dispatch(setVendorAlamat(""))
+                dispatch(setVendorName(""))
+                dispatch(setVendorWarna(""))
+                getVendors()
             }
         } catch (e) {
             console.error(e)
@@ -79,9 +97,33 @@ export default function Page() {
         }
     }
 
+    const editData = async (id:number|null)=>{
+        if(!id) return 
+        try{
+            const response = await fetch(`/api/vendors/${id}`,{
+                method:"PATCH",
+                body:JSON.stringify({
+                    nama_vendor:namaVendors,
+                    warna_vendor: warnaVendor,
+                    alamat_vendor: alamatVendors
+                })
+            })
+
+            if(response.ok){
+                dispatch(setIsOpendit(false))
+                dispatch(setVendorName(""))
+                dispatch(setVendorAlamat(""))
+                dispatch(setVendorWarna(""))
+                getVendors()
+            }
+        }catch(e){
+            console.error(e)
+        }
+    }
+
     return (
         <div className="flex justify-center h-screen bg-gray-50">
-            <div className="bg-white shadow-xl p-4 rounded-md h-screen text-black md:w-3xl overflow-y-auto mt-10">
+            <div className="bg-white shadow-xl p-4 rounded-md h-screen w-sm text-black md:w-3xl overflow-y-auto mt-10">
                 <h1 className="font-bold underline text-2xl text-center mb-4">List Vendors/Suppliers</h1>
                 
                 <div className="p-2">
@@ -90,6 +132,11 @@ export default function Page() {
                             vendor.map((item) => (
                                 <div className="my-2" key={item.id}>
                                     <CardView.Basic 
+                                        btnEdit={()=>{
+                                            getVendorsDetail(item.id)
+                                            setIdTargetEdit(item.id)
+                                            dispatch(setIsOpendit(true))
+                                        }}
                                         btnDel={() => {
                                             setIdTargetHapus(item.id) // Set target ID di sini
                                             dispatch(setIsOpenDelete(true))
@@ -118,10 +165,10 @@ export default function Page() {
 
             <ButtonLayer.Plus clicker={() => dispatch(setIsOpenOverlay(true))} />
 
-            {/* Modal Tambah */}
             {isOpenOverlay && (
                 <PopUpLayer.PopUp
-                    title1="Nama Vendor/Supplier" title2="Alamat Vendors/Suppliers" title3="Warna Vendors/Suppliers" nama="Vendor/Supplier"
+                    textBtn="Tambah"
+                    title1="Nama Vendor/Supplier" title2="Alamat Vendors/Suppliers" title3="Warna Vendors/Suppliers" nama="Tambah Vendor/Supplier"
                     close={() => dispatch(setIsOpenOverlay(false))}
                     colorValued={warnaVendor}
                     changeColor={(e) => dispatch(setVendorWarna(e.target.value))} 
@@ -132,7 +179,22 @@ export default function Page() {
                 />
             )}
 
-            {/* Modal Hapus */}
+            {
+                isOpenEdit && (
+                <PopUpLayer.PopUp
+                    textBtn="Edit"
+                    title1="Nama Vendor/Supplier" title2="Alamat Vendors/Suppliers" title3="Warna Vendors/Suppliers" nama="Edit Vendor/Supplier"
+                    close={() => dispatch(setIsOpendit(false))}
+                    colorValued={warnaVendor}
+                    changeColor={(e) => dispatch(setVendorWarna(e.target.value))} 
+                    valued1={namaVendors}
+                    valued2={alamatVendors}
+                    change1={(e) => dispatch(setVendorName(e.target.value))}
+                    change2={(e) => {dispatch(setVendorAlamat(e.target.value))}}
+                    click={()=>editData(idTargetEdit)}
+                />
+                )
+            }
             {isOpenHapus && (
                 <PopUpLayer.PopUpDelete 
                     section="Vendor"

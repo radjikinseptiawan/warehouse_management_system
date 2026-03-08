@@ -26,6 +26,7 @@ function PopUpCategory({
     title2,
     mind2,
     title3,
+    textBtn,
     changeColor
 }:{
     colorValued:string,
@@ -41,12 +42,13 @@ function PopUpCategory({
     change2?:(e:ChangeEvent<HTMLInputElement>)=>void,
     valued1?:string,
     valued2?:string,
+    textBtn:string,
     title3:string
 }){
     return(
         <div className="flex items-center justify-center fixed text-black h-screen z-50">
             <div className="bg-white shadow-xl p-2 rounded-md lg:w-2xl text-center md:w-xl">
-            <h1 className="text-2xl font-semibold">Tambah {nama}</h1>
+            <h1 className="text-2xl font-semibold">{nama}</h1>
             <div className="flex flex-col items-start mx-10 text-[#048720]">
                 <Input.Basic 
                 change={change1}
@@ -66,7 +68,7 @@ function PopUpCategory({
                 </div>
                 <span className="text-white">
                 <ButtonLayer.Button text="Cancel" color="bg-[#b3b3b3] mx-2" clicker={close}/>
-                <ButtonLayer.Button text="Tambah" clicker={click}/>
+                <ButtonLayer.Button text={textBtn} clicker={click}/>
                 </span>
             </div>
         </div>
@@ -81,11 +83,13 @@ function PopUpCategoryColor({
     nama,
     change,
     valuedColor,
+    textBtn,
     changeColor
 }:{
     close:()=>void
     valued?:string,
     click?:()=>void,
+    textBtn:string,
     nama:String,
     changeColor:(e:ChangeEvent<HTMLInputElement>)=>void,
     valuedColor:string
@@ -94,7 +98,7 @@ function PopUpCategoryColor({
     return(
         <div className="flex items-center justify-center fixed text-black h-screen z-50">
             <div className="bg-white shadow-xl p-2 rounded-md lg:w-2xl text-center md:w-xl">
-            <h1 className="text-2xl font-semibold">Tambah {nama}</h1>
+            <h1 className="text-2xl font-semibold">{nama}</h1>
             <div className="flex flex-col items-start mx-10 text-[#048720]">
                 <Input.Basic 
                 change={change}
@@ -107,7 +111,7 @@ function PopUpCategoryColor({
                 </div>
                 <span className="text-white">
                 <ButtonLayer.Button text="Cancel" color="bg-[#b3b3b3] mx-2" clicker={close}/>
-                <ButtonLayer.Button text="Tambah" clicker={click}/>
+                <ButtonLayer.Button text={textBtn} clicker={click}/>
                 </span>
             </div>
         </div>

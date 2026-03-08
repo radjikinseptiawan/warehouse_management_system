@@ -14,12 +14,12 @@ export function Button({clicker,text,color = "bg-[#048720]" }:{color?:string,cli
     onClick={clicker}
     className={`
     rounded-md ${color}
-    font-semibold hover:cursor-pointer 
+    font-normal hover:cursor-pointer 
     hover:shadow-2xs 
     lg:text-[17px] text-[12px] md:text-[14px]
     transition-all
-    lg:w-20 md:w-18 w-12
-    lg:p-3  md:p-2 p-1
+    lg:w-50 md:w-30 w-20
+    lg:p-2  md:p-1 my-1 p-1
     `}
     type="button"
     >{text}</button>

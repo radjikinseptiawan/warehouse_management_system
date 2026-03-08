@@ -13,9 +13,11 @@ function Basic({
     disableEdit,
     clickCheck,
     checklist,
+    btnEdit,
     btnDel
 }:{
-        btnDel:()=>void
+        btnDel:()=>void,
+        btnEdit:()=>void,
         disableEdit:boolean ,
         clickCheck:()=>void
         vendorName:string,
@@ -33,11 +35,12 @@ function Basic({
                     <div className="flex justify-between items-center">
                         <input type="color" value={color} disabled/>
                     <span>
-                    {/* <button disabled={disableEdit} 
+                    <button disabled={disableEdit} 
+                    onClick={btnEdit}
                     className={`${disableEdit ? 
                         "mx-1 cursor-not-allowed bg-gray-500 p-1 w-20 text-white font-bold rounded-md": 
                         "mx-1 cursor-pointer bg-yellow-500 p-1 w-20 text-white font-bold rounded-md"}`}
-                    >Edit</button> */}
+                    >Edit</button>
                     <button 
                     
                     onClick={btnDel}
