@@ -8,7 +8,7 @@ export function Input({children}:{children:ReactNode}){
     )
 }
 
-export function Basic({title,change,types,mind,value}:{value?:string,change?:(e:ChangeEvent<HTMLInputElement>)=>void,title:string,types:string,mind:string}){
+export function Basic({title,change,types,mind,value}:{value?:string,change?:(e:ChangeEvent<HTMLInputElement>)=>void,title:string,types:string,mind:string | any}){
     return(
     <div className="flex items-start flex-col ">
         <label htmlFor={title} className=" text-md  text-gray-600">{title}</label>
