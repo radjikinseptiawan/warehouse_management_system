@@ -1,3 +1,4 @@
+import cloudinary from "@/lib/cloudinary";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,12 +8,19 @@ export async function DELETE(req:NextRequest,{params}:{params:Promise<{id:string
     try{
     const {id} = await params
 
-    const deleteVendor = await prisma.produk.delete({
+    const deleteVendor = await prisma.produk.findUnique({
         where:{
             id:parseInt(id)
         }
     })    
 
+    if(deleteVendor?.public_id){
+        await cloudinary.uploader.destroy(deleteVendor.public_id)
+    }
+
+    await prisma.produk.delete({
+        where:{id : parseInt(id)}
+    })
     return NextResponse.json({
         message:"Produk berhasil dihapus",
         data:deleteVendor

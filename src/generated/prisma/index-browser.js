@@ -144,8 +144,10 @@ exports.Prisma.ProdukScalarFieldEnum = {
   id: 'id',
   nama_produk: 'nama_produk',
   kategoriId: 'kategoriId',
-  vendorsId: 'vendorsId',
   jumlah: 'jumlah',
+  gambar_produk: 'gambar_produk',
+  public_id: 'public_id',
+  vendorsId: 'vendorsId',
   lokasiId: 'lokasiId'
 };
 
@@ -173,6 +175,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 

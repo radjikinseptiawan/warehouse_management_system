@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { setImageProduct, setPublicId } from "@/app/slicers/productSlicers";
 import { ChangeEvent, ReactNode, useRef, useState } from "react";
 
 export function Input({children}:{children:ReactNode}){
@@ -60,14 +62,25 @@ export function Color({types = 'color',title,mind='',valued,change}:{valued?:str
 
 
 export function Image({title,types="file",mind=''}:{title:string,types?:string,mind?:string}){
-    const [image,setImage] = useState("/upload.png")
+    
+    const [imagePreview,setImagePreview] = useState("")
+    const dispatch = useAppDispatch()
     const reference = useRef<null | HTMLInputElement>(null)
 
-    const selectImage = (e: ChangeEvent<HTMLInputElement>)=>{
+    const selectImage = async (e: ChangeEvent<HTMLInputElement>)=>{
         const target = e.target.files?.[0]
         if(target){
-            const file = URL.createObjectURL(target)
-            setImage(file)
+            const image = URL.createObjectURL(target)
+            setImagePreview(image)
+           const formData = new FormData()
+           formData.append("file",target)
+            const response = await fetch("/api/upload",{
+                method:"POST",
+                body: formData
+            }) 
+            const data = await response.json()
+            dispatch(setImageProduct(data.url))
+            dispatch(setPublicId(data.public_id))
         }
     }
 
@@ -77,8 +90,8 @@ export function Image({title,types="file",mind=''}:{title:string,types?:string,m
     return(
         <div className="flex items-start flex-col ">
         <label htmlFor={title} className=" text-md  text-gray-600"></label>
-         <div onClick={clickeInput} className="p-2 w-72 rounded-md  h-72">
-            <img src={image} alt="" />
+         <div onClick={clickeInput} className="p-2 md:w-52 w-30 rounded-md h-30  md:h-52">
+            <img src={imagePreview ? imagePreview : "/upload.png"} alt="" />
          </div>
 
             <input id={title}

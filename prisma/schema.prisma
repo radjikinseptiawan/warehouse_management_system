@@ -48,6 +48,7 @@ model produk{
   kategori category @relation(fields: [kategoriId],references: [id])
   jumlah Int @default(0)
   gambar_produk String? 
+  public_id String?
 
   vendorsId Int
   vendors vendors @relation(fields: [vendorsId],references: [id])

@@ -4728,16 +4728,16 @@ export namespace Prisma {
   export type ProdukAvgAggregateOutputType = {
     id: number | null
     kategoriId: number | null
-    vendorsId: number | null
     jumlah: number | null
+    vendorsId: number | null
     lokasiId: number | null
   }
 
   export type ProdukSumAggregateOutputType = {
     id: number | null
     kategoriId: number | null
-    vendorsId: number | null
     jumlah: number | null
+    vendorsId: number | null
     lokasiId: number | null
   }
 
@@ -4745,8 +4745,10 @@ export namespace Prisma {
     id: number | null
     nama_produk: string | null
     kategoriId: number | null
-    vendorsId: number | null
     jumlah: number | null
+    gambar_produk: string | null
+    public_id: string | null
+    vendorsId: number | null
     lokasiId: number | null
   }
 
@@ -4754,8 +4756,10 @@ export namespace Prisma {
     id: number | null
     nama_produk: string | null
     kategoriId: number | null
-    vendorsId: number | null
     jumlah: number | null
+    gambar_produk: string | null
+    public_id: string | null
+    vendorsId: number | null
     lokasiId: number | null
   }
 
@@ -4763,8 +4767,10 @@ export namespace Prisma {
     id: number
     nama_produk: number
     kategoriId: number
-    vendorsId: number
     jumlah: number
+    gambar_produk: number
+    public_id: number
+    vendorsId: number
     lokasiId: number
     _all: number
   }
@@ -4773,16 +4779,16 @@ export namespace Prisma {
   export type ProdukAvgAggregateInputType = {
     id?: true
     kategoriId?: true
-    vendorsId?: true
     jumlah?: true
+    vendorsId?: true
     lokasiId?: true
   }
 
   export type ProdukSumAggregateInputType = {
     id?: true
     kategoriId?: true
-    vendorsId?: true
     jumlah?: true
+    vendorsId?: true
     lokasiId?: true
   }
 
@@ -4790,8 +4796,10 @@ export namespace Prisma {
     id?: true
     nama_produk?: true
     kategoriId?: true
-    vendorsId?: true
     jumlah?: true
+    gambar_produk?: true
+    public_id?: true
+    vendorsId?: true
     lokasiId?: true
   }
 
@@ -4799,8 +4807,10 @@ export namespace Prisma {
     id?: true
     nama_produk?: true
     kategoriId?: true
-    vendorsId?: true
     jumlah?: true
+    gambar_produk?: true
+    public_id?: true
+    vendorsId?: true
     lokasiId?: true
   }
 
@@ -4808,8 +4818,10 @@ export namespace Prisma {
     id?: true
     nama_produk?: true
     kategoriId?: true
-    vendorsId?: true
     jumlah?: true
+    gambar_produk?: true
+    public_id?: true
+    vendorsId?: true
     lokasiId?: true
     _all?: true
   }
@@ -4904,8 +4916,10 @@ export namespace Prisma {
     id: number
     nama_produk: string
     kategoriId: number
-    vendorsId: number
     jumlah: number
+    gambar_produk: string | null
+    public_id: string | null
+    vendorsId: number
     lokasiId: number
     _count: ProdukCountAggregateOutputType | null
     _avg: ProdukAvgAggregateOutputType | null
@@ -4932,8 +4946,10 @@ export namespace Prisma {
     id?: boolean
     nama_produk?: boolean
     kategoriId?: boolean
-    vendorsId?: boolean
     jumlah?: boolean
+    gambar_produk?: boolean
+    public_id?: boolean
+    vendorsId?: boolean
     lokasiId?: boolean
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
@@ -4947,8 +4963,10 @@ export namespace Prisma {
     id?: boolean
     nama_produk?: boolean
     kategoriId?: boolean
-    vendorsId?: boolean
     jumlah?: boolean
+    gambar_produk?: boolean
+    public_id?: boolean
+    vendorsId?: boolean
     lokasiId?: boolean
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
@@ -4959,8 +4977,10 @@ export namespace Prisma {
     id?: boolean
     nama_produk?: boolean
     kategoriId?: boolean
-    vendorsId?: boolean
     jumlah?: boolean
+    gambar_produk?: boolean
+    public_id?: boolean
+    vendorsId?: boolean
     lokasiId?: boolean
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
@@ -4971,12 +4991,14 @@ export namespace Prisma {
     id?: boolean
     nama_produk?: boolean
     kategoriId?: boolean
-    vendorsId?: boolean
     jumlah?: boolean
+    gambar_produk?: boolean
+    public_id?: boolean
+    vendorsId?: boolean
     lokasiId?: boolean
   }
 
-  export type produkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_produk" | "kategoriId" | "vendorsId" | "jumlah" | "lokasiId", ExtArgs["result"]["produk"]>
+  export type produkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_produk" | "kategoriId" | "jumlah" | "gambar_produk" | "public_id" | "vendorsId" | "lokasiId", ExtArgs["result"]["produk"]>
   export type produkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
@@ -5009,8 +5031,10 @@ export namespace Prisma {
       id: number
       nama_produk: string
       kategoriId: number
-      vendorsId: number
       jumlah: number
+      gambar_produk: string | null
+      public_id: string | null
+      vendorsId: number
       lokasiId: number
     }, ExtArgs["result"]["produk"]>
     composites: {}
@@ -5443,8 +5467,10 @@ export namespace Prisma {
     readonly id: FieldRef<"produk", 'Int'>
     readonly nama_produk: FieldRef<"produk", 'String'>
     readonly kategoriId: FieldRef<"produk", 'Int'>
-    readonly vendorsId: FieldRef<"produk", 'Int'>
     readonly jumlah: FieldRef<"produk", 'Int'>
+    readonly gambar_produk: FieldRef<"produk", 'String'>
+    readonly public_id: FieldRef<"produk", 'String'>
+    readonly vendorsId: FieldRef<"produk", 'Int'>
     readonly lokasiId: FieldRef<"produk", 'Int'>
   }
     
@@ -8163,8 +8189,10 @@ export namespace Prisma {
     id: 'id',
     nama_produk: 'nama_produk',
     kategoriId: 'kategoriId',
-    vendorsId: 'vendorsId',
     jumlah: 'jumlah',
+    gambar_produk: 'gambar_produk',
+    public_id: 'public_id',
+    vendorsId: 'vendorsId',
     lokasiId: 'lokasiId'
   };
 
@@ -8207,6 +8235,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -8431,8 +8467,10 @@ export namespace Prisma {
     id?: IntFilter<"produk"> | number
     nama_produk?: StringFilter<"produk"> | string
     kategoriId?: IntFilter<"produk"> | number
-    vendorsId?: IntFilter<"produk"> | number
     jumlah?: IntFilter<"produk"> | number
+    gambar_produk?: StringNullableFilter<"produk"> | string | null
+    public_id?: StringNullableFilter<"produk"> | string | null
+    vendorsId?: IntFilter<"produk"> | number
     lokasiId?: IntFilter<"produk"> | number
     kategori?: XOR<CategoryScalarRelationFilter, categoryWhereInput>
     vendors?: XOR<VendorsScalarRelationFilter, vendorsWhereInput>
@@ -8445,8 +8483,10 @@ export namespace Prisma {
     id?: SortOrder
     nama_produk?: SortOrder
     kategoriId?: SortOrder
-    vendorsId?: SortOrder
     jumlah?: SortOrder
+    gambar_produk?: SortOrderInput | SortOrder
+    public_id?: SortOrderInput | SortOrder
+    vendorsId?: SortOrder
     lokasiId?: SortOrder
     kategori?: categoryOrderByWithRelationInput
     vendors?: vendorsOrderByWithRelationInput
@@ -8462,8 +8502,10 @@ export namespace Prisma {
     NOT?: produkWhereInput | produkWhereInput[]
     nama_produk?: StringFilter<"produk"> | string
     kategoriId?: IntFilter<"produk"> | number
-    vendorsId?: IntFilter<"produk"> | number
     jumlah?: IntFilter<"produk"> | number
+    gambar_produk?: StringNullableFilter<"produk"> | string | null
+    public_id?: StringNullableFilter<"produk"> | string | null
+    vendorsId?: IntFilter<"produk"> | number
     lokasiId?: IntFilter<"produk"> | number
     kategori?: XOR<CategoryScalarRelationFilter, categoryWhereInput>
     vendors?: XOR<VendorsScalarRelationFilter, vendorsWhereInput>
@@ -8476,8 +8518,10 @@ export namespace Prisma {
     id?: SortOrder
     nama_produk?: SortOrder
     kategoriId?: SortOrder
-    vendorsId?: SortOrder
     jumlah?: SortOrder
+    gambar_produk?: SortOrderInput | SortOrder
+    public_id?: SortOrderInput | SortOrder
+    vendorsId?: SortOrder
     lokasiId?: SortOrder
     _count?: produkCountOrderByAggregateInput
     _avg?: produkAvgOrderByAggregateInput
@@ -8493,8 +8537,10 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"produk"> | number
     nama_produk?: StringWithAggregatesFilter<"produk"> | string
     kategoriId?: IntWithAggregatesFilter<"produk"> | number
-    vendorsId?: IntWithAggregatesFilter<"produk"> | number
     jumlah?: IntWithAggregatesFilter<"produk"> | number
+    gambar_produk?: StringNullableWithAggregatesFilter<"produk"> | string | null
+    public_id?: StringNullableWithAggregatesFilter<"produk"> | string | null
+    vendorsId?: IntWithAggregatesFilter<"produk"> | number
     lokasiId?: IntWithAggregatesFilter<"produk"> | number
   }
 
@@ -8758,6 +8804,8 @@ export namespace Prisma {
   export type produkCreateInput = {
     nama_produk: string
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
     kategori: categoryCreateNestedOneWithoutProdukInput
     vendors: vendorsCreateNestedOneWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
@@ -8769,8 +8817,10 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     kategoriId: number
-    vendorsId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
+    vendorsId: number
     lokasiId: number
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
@@ -8779,6 +8829,8 @@ export namespace Prisma {
   export type produkUpdateInput = {
     nama_produk?: StringFieldUpdateOperationsInput | string
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
@@ -8790,8 +8842,10 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
-    vendorsId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorsId?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
@@ -8801,22 +8855,28 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     kategoriId: number
-    vendorsId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
+    vendorsId: number
     lokasiId: number
   }
 
   export type produkUpdateManyMutationInput = {
     nama_produk?: StringFieldUpdateOperationsInput | string
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type produkUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
-    vendorsId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorsId?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -9078,6 +9138,21 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type CategoryScalarRelationFilter = {
     is?: categoryWhereInput
     isNot?: categoryWhereInput
@@ -9105,6 +9180,11 @@ export namespace Prisma {
     none?: barang_keluarWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type barang_masukOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -9117,16 +9197,18 @@ export namespace Prisma {
     id?: SortOrder
     nama_produk?: SortOrder
     kategoriId?: SortOrder
-    vendorsId?: SortOrder
     jumlah?: SortOrder
+    gambar_produk?: SortOrder
+    public_id?: SortOrder
+    vendorsId?: SortOrder
     lokasiId?: SortOrder
   }
 
   export type produkAvgOrderByAggregateInput = {
     id?: SortOrder
     kategoriId?: SortOrder
-    vendorsId?: SortOrder
     jumlah?: SortOrder
+    vendorsId?: SortOrder
     lokasiId?: SortOrder
   }
 
@@ -9134,8 +9216,10 @@ export namespace Prisma {
     id?: SortOrder
     nama_produk?: SortOrder
     kategoriId?: SortOrder
-    vendorsId?: SortOrder
     jumlah?: SortOrder
+    gambar_produk?: SortOrder
+    public_id?: SortOrder
+    vendorsId?: SortOrder
     lokasiId?: SortOrder
   }
 
@@ -9143,17 +9227,37 @@ export namespace Prisma {
     id?: SortOrder
     nama_produk?: SortOrder
     kategoriId?: SortOrder
-    vendorsId?: SortOrder
     jumlah?: SortOrder
+    gambar_produk?: SortOrder
+    public_id?: SortOrder
+    vendorsId?: SortOrder
     lokasiId?: SortOrder
   }
 
   export type produkSumOrderByAggregateInput = {
     id?: SortOrder
     kategoriId?: SortOrder
-    vendorsId?: SortOrder
     jumlah?: SortOrder
+    vendorsId?: SortOrder
     lokasiId?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -9446,6 +9550,10 @@ export namespace Prisma {
     connect?: barang_keluarWhereUniqueInput | barang_keluarWhereUniqueInput[]
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type categoryUpdateOneRequiredWithoutProdukNestedInput = {
     create?: XOR<categoryCreateWithoutProdukInput, categoryUncheckedCreateWithoutProdukInput>
     connectOrCreate?: categoryCreateOrConnectWithoutProdukInput
@@ -9627,6 +9735,48 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -9655,6 +9805,8 @@ export namespace Prisma {
   export type produkCreateWithoutVendorsInput = {
     nama_produk: string
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
     kategori: categoryCreateNestedOneWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
     inbound?: barang_masukCreateNestedManyWithoutProdukInput
@@ -9666,6 +9818,8 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
     lokasiId: number
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
@@ -9704,14 +9858,18 @@ export namespace Prisma {
     id?: IntFilter<"produk"> | number
     nama_produk?: StringFilter<"produk"> | string
     kategoriId?: IntFilter<"produk"> | number
-    vendorsId?: IntFilter<"produk"> | number
     jumlah?: IntFilter<"produk"> | number
+    gambar_produk?: StringNullableFilter<"produk"> | string | null
+    public_id?: StringNullableFilter<"produk"> | string | null
+    vendorsId?: IntFilter<"produk"> | number
     lokasiId?: IntFilter<"produk"> | number
   }
 
   export type produkCreateWithoutKategoriInput = {
     nama_produk: string
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
     vendors: vendorsCreateNestedOneWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
     inbound?: barang_masukCreateNestedManyWithoutProdukInput
@@ -9721,8 +9879,10 @@ export namespace Prisma {
   export type produkUncheckedCreateWithoutKategoriInput = {
     id?: number
     nama_produk: string
-    vendorsId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
+    vendorsId: number
     lokasiId: number
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
@@ -9757,6 +9917,8 @@ export namespace Prisma {
   export type produkCreateWithoutLokasiInput = {
     nama_produk: string
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
     kategori: categoryCreateNestedOneWithoutProdukInput
     vendors: vendorsCreateNestedOneWithoutProdukInput
     inbound?: barang_masukCreateNestedManyWithoutProdukInput
@@ -9767,8 +9929,10 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     kategoriId: number
-    vendorsId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
+    vendorsId: number
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
   }
@@ -10024,6 +10188,8 @@ export namespace Prisma {
   export type produkCreateWithoutInboundInput = {
     nama_produk: string
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
     kategori: categoryCreateNestedOneWithoutProdukInput
     vendors: vendorsCreateNestedOneWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
@@ -10034,8 +10200,10 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     kategoriId: number
-    vendorsId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
+    vendorsId: number
     lokasiId: number
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
   }
@@ -10059,6 +10227,8 @@ export namespace Prisma {
   export type produkUpdateWithoutInboundInput = {
     nama_produk?: StringFieldUpdateOperationsInput | string
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
@@ -10069,8 +10239,10 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
-    vendorsId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorsId?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
   }
@@ -10078,6 +10250,8 @@ export namespace Prisma {
   export type produkCreateWithoutOutboundInput = {
     nama_produk: string
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
     kategori: categoryCreateNestedOneWithoutProdukInput
     vendors: vendorsCreateNestedOneWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
@@ -10088,8 +10262,10 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     kategoriId: number
-    vendorsId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
+    vendorsId: number
     lokasiId: number
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
   }
@@ -10113,6 +10289,8 @@ export namespace Prisma {
   export type produkUpdateWithoutOutboundInput = {
     nama_produk?: StringFieldUpdateOperationsInput | string
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
@@ -10123,8 +10301,10 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
-    vendorsId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorsId?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
   }
@@ -10134,12 +10314,16 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
     lokasiId: number
   }
 
   export type produkUpdateWithoutVendorsInput = {
     nama_produk?: StringFieldUpdateOperationsInput | string
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
     inbound?: barang_masukUpdateManyWithoutProdukNestedInput
@@ -10151,6 +10335,8 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
     lokasiId?: IntFieldUpdateOperationsInput | number
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
@@ -10161,20 +10347,26 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
     lokasiId?: IntFieldUpdateOperationsInput | number
   }
 
   export type produkCreateManyKategoriInput = {
     id?: number
     nama_produk: string
-    vendorsId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
+    vendorsId: number
     lokasiId: number
   }
 
   export type produkUpdateWithoutKategoriInput = {
     nama_produk?: StringFieldUpdateOperationsInput | string
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
     inbound?: barang_masukUpdateManyWithoutProdukNestedInput
@@ -10184,8 +10376,10 @@ export namespace Prisma {
   export type produkUncheckedUpdateWithoutKategoriInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
-    vendorsId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorsId?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
@@ -10194,8 +10388,10 @@ export namespace Prisma {
   export type produkUncheckedUpdateManyWithoutKategoriInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
-    vendorsId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorsId?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -10203,13 +10399,17 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     kategoriId: number
-    vendorsId: number
     jumlah?: number
+    gambar_produk?: string | null
+    public_id?: string | null
+    vendorsId: number
   }
 
   export type produkUpdateWithoutLokasiInput = {
     nama_produk?: StringFieldUpdateOperationsInput | string
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
     inbound?: barang_masukUpdateManyWithoutProdukNestedInput
@@ -10220,8 +10420,10 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
-    vendorsId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorsId?: IntFieldUpdateOperationsInput | number
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
   }
@@ -10230,8 +10432,10 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
-    vendorsId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorsId?: IntFieldUpdateOperationsInput | number
   }
 
   export type barang_masukCreateManyProdukInput = {

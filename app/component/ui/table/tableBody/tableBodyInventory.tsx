@@ -1,6 +1,6 @@
 export default function TableBodyInventory({
     nama,nomor,image,jumlah,kategori,lokasi,
-    color,
+    color, clicker,
     vendor}:{
         color:string,
         nama:string,
@@ -9,7 +9,8 @@ export default function TableBodyInventory({
     jumlah:number,
     kategori:number | any,
     lokasi:number | any,
-    vendor:number | any
+    vendor:number | any,
+    clicker:()=>void
 }){
     return(
             <tr className="border-b hover:bg-gray-50 w-full transition">
@@ -28,7 +29,7 @@ export default function TableBodyInventory({
                         <td className="p-3 text-sm text-blue-600">{vendor}</td>
                         <td className="p-3">
                              <button className="text-blue-500 mr-2">Edit</button>
-                             <button className="text-red-500">Hapus</button>
+                             <button onClick={clicker} className="text-red-500">Hapus</button>
                         </td>
                     </tr>
                 

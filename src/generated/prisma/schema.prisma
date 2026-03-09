@@ -41,15 +41,19 @@ model lokasi_gudang {
 
 // Tabel Produk
 model produk {
-  id          Int           @id @default(autoincrement())
-  nama_produk String
-  kategoriId  Int
-  kategori    category      @relation(fields: [kategoriId], references: [id])
-  vendorsId   Int
-  jumlah      Int           @default(0)
-  vendors     vendors       @relation(fields: [vendorsId], references: [id])
-  lokasiId    Int
-  lokasi      lokasi_gudang @relation(fields: [lokasiId], references: [id])
+  id            Int      @id @default(autoincrement())
+  nama_produk   String
+  kategoriId    Int
+  kategori      category @relation(fields: [kategoriId], references: [id])
+  jumlah        Int      @default(0)
+  gambar_produk String?
+  public_id     String?
+
+  vendorsId Int
+  vendors   vendors @relation(fields: [vendorsId], references: [id])
+
+  lokasiId Int
+  lokasi   lokasi_gudang @relation(fields: [lokasiId], references: [id])
 
   inbound  barang_masuk[]
   outbound barang_keluar[]
