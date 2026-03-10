@@ -8,9 +8,12 @@ export async function DELETE(req:NextRequest,{params}:{params:Promise<{id:string
     try{
     const {id} = await params
 
-    const deleteVendor = await prisma.produk.findUnique({
+    const deleteVendor = await prisma.produk.update({
         where:{
             id:parseInt(id)
+        },
+        data:{
+            is_delete:true
         }
     })    
 
@@ -18,9 +21,9 @@ export async function DELETE(req:NextRequest,{params}:{params:Promise<{id:string
         await cloudinary.uploader.destroy(deleteVendor.public_id)
     }
 
-    await prisma.produk.delete({
-        where:{id : parseInt(id)}
-    })
+    // await prisma.produk.delete({
+    //     where:{id : parseInt(id)}
+    // })
     return NextResponse.json({
         message:"Produk berhasil dihapus",
         data:deleteVendor
@@ -70,12 +73,12 @@ export async function PATCH(req:NextRequest,{params}:{params:Promise<{id:string}
     try{
         const { id } = await params
         const body = await req.json()
+        console.log(body)
         const updateVendors = await prisma.produk.update({
             where:{
                 id: parseInt(id)
             },
             data:{
-            jumlah:body.jumlah,
             nama_produk: body.nama_produk,
             kategoriId:body.kategoriId,
             lokasiId:body.lokasiId,

@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ProductType{
-    suppliers:number,
-    kategori:number,
-    jumlah:number,
-    gudang:number,
+    suppliers:number | null,
+    kategori:number | null,
+    jumlah:number | null,
+    gudang:number | null,
     public_id:string
     productName:string,
     image:null | string 
 }
 
 const initialState : ProductType= {
-    suppliers:0,
-    kategori:0,
-    jumlah:0,
+    suppliers:null,
+    kategori:null,
+    jumlah:null,
     public_id:"",
-    gudang:0,
+    gudang:null,
     image:"",
     productName:""
 }

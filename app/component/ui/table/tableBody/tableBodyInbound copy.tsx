@@ -1,8 +1,10 @@
-export default function TableBodyInventory({
+export default function TableBodyInbound({
     nama,nomor,image,jumlah,kategori,lokasi,
-    color, clicker,editClick,
+    color, clicker,editClick,nominalModal,tanggalMasuk,
     vendor}:{
         color:string,
+        nominalModal:number,
+        tanggalMasuk:string,
         nama:string,
         editClick:()=>void,
     nomor:number,
@@ -25,9 +27,11 @@ export default function TableBodyInventory({
                         <td className="p-3">
                             <span className="px-2 py-1 rounded-full text-xs text-white" style={{backgroundColor:`${color}`}}>{kategori}</span>
                         </td>
-                        <td className="p-3">{jumlah}</td>
                         <td className="p-3 text-sm">{lokasi}</td>
                         <td className="p-3 text-sm text-blue-600">{vendor}</td>
+                        <td className="p-3 text-center text-sm">{jumlah}</td>
+                        <td className="p-3 text-center text-sm">{nominalModal}</td>
+                        <td className="p-3 text-center text-sm">{tanggalMasuk}</td>
                         <td className="p-3">
                              <button onClick={editClick} className="text-blue-500 mr-2">Edit</button>
                              <button onClick={clicker} className="text-red-500">Hapus</button>

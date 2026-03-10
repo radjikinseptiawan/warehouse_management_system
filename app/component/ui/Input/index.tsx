@@ -61,7 +61,7 @@ export function Color({types = 'color',title,mind='',valued,change}:{valued?:str
 }
 
 
-export function Image({title,types="file",mind=''}:{title:string,types?:string,mind?:string}){
+export function Image({title,types="file",mind='',images}:{images:string,title:string,types?:string,mind?:string}){
     
     const [imagePreview,setImagePreview] = useState("")
     const dispatch = useAppDispatch()
@@ -91,14 +91,14 @@ export function Image({title,types="file",mind=''}:{title:string,types?:string,m
         <div className="flex items-start flex-col ">
         <label htmlFor={title} className=" text-md  text-gray-600"></label>
          <div onClick={clickeInput} className="p-2 md:w-52 w-30 rounded-md h-30  md:h-52">
-            <img src={imagePreview ? imagePreview : "/upload.png"} alt="" />
+            <img src={images} alt="" />
          </div>
 
             <input id={title}
             hidden
             ref={reference}
             type={types}
-            accept="image/png, image/jpeg, image/jpg" 
+            accept="image/png, image/jpeg, image/jpg, image/webp, image/jfif" 
             onChange={(e)=>selectImage(e)}
             className="border-2 text-gray-400 
             border-green-200 rounded-md
@@ -112,7 +112,34 @@ export function Image({title,types="file",mind=''}:{title:string,types?:string,m
 )    
 }
 
+
+export function ImageInboundOutbound({title,types="file",mind='',images}:{images:string,title:string,types?:string,mind?:string}){
+   
+    return(
+        <div className="flex items-start flex-col ">
+        <label htmlFor={title} className=" text-md  text-gray-600"></label>
+         <div className="p-2 md:w-52 w-30 rounded-md h-30  md:h-52">
+            <img src={images} alt="" />
+         </div>
+
+            <input id={title}
+            hidden
+            type={types}
+            accept="image/png, image/jpeg, image/jpg, image/webp, image/jfif" 
+            className="border-2 text-gray-400 
+            border-green-200 rounded-md
+            lg:p-2 md:p-2 p-1  
+            lg:my-2 md:my-2 my-1 
+            lg:w-80 md:w-72 w-60
+            " 
+            placeholder={mind}
+            />
+    </div> 
+)    
+}
+
 Input.Basic = Basic
+Input.ImageInboundOutbound = ImageInboundOutbound
 Input.Color = Color
 Input.Image = Image
 export default Input

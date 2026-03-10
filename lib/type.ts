@@ -35,3 +35,18 @@ export type DataCategory = {
     nama_kategori:string,
     warna_category:string
 }
+
+export type ProductData = {
+    gambar_produk: string;
+    is_delete: boolean,
+    id:number,
+    nama_produk: string;
+    image: string;
+    jumlah: number;
+    kategori: {
+        nama_kategori:string
+        warna_category:string
+    };
+    lokasi: {nama_gudang:string};
+    vendors: {nama_vendor:string};
+}

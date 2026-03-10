@@ -38,14 +38,15 @@ export async function POST(req:NextRequest){
 // Mengambil data produk
 export async function GET(){
     try{
-        const data = await prisma.produk.findMany({
-            where:{
-                is_delete: false
-            },
+        const data = await prisma.barang_masuk.findMany({
             include:{
-                vendors:true,
-                lokasi:true,
-                kategori:true
+                produk:{
+                    include:{
+                        vendors:true,
+                        kategori:true,
+                        lokasi:true
+                    }
+                }
             }
         })
 

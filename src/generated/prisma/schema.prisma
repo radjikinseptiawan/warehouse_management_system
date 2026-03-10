@@ -48,6 +48,7 @@ model produk {
   jumlah        Int      @default(0)
   gambar_produk String?
   public_id     String?
+  is_delete     Boolean  @default(false)
 
   vendorsId Int
   vendors   vendors @relation(fields: [vendorsId], references: [id])

@@ -147,6 +147,7 @@ exports.Prisma.ProdukScalarFieldEnum = {
   jumlah: 'jumlah',
   gambar_produk: 'gambar_produk',
   public_id: 'public_id',
+  is_delete: 'is_delete',
   vendorsId: 'vendorsId',
   lokasiId: 'lokasiId'
 };
