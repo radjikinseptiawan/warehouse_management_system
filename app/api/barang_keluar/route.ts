@@ -8,12 +8,12 @@ export async function POST(req:NextRequest){
     console.log(body)
 
     
-    const data = await prisma.barang_masuk.create({
+    const data = await prisma.barang_keluar.create({
         data:{
-            jumlah_barang_masuk:parseInt(body.jumlahBarangMasuk),
+            jumlah_barang_keluar:parseInt(body.jumlahBarangMasuk),
             nominal_modal:parseInt(body.nominalModal),
             produkId:parseInt(body.produkId),
-            tanggal_masuk: new Date(body.tanggalMasuk)
+            tanggal_keluar:new Date(body.tanggalMasuk)
         }
     })
 
@@ -38,7 +38,7 @@ export async function POST(req:NextRequest){
 // Mengambil data produk
 export async function GET(){
     try{
-        const data = await prisma.barang_masuk.findMany({
+        const data = await prisma.barang_keluar.findMany({
             include:{
                 produk:{
                     include:{

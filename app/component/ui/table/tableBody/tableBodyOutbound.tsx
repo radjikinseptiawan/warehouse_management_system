@@ -1,9 +1,9 @@
 export default function TableBodyOutbound({
     nama,nomor,image,jumlah,kategori,lokasi,
-    color, clicker,editClick,nominalModal,tanggalMasuk,
+    color,editClick,nominalModal,tanggalMasuk,
     vendor}:{
         color:string,
-        nominalModal:number,
+        nominalModal:number | string,
         tanggalMasuk:string,
         nama:string,
         editClick:()=>void,
@@ -13,7 +13,6 @@ export default function TableBodyOutbound({
     kategori:number | any,
     lokasi:number | any,
     vendor:number | any,
-    clicker:()=>void
 }){
     return(
             <tr className="border-b hover:bg-gray-50 w-full transition">
@@ -34,7 +33,6 @@ export default function TableBodyOutbound({
                         <td className="p-3 text-center text-sm">{tanggalMasuk}</td>
                         <td className="p-3">
                              <button onClick={editClick} className="text-blue-500 mr-2">Edit</button>
-                             <button onClick={clicker} className="text-red-500">Hapus</button>
                         </td>
                     </tr>
                 

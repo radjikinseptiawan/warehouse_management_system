@@ -11,31 +11,38 @@ import { setNamaGudang } from "@/app/slicers/lokasiGudangSlicers";
 import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
 import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
 import { useEffect, useState } from "react";
-import { ProductData } from "@/lib/type";
+import { setJumlahBarangMasuk, setNominalModal, setProdukId, setTanggalMasuk } from "@/app/slicers/inboundSlicers";
+import { InboundProductType, OutboundProductType, TypeProduct } from "@/lib/type";
 import TableHeadOutbound from "@/app/component/ui/table/tableHeaders/tableHeadOutbound";
-import TableBodyOutbound from "@/app/component/ui/table/tableBody/tableBodyOutbound";
 
 
 export default function Page() {
     const [paginationId, setPagination] = useState<number>(0);
-    const [data, setData] = useState<ProductData[]>([]); 
-    const [dataTrash,setDataTrash] = useState<ProductData[]>([])
-    const [rawData,setDataRaw] = useState<ProductData[]>([])
+    const [data, setData] = useState<TypeProduct[]>([]); 
+    const [dataTrash,setDataTrash] = useState<TypeProduct[]>([])
+    const [rawData,setDataRaw] = useState<OutboundProductType[]>([])
     const [selectProductId,setSelectProdukId] = useState<number>(0)
     const [idTarget,setIdTarget] = useState<number>(0)
     const itemPerPage = 6;
 
     // Redux State
+    // Inbound State Management
+    const produkId = useAppSelector((state)=>state.inbound.produkId)
+    const jumlahBarangMasuk = useAppSelector((state)=>state.inbound.jumlahBarangMasuk)
+    const tanggalMasuk = useAppSelector((state)=>state.inbound.tanggalMasuk)
+    const nominalModal = useAppSelector(state=>state.inbound.nominalModal)
+
+    // Inventory State Management
     const suppliers = useAppSelector(state=>state.product.suppliers)
     const category = useAppSelector(state=>state.product.kategori)
-    const jumlah = useAppSelector(state=>state.product.jumlah)
     const gudang = useAppSelector(state=>state.product.gudang)
     const productName = useAppSelector(state=>state.product.productName)
     const imageProduct = useAppSelector(state=>state.product.image)
+    
+    // UI/UX 
     const isOpenOverlay = useAppSelector(state=>state.overlay.isOpenOverlay)
     const isOpenDelete = useAppSelector(state=>state.overlay.isOpenDelete)
     const isOpenEdit = useAppSelector(state=>state.overlay.isOpenEdit)
-    const publicId = useAppSelector(state=>state.product.public_id)
     
     const dispatch = useAppDispatch()
     
@@ -43,26 +50,24 @@ export default function Page() {
     // Mengambil data produk
     const syncAllDataProduct = async () => {
         try {
-            const response = await fetch("/api/barang_masuk", { method: "GET" });
+            const response = await fetch("/api/barang_keluar", { method: "GET" });
             const result = await response.json();
             setDataRaw(result.data);
-            console.log(rawData)
         } catch (error) {
             console.error("Gagal ambil data:", error);
         }
     };
 
-    // Melihat data sekarang
-    const currentData = data.slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
-    // Kalkulasi total halaman dibuat
-    const totalPages = Math.ceil(data.length / itemPerPage);
     useEffect(() => {
         syncAllDataProduct()
     }, []);
 
-    useEffect(()=>{
-        dataSelection()
-    },[rawData])
+    console.log(rawData)
+
+    // Melihat data sekarang
+    const currentData =(rawData || []).slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
+    // Kalkulasi total halaman dibuat
+    const totalPages = Math.ceil(rawData.length / itemPerPage);
 
     // Halaman Selanjutnya
     const nextPage = () => {
@@ -71,32 +76,44 @@ export default function Page() {
         }
     };
 
-    const dataSelection = ()=>{
-        const deletedData = rawData.filter((item)=>item.is_delete == true)
-        setDataTrash(deletedData)
-        const existData = rawData.filter((item)=>item.is_delete == false)
-        setData(existData)
-    }
-
     // Halaman Sebelumnya
     const prevPage = () => {
         setPagination(prev => Math.max(0, prev - 1));
     };
 
+    // Mengubah nomor ke rupiah
+    const convertToIdr = (idr:number)=>{
+        return new Intl.NumberFormat("ID-id",{
+            style:"currency",
+            currency:"IDR",
+        }).format(idr)
+    }
+
+    const convertToDate = (date : any)=>{
+        if(date.params) return "Tanpa tanggal"
+
+        const dateTime :any = new Date(date)
+
+        if(isNaN(dateTime)) return "Tanggal tidak valid"
+
+        return new Intl.DateTimeFormat("ID-id",{
+            day:"2-digit",
+            month:"long",
+            year:"numeric"
+        }).format(dateTime)
+    }
 
     // Menambah Produk
     const addProduct = async ()=>{
       try{
-        const formData = new FormData()
-        formData.append("nama_produk",productName)
-        formData.append("kategoriId",category ? category.toString():"")
-        formData.append("lokasiId",gudang? gudang.toString(): "")
-        formData.append("vendorId",suppliers ? suppliers.toString():"")
-        formData.append("gambar_produk",imageProduct as string)
-        formData.append("public_id",publicId)
-        const response = await fetch("/api/produk",{
+        const response = await fetch("/api/barang_keluar",{
             method:"POST",
-            body:formData
+            body:JSON.stringify({
+                jumlahBarangMasuk,
+                produkId,
+                tanggalMasuk,
+                nominalModal
+            })
         })
         const data = await response.json()
         if(response.ok){
@@ -107,27 +124,16 @@ export default function Page() {
             dispatch(setImageProduct(""))
             dispatch(setKategori(0))
             dispatch(setSuppliers(0))
+            dispatch(setJumlahBarangMasuk(0))
+            dispatch(setTanggalMasuk(""))
+            dispatch(setProdukId(0))
+            dispatch(setNominalModal(0))
             syncAllDataProduct()
-            dataSelection()        
         }
         console.log(data)
     }catch(e){
         console.error(e)
       }
-    }
-
-    // Hapus Produk
-    const deleteProduct= async(id:number)=>{
-        try{
-            const response = await fetch(`/api/produk/${id}`,{method:"DELETE"})
-            if(response.ok){
-                dispatch(setIsOpenDelete(false))
-                syncAllDataProduct()
-                dataSelection()
-            }
-        }catch(e){
-            console.error(e)
-        }
     }
 
     // Ambil data sesuai id
@@ -156,7 +162,7 @@ export default function Page() {
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify({
-                    jumlah:jumlah,
+                    jumlah:jumlahBarangMasuk,
                     nama_produk:productName,
                     kategoriId:category,
                     lokasiId:gudang,
@@ -173,7 +179,7 @@ export default function Page() {
                 setSelectProdukId(0)
                 dispatch(setIsOpendit(false))
                 syncAllDataProduct()
-                dataSelection()            }
+            }
 
               const data = await response.json()
               console.log(data)
@@ -209,10 +215,14 @@ export default function Page() {
                         isOpenOverlay && (
                             <div className="flex items-center justify-center">
                             <PopUpLayer.PopUpProductInbound
-                            keuangan={"Revenue"}
-                            tanggal={"Tanggal Keluar"}
-                            stockValued={0 || ""}
-                            stockChange={()=>console.log("lupa")} 
+                            keuanganChange={(e)=>dispatch(setNominalModal(parseInt(e.target.value)))}
+                            tanggalValued={tanggalMasuk}
+                            tanggalChange={(e)=>dispatch(setTanggalMasuk(e.target.value))}
+                            keuanganValued={nominalModal}
+                            stockValued={jumlahBarangMasuk}
+                            tanggal="Tanggal Keluar"
+                            keuangan="Laba Kotor (Revenue)"
+                            stockChange={(e)=>dispatch(setJumlahBarangMasuk(parseInt(e.target.value)))} 
                             supplierValue={suppliers || ""}
                             supplierChange={(e)=>{dispatch(setSuppliers(parseInt(e.target.value)))}}
                             changeKategori={(e)=>{dispatch(setKategori(parseInt(e.target.value)))}}
@@ -220,7 +230,6 @@ export default function Page() {
                             kategoriValue={category || ""}
                             gudangChange={(e)=>{dispatch(setGudang(parseInt(e.target.value)))}}
                             gudangValue={gudang || ""}
-                            productNameValue={productName}
                             changeProductName={(e)=>{dispatch(setProductName(e.target.value))}}
                             cancel={()=>{
                                 dispatch(setIsOpenOverlay(false))
@@ -233,16 +242,6 @@ export default function Page() {
                             textBtn="Tambah" 
                             click={addProduct} 
                             nama="Tambah Barang Keluar"/>
-                            </div>
-                        )
-                    }
-                    {
-                        isOpenDelete && (
-                            <div className="flex items-center justify-center align-middle">
-                            <PopUpLayer.PopUpDelete 
-                            cancel={()=>dispatch(setIsOpenDelete(false))}
-                            click={()=>deleteProduct(idTarget)}
-                            section="Produk"/>
                             </div>
                         )
                     }
@@ -282,27 +281,23 @@ export default function Page() {
                 <tbody className="text-black">
                     {currentData.length > 0 ? (
                         currentData.map((item, index) => (
-                            <TableBodyOutbound
+                            <TableBodyInbound
                                 key={index}
-                                nominalModal={0}
-                                tanggalMasuk="22-2-2222"
-                                clicker={()=>{
-                                    dispatch(setIsOpenDelete(true))
-                                    setIdTarget(item.id)
-                                }}
+                                nominalModal={`${convertToIdr(item.nominal_modal)}`}
+                                tanggalMasuk={`${convertToDate(new Date(item.tanggal_keluar))}`}
                                 editClick={()=>{
                                     setSelectProdukId(item.id)
                                     getDataById(item.id)
                                     dispatch(setIsOpendit(true))
                                 }}
-                                color={item.kategori.warna_category}
-                                nama={item.nama_produk}
-                                image={item.gambar_produk}
-                                jumlah={item.jumlah}
-                                kategori={item.kategori.nama_kategori}
-                                lokasi={item.lokasi.nama_gudang}
-                                vendor={item.vendors.nama_vendor || ""}
-                                nomor={(paginationId * itemPerPage) + index + 1} // Agar nomor urut kontinu
+                                color={item.produk.kategori.warna_category}
+                                nama={item.produk.nama_produk}
+                                image={item.produk.gambar_produk}
+                                kategori={item.produk.kategori.nama_kategori}
+                                jumlah={item.jumlah_barang_keluar}
+                                lokasi={item.produk.lokasi.nama_gudang}
+                                vendor={item.produk.vendors.nama_vendor}
+                                nomor={(paginationId * itemPerPage) + index + 1}
                             />
                         ))
                     ) : (

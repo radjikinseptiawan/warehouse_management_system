@@ -1,0 +1,70 @@
+import cloudinary from "@/lib/cloudinary";
+import { prisma } from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
+
+// Melihat Detail Produk
+export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>}){
+    try{
+        const { id } = await params
+
+        const data = await prisma.barang_masuk.findFirst({
+            where:{
+                id:parseInt(id)
+            },
+            include:{
+                produk:{
+                    include:{
+                        vendors:true,
+                        kategori:true,
+                        lokasi:true
+                    }
+                }
+            }
+        })
+
+        if(data == null || !data){
+            return NextResponse.json({
+                message:"Data Not Found"
+            },{status:404,statusText:"Not Found"})
+        }
+
+        return NextResponse.json({
+            message:"success get data",
+            data
+        },{status:200,statusText:"success"})
+    }catch(e){
+        return NextResponse.json({
+            error:e
+        },{status:400,statusText:"Bad Request"})
+    }
+}
+
+// Mengedit Vendors
+export async function PATCH(req:NextRequest,{params}:{params:Promise<{id:string}>}){
+    try{
+        const { id } = await params
+        const body = await req.json()
+        console.log(body)
+        const updateVendors = await prisma.produk.update({
+            where:{
+                id: parseInt(id)
+            },
+            data:{
+            nama_produk: body.nama_produk,
+            kategoriId:body.kategoriId,
+            lokasiId:body.lokasiId,
+            vendorsId:body.vendorId
+            }
+        })
+
+        return NextResponse.json({
+            message:"Success update",
+            data:updateVendors
+        })
+    }catch(e){
+        return NextResponse.json({
+            message:"Error",
+            error:e
+        },{status:500})
+    }
+}

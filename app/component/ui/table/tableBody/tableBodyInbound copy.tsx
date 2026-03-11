@@ -34,7 +34,6 @@ export default function TableBodyInbound({
                         <td className="p-3 text-center text-sm">{tanggalMasuk}</td>
                         <td className="p-3">
                              <button onClick={editClick} className="text-blue-500 mr-2">Edit</button>
-                             <button onClick={clicker} className="text-red-500">Hapus</button>
                         </td>
                     </tr>
                 
