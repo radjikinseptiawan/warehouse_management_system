@@ -58,7 +58,6 @@ export type PopUpProduction = {
         cancel:()=>void,
         supplierValue:number  | string,
         nama:string,
-        selectDatas: any,
         images:string,
         supplierChange:(e: ChangeEvent<HTMLSelectElement>)=>void,
         gudangValue:number  | string,
@@ -84,10 +83,10 @@ export type PopUpProductionType = {
   nama: string,
   keuangan:string,
   images: string,
-  supplierChange: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+  supplierChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void,
   gudangValue: number | string,
-  gudangChange: (e: React.ChangeEvent<HTMLSelectElement>) => void,
-  changeKategori: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+  gudangChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+  changeKategori?: (e: React.ChangeEvent<HTMLSelectElement>) => void,
   kategoriValue: number | string,
   stockValued: string | number,
   stockChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -96,20 +95,20 @@ export type PopUpProductionType = {
   changeProductName: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
+export type OutboundProductType = {
+    id:number,
+    jumlah_barang_keluar:number,
+    nominal_modal:number,
+    tanggal_keluar:string,
+    produk:TypeProduct
+}
+
 
 export type InboundProductType = {
     id:number,
     jumlah_barang_masuk:number,
     nominal_modal:number,
     tanggal_masuk:string,
-    produk:TypeProduct
-}
-
-export type OutboundProductType = {
-    id:number,
-    jumlah_barang_keluar:number,
-    nominal_modal:number,
-    tanggal_keluar:string,
     produk:TypeProduct
 }
 
@@ -128,3 +127,4 @@ export type TypeProduct = {
     lokasi: {nama_gudang:string};
     vendors: {nama_vendor:string};
 }
+

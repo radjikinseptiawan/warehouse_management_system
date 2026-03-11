@@ -5,6 +5,7 @@ import Input from "@/app/component/ui/Input";
 export default function Page(){
     return(
         <div>
+            
         </div>
     )
 }

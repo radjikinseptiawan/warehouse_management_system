@@ -175,14 +175,8 @@ function PopUpProductInboundEdit(
   nama,
   changeProductName,
   productName,
-  changeKategori,
-  kategoriValue,
-  gudangValue,
-  gudangChange,
-  supplierChange,
   tanggalValued,
   tanggalChange,
-  supplierValue,
   stockValued,
   tanggal,
   keuanganValued,
@@ -223,7 +217,7 @@ function PopUpProductInboundEdit(
 
   return(
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
-      <div className="bg-white w-full overflow-y-auto h-96 md:h-[87vh] md:overflow-y-scroll max-w-2xl rounded-xl shadow-2xl overflow-hidden">
+      <div className="bg-white w-full overflow-y-auto h-96 md:h-[60vh] md:overflow-y-scroll max-w-2xl rounded-xl shadow-2xl overflow-hidden">
         
         <div className="px-6 py-4 border-b border-gray-100">
           <h1 className="text-xl font-bold text-gray-800">{nama}</h1>
@@ -248,10 +242,11 @@ function PopUpProductInboundEdit(
                       inputFilterProduk.map((item,index)=>(
                         <OptionSelect
                         key={index}
+                        valued={item.id}
                         clicker={()=>{
                           setSearchTerm(item.nama_produk)
                           const fakeEvent = {target:{value:item.nama_produk, name:"productName"}} as any
-                          changeProductName(fakeEvent)
+                          changeProductName(fakeEvent ? fakeEvent : "")
                           produkItemId(item.nama_produk)
                           setIsDropDown(false)
 
@@ -285,29 +280,6 @@ function PopUpProductInboundEdit(
               keuangan={keuangan}
               keuanganChange={keuanganChange}
               />
-
-              <KategoriInput
-              kategoriValue={kategoriValue}
-              changeKategori={changeKategori}
-              selectData={selectData || kategoriValue}
-              />
-
-              <GudangInput
-              gudangChange={gudangChange}
-              gudangValue={gudangValue}
-              selectData={selectData || gudangValue}
-              />
-            <VendorsInput
-            supplierChange={supplierChange}
-            supplierValue={supplierValue || supplierValue}
-            selectData={selectData}
-            />
-
-            <div className="md:col-span-2 mt-2">
-          <p className="text-red-500 text-[12px]">Gambar akan dimuat jika kolom Nama Produk terisi*</p>
-
-               <Input.ImageInboundOutbound images={selectData ? selectData.gambar_produk : "/upload.png"} title="Gambar Produk" />
-            </div>
           </div>
         </div>
 
@@ -400,6 +372,7 @@ function PopUpProductInbound({
                       inputFilterProduk.length > 0 ? 
                       inputFilterProduk.map((item,index)=>(
                         <OptionSelect
+                        valued={item.id}
                         key={index}
                         clicker={()=>{
                           setSearchTerm(item.nama_produk)

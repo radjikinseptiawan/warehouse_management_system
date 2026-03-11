@@ -1,12 +1,14 @@
 import { ChangeEvent } from "react"
 
-export function OptionSelect({clicker,title}:{clicker:()=>void,title:string}){
+export function OptionSelect({clicker,title,valued}:{valued:number,clicker:()=>void,title:string}){
     return(
         <>
                <div 
                 onClick={clicker}
                 className="px-4 py-2 hover:bg-green-50 cursor-pointer text-gray-500 border-gray-500 border-b last:border-none">
+                  <option value={valued}>
                   {title}
+                  </option>
                 </div>
                  
         </>
@@ -107,7 +109,7 @@ export function KategoriInput({
     kategoriValue,
     selectData
 }:{
-    changeKategori:(e:ChangeEvent<HTMLSelectElement>)=>void
+    changeKategori?:(e:ChangeEvent<HTMLSelectElement>)=>void
     kategoriValue:string | number,
     selectData:{kategori:{nama_kategori:string}}
 }){
@@ -129,7 +131,7 @@ export function KategoriInput({
 }
 
 export function GudangInput({gudangChange,gudangValue,selectData}:{
-    gudangChange:(e:ChangeEvent<HTMLSelectElement>)=>void,
+    gudangChange?:(e:ChangeEvent<HTMLSelectElement>)=>void,
     gudangValue:string | number,
     selectData:{lokasi:{nama_gudang:string}}
 }){
@@ -152,7 +154,7 @@ export function GudangInput({gudangChange,gudangValue,selectData}:{
 
 export function VendorsInput({supplierChange,supplierValue,selectData}:
     {
-        supplierChange:(e:ChangeEvent<HTMLSelectElement>)=>void,
+        supplierChange?:(e:ChangeEvent<HTMLSelectElement>)=>void,
         supplierValue:string | number,
         selectData:{vendors:{nama_vendor:string}}
     }

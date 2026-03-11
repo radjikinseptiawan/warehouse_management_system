@@ -30,7 +30,7 @@ const listSliders = [
     },
     {
         text:"Logout",
-        logou:"/logout",
+        params:"/",
         icon:"/SVG/logout-2-svgrepo-com.svg"
     }
 ]

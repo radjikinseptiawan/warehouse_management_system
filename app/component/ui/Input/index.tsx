@@ -15,6 +15,7 @@ export function Basic({title,change,types,mind,value}:{value?:string,change?:(e:
     <div className="flex items-start flex-col ">
         <label htmlFor={title} className=" text-md  text-gray-600">{title}</label>
             <input 
+            autoComplete="off"
             onChange={change}
             value={value}
             type={types} id={title} className="border-2 text-gray-400 
@@ -28,6 +29,28 @@ export function Basic({title,change,types,mind,value}:{value?:string,change?:(e:
     </div>
     )
 }
+
+export function Disabled({title,change,types,mind,value}:{value?:string,change?:(e:ChangeEvent<HTMLInputElement>)=>void,title:string,types:string,mind:string | any}){
+    return(
+    <div className="flex items-start flex-col ">
+        <label htmlFor={title} className=" text-md  text-gray-600">{title}</label>
+            <input 
+            autoComplete="off"
+            onChange={change}
+            value={value}
+            type={types} id={title} className="border-2 text-gray-400 
+            border-green-200 rounded-md
+            lg:p-2 md:p-2 p-1  
+            disabled bg-gray-300
+            lg:my-2 md:my-2 my-1 
+            lg:w-80 md:w-72 w-60
+            " 
+            placeholder={mind}
+            />
+    </div>
+    )
+}
+
 
 export function Color({types = 'color',title,mind='',valued,change}:{valued?:string,change?:(e:ChangeEvent<HTMLInputElement>)=>void,
     title:string,types?:string,mind?:string}){
@@ -142,4 +165,5 @@ Input.Basic = Basic
 Input.ImageInboundOutbound = ImageInboundOutbound
 Input.Color = Color
 Input.Image = Image
+Input.Disabled = Disabled
 export default Input

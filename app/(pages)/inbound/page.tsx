@@ -143,15 +143,11 @@ export default function Page() {
                 method:"GET"
             })
             const data = await response.json()
-            dispatch(setTanggalMasuk(data.data.tanggal_masuk))
-            dispatch(setImageProduct(data.data.produk.gambar_produk))
-            dispatch(setGudang(data.data.produk.nama_gudang))
-            dispatch(setSuppliers(data.data.produk.vendors.nama_vendor))
-
-            dispatch(setJumlahBarangMasuk(data.data.jumlah_barang_masuk))
-            dispatch(setNominalModal(data.data.nominal_modal))
             dispatch(setProductName(data.data.produk.nama_produk))
-            console.log(data.data.produk)
+            dispatch(setNominalModal(data.data.nominal_modal))
+            dispatch(setJumlahBarangMasuk(data.data.jumlah_barang_masuk))
+            dispatch(setTanggalMasuk(data.data.tanggal_masuk))
+            console.log(data)
         }catch(e){
             console.error(e)
         }
@@ -160,30 +156,22 @@ export default function Page() {
     // Edit Produk
     const editProduct = async(id:number)=>{
         try{
-              const response = await fetch(`/api/produk/${id}`,{
+              const response = await fetch(`/api/barang_masuk/${id}`,{
                 method:"PATCH",
                 headers:{
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify({
+                    id: id,
                     jumlah:jumlahBarangMasuk,
-                    nama_produk:productName,
-                    kategoriId:category,
-                    lokasiId:gudang,
-                    vendorId:suppliers
-                 })       
+                    nominal_produk:nominalModal,
+                    tanggal_masuk:tanggalMasuk
+                })       
                 }) 
               
               if(response.ok){
-                dispatch(setImageProduct(""))
-                dispatch(setGudang(0))
-                dispatch(setKategori(0))
-                dispatch(setNamaGudang(""))
-                dispatch(setSuppliers(0))
-                setSelectProdukId(0)
-                dispatch(setIsOpendit(false))
-                syncAllDataProduct()
-            }
+                resetInputValue()
+                }
 
               const data = await response.json()
               console.log(data)
@@ -192,7 +180,36 @@ export default function Page() {
         }
     }
 
-    const allStock = dataProduk ?  dataProduk.reduce((acc,item)=>{return acc + (item.jumlah || 0)},0) : ""
+    const resetInputValue= ()=>{
+        dispatch(setIsOpendit(false))
+        dispatch(setImageProduct(""))
+        dispatch(setProductName(""))
+        dispatch(setKategori(0))
+        dispatch(setGudang(0))
+        dispatch(setSuppliers(0))
+        dispatch(setImageProduct(""))
+        dispatch(setGudang(0))
+        dispatch(setKategori(0))
+        dispatch(setNamaGudang(""))
+        dispatch(setProductName(""))
+        dispatch(setSuppliers(0))
+        dispatch(setTanggalMasuk(""))
+        dispatch(setJumlahBarangMasuk(0))
+        dispatch(setNominalModal(0))
+        setSelectProdukId(0)
+        dispatch(setIsOpendit(false))
+        dispatch(setIsOpenOverlay(false))
+        dispatch(setImageProduct(""))
+        dispatch(setProductName(""))
+        dispatch(setKategori(0))
+        dispatch(setGudang(0))
+        dispatch(setSuppliers(0))
+        dispatch(setTanggalMasuk(""))
+        dispatch(setJumlahBarangMasuk(0))
+        dispatch(setNominalModal(0))           
+    }
+
+    const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_masuk || 0)},0) : ""
     const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
     return (
         <div className="p-4 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
@@ -201,7 +218,7 @@ export default function Page() {
                             <div className="border shadow p-2 text-green-400 bg-white
                             text-center md:text-[14px] text-[8px] lg:w-80 rounded-md md:w-40 w-20 font-semibold md:font-bold my-4">
                                 {rawData ? Number(allStock) : 0}
-                            <h1>Stock Barang Tersedia</h1>
+                            <h1>Stok Barang Masuk</h1>
                             </div>
                             <div className="border shadow p-2 text-green-400 bg-white
                             text-center md:text-[14px] text-[8px] font-semibold rounded-md lg:w-80 md:w-40 w-20 md:font-bold my-4">
@@ -220,11 +237,11 @@ export default function Page() {
                         {
                         isOpenOverlay && (
                             <div className="flex items-center justify-center">
-                            <PopUpLayer.PopUpProductInboundEdit
+                            <PopUpLayer.PopUpProductInbound
                             keuanganChange={(e)=>dispatch(setNominalModal(parseInt(e.target.value)))}
                             tanggal="Tanggal Masuk"
-                            tanggalValued={tanggalMasuk}
-                            productName={productName}
+                            tanggalValued={tanggalMasuk ? new Date(tanggalMasuk).toISOString().split("T")[0] : ""}
+                            productName={productName || ""}
                             tanggalChange={(e)=>dispatch(setTanggalMasuk(e.target.value))}
                             keuanganValued={nominalModal}
                             stockValued={jumlahBarangMasuk}
@@ -233,19 +250,12 @@ export default function Page() {
                             supplierValue={suppliers || ""}
                             supplierChange={(e)=>{dispatch(setSuppliers(parseInt(e.target.value)))}}
                             changeKategori={(e)=>{dispatch(setKategori(parseInt(e.target.value)))}}
-                            images={imageProduct ? imageProduct : "/upload.png"}
+                            images={""}
                             kategoriValue={category || ""}
                             gudangChange={(e)=>{dispatch(setGudang(parseInt(e.target.value)))}}
                             gudangValue={gudang || ""}
-                            changeProductName={(e)=>{dispatch(setProductName(e.target.value))}}
-                            cancel={()=>{
-                                dispatch(setIsOpenOverlay(false))
-                                dispatch(setImageProduct(""))
-                                dispatch(setProductName(""))
-                                dispatch(setKategori(0))
-                                dispatch(setGudang(0))
-                                dispatch(setSuppliers(0))
-                            }}  
+                            changeProductName={(e)=>{dispatch(setProductName(productName ? e.target.value : ""))}}
+                            cancel={()=>resetInputValue()}  
                             textBtn="Tambah" 
                             click={addProduct} 
                             nama="Tambah Barang Masuk"/>
@@ -258,9 +268,12 @@ export default function Page() {
                             <div className="flex items-center justify-center">
                             <PopUpLayer.PopUpProductInboundEdit
                             productName={productName}
+                            gudangValue={""}
                             tanggal="Tanggal Masuk"
                             kategoriValue={""} // bagian isi kategori
                             supplierValue={""} //  bagian isi suppliers/vendor
+                            images={""}
+
 
                             changeProductName={(e)=>{dispatch(setProductName(e.target.value))}}
                             tanggalChange={(e)=>{dispatch(setTanggalMasuk(e.target.value))}}
@@ -274,14 +287,7 @@ export default function Page() {
                             keuanganValued={nominalModal}
 
                             
-                            cancel={()=>{
-                                dispatch(setIsOpendit(false))
-                                dispatch(setImageProduct(""))
-                                dispatch(setProductName(""))
-                                dispatch(setKategori(0))
-                                dispatch(setGudang(0))
-                                dispatch(setSuppliers(0))
-                            }}
+                            cancel={()=>resetInputValue()}
                             textBtn="Edit" 
                             click={()=>editProduct(selectProductId)} 
                             nama="Edit Produk"/>

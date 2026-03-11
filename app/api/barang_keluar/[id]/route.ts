@@ -7,7 +7,7 @@ export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>
     try{
         const { id } = await params
 
-        const data = await prisma.barang_masuk.findFirst({
+        const data = await prisma.barang_keluar.findFirst({
             where:{
                 id:parseInt(id)
             },
@@ -45,15 +45,15 @@ export async function PATCH(req:NextRequest,{params}:{params:Promise<{id:string}
         const { id } = await params
         const body = await req.json()
         console.log(body)
-        const updateVendors = await prisma.barang_masuk.update({
+        const updateVendors = await prisma.barang_keluar.update({
             where:{
                 id: parseInt(id)
             },
             data:{
             id:Number(id),
-            jumlah_barang_masuk: Number(body.jumlah),
+            jumlah_barang_keluar: Number(body.jumlahBarangMasuk),
             nominal_modal:Number(body.nominal_produk),
-            tanggal_masuk:new Date(body.tanggal_masuk)            
+            tanggal_keluar:new Date(body.tanggal_masuk)            
             }
         })
 

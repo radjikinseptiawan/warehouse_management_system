@@ -8,14 +8,15 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { setNamaGudang } from "@/app/slicers/lokasiGudangSlicers";
 import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
 import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
-import { ProductData } from "@/lib/type";
+import { InboundProductType, ProductData } from "@/lib/type";
 import { useEffect, useState } from "react";
 
 export default function Page() {
     const [paginationId, setPagination] = useState<number>(0);
     const [data, setData] = useState<ProductData[]>([]); 
-    const [dataTrash,setDataTrash] = useState<ProductData[]>([])
+    const [dataMasuk,setDataMasuk] = useState<InboundProductType[]>([])
     const [rawData,setDataRaw] = useState<ProductData[]>([])
+    const [dataTrash,setDataTrash] = useState<ProductData[]>([])
     const [selectProductId,setSelectProdukId] = useState<number>(0)
     const [idTarget,setIdTarget] = useState<number>(0)
     const itemPerPage = 6;
@@ -77,17 +78,26 @@ export default function Page() {
         setPagination(prev => Math.max(0, prev - 1));
     };
 
+    const syncInventoryData = async ()=>{
+        const response = await fetch("/api/produk",{method:"GET"})
+        const data = await response.json()
+        setDataMasuk(data.data)
+    }
+
+    useEffect(()=>{
+        syncInventoryData()
+    },[])
 
     // Menambah Produk
     const addProduct = async ()=>{
       try{
         const formData = new FormData()
-        formData.append("nama_produk",productName)
+        formData.append("nama_produk",productName as string)
         formData.append("kategoriId",category ? category.toString():"")
         formData.append("lokasiId",gudang? gudang.toString(): "")
         formData.append("vendorId",suppliers ? suppliers.toString():"")
         formData.append("gambar_produk",imageProduct as string)
-        formData.append("public_id",publicId)
+        formData.append("public_id",publicId as string)
         const response = await fetch("/api/produk",{
             method:"POST",
             body:formData
@@ -176,6 +186,9 @@ export default function Page() {
         }
     }
 
+     const allStock = rawData.reduce((acc,item)=>{return acc + (item.jumlah || 0)},0)
+   
+
     return (
         <div className="p-4 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
                        
@@ -193,8 +206,8 @@ export default function Page() {
                            
                             <div className="shadow border p-2 text-green-400 
                             text-center md:text-[14px] text-[8px] lg:w-80 md:w-40 w-20 bg-white rounded-md font-semibold md:font-bold my-4">
-                                {dataTrash.length}
-                            <h1>Produk Dihapus</h1>
+                                {allStock}
+                            <h1>Stok Tersedia</h1>
                             </div>
 
                        </div>
@@ -206,11 +219,11 @@ export default function Page() {
                             supplierValue={suppliers || ""}
                             supplierChange={(e)=>{dispatch(setSuppliers(parseInt(e.target.value)))}}
                             changeKategori={(e)=>{dispatch(setKategori(parseInt(e.target.value)))}}
-                            images={imageProduct ? imageProduct : "/upload.png"}
+                            images={imageProduct ? String(imageProduct) : "/upload.png"}
                             kategoriValue={category || ""}
                             gudangChange={(e)=>{dispatch(setGudang(parseInt(e.target.value)))}}
                             gudangValue={gudang || ""}
-                            productNameValue={productName}
+                            productNameValue={productName ? String(productName) : ""}
                             changeProductName={(e)=>{dispatch(setProductName(e.target.value))}}
                             cancel={()=>{
                                 dispatch(setIsOpenOverlay(false))
@@ -241,14 +254,14 @@ export default function Page() {
                         isOpenEdit && (
                             <div className="flex items-center justify-center">
                             <PopUpLayer.PopUpProduct 
-                            images={imageProduct? imageProduct : "/upload.png"}
+                            images={imageProduct ? String(imageProduct) : "/upload.png"}
                             supplierValue={suppliers || ""}
                             supplierChange={(e)=>{dispatch(setSuppliers(parseInt(e.target.value)))}}
                             changeKategori={(e)=>{dispatch(setKategori(parseInt(e.target.value)))}}
                             kategoriValue={category || ""}
                             gudangChange={(e)=>{dispatch(setGudang(parseInt(e.target.value)))}}
                             gudangValue={gudang || ""}
-                            productNameValue={productName}
+                            productNameValue={productName ? String(productName) : ""}
                             changeProductName={(e)=>{dispatch(setProductName(e.target.value))}}
                             cancel={()=>{
                                 dispatch(setIsOpendit(false))
