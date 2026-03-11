@@ -211,6 +211,9 @@ export default function Page() {
         dispatch(setNominalModal(0))           
     }
 
+
+
+
     const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_keluar || 0)},0) : ""
     const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
     return (
@@ -298,7 +301,8 @@ export default function Page() {
                     }
             <h1 className="text-xl font-bold text-black mb-4">List Barang Keluar</h1>
             <ButtonLayer.Button clicker={() =>dispatch(setIsOpenOverlay(true))} text="Tambah Barang Keluar" />
-            
+            <p className="text-red-500 w-72 text-[12px] md:text-sm md:w-xl">Demi Menjaga kecocokan barang masuk dan keluar, kami tidak menyediakan fitur hapus di fitur Inbound dan Outbound!. Harap lebih teliti dalam pengisian data!</p>
+
             <Table>
                 <TableHeadOutbound />   
                 <tbody className="text-black">

@@ -5,6 +5,7 @@ import { CategoryType, DataGudang, DataVendors, GudangType, PopUpProduction, Pop
 import { BatalkanButton, GudangInput, InputPopupDate, InputPopupKeuangan, InputPopUpStock, KategoriInput, OptionSelect, SimpanButton, VendorsInput } from "./refactoring"
 import { setProdukId } from "@/app/slicers/inboundSlicers"
 import { useAppDispatch } from "@/app/hooks"
+import TrashIcon from "../../ui/icon/Trash"
 
 function PopUpLayer({children}:{children:ReactNode}){
     return(
@@ -182,7 +183,8 @@ function PopUpProductInboundEdit(
   keuanganValued,
   keuanganChange,
   keuangan,
-  stockChange
+  stockChange,
+  delBtn
 }: PopUpProductionType
 ){
     const [dataProduk, setDataProduk] = useState<ProductData[]>([])
@@ -219,8 +221,11 @@ function PopUpProductInboundEdit(
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
       <div className="bg-white w-full overflow-y-auto h-96 md:h-[60vh] md:overflow-y-scroll max-w-2xl rounded-xl shadow-2xl overflow-hidden">
         
-        <div className="px-6 py-4 border-b border-gray-100">
+        <div className="px-6 py-4 border-b items-center flex justify-between border-gray-100">
           <h1 className="text-xl font-bold text-gray-800">{nama}</h1>
+          <button onClick={delBtn} className="cursor-pointer">
+          <TrashIcon/>
+          </button>
         </div>
 
         <div className="p-6">

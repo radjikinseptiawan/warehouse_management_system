@@ -39,6 +39,28 @@ export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>
     }
 }
 
+export async function DELETE(req:NextRequest,{params}:{params:Promise<{id:string}>}){
+    try{
+        const { id } = await params
+        console.log(id)
+        const data = await prisma.barang_masuk.delete({
+            where:{
+                id:parseInt(id)
+            }
+        })
+
+        return NextResponse.json({
+            message:"Success delete data",
+            dataDihapus:data
+        })
+    }catch(e){
+        console.error(e)
+        return NextResponse.json({
+            message:"ERROR"
+        })
+    }
+}
+
 // Mengedit Vendors
 export async function PATCH(req:NextRequest,{params}:{params:Promise<{id:string}>}){
     try{

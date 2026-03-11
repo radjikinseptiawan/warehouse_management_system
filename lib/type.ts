@@ -78,6 +78,7 @@ export type PopUpProductionType = {
   keuanganValued:string | number | any
   productName:number | string | any,
   tanggal:string,
+  delBtn?:()=>void,
   cancel: () => void,
   supplierValue: number | string | any,
   nama: string,
