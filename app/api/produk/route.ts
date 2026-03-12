@@ -4,26 +4,17 @@ import { NextRequest, NextResponse } from "next/server"
 // Menambahkan produk baru
 export async function POST(req:NextRequest){
     try{
-    const formData : any =await req.formData()
-
-        const jumlah = parseInt(formData.get("jumlah") as string)
-        const nama_produk = formData.get("nama_produk") as string
-        const kategoriId = parseInt(formData.get("kategoriId") as string)
-        const lokasiId = parseInt(formData.get("lokasiId") as string)
-        const vendorId = parseInt(formData.get("vendorId") as string)
-        const gambarProduk = formData.get("gambar_produk") as string
-        const publicId= formData.get("public_id")
-    const data = await prisma.produk.create({
-        data:{
-            gambar_produk:gambarProduk,
-            nama_produk:nama_produk,
-            kategoriId:kategoriId,
-            lokasiId:lokasiId,
-            vendorsId:vendorId,
-            public_id:publicId
-        }
-    })
-
+        const body = await req.json()
+        console.log(body)
+        const data = await prisma.produk.create({
+            data:{
+                nama_produk:body.nama_produk,
+                gambar_produk:body.gambar_produk,
+                lokasiId:body.lokasiId,
+                kategoriId:body.kategoriId,
+                vendorsId:body.vendorId
+            }
+        })
     return NextResponse.json({
         message:"Success add data",
         data

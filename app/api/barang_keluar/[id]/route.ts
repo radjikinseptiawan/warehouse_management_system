@@ -66,16 +66,14 @@ export async function PATCH(req:NextRequest,{params}:{params:Promise<{id:string}
     try{
         const { id } = await params
         const body = await req.json()
-        console.log(body)
         const updateVendors = await prisma.barang_keluar.update({
             where:{
                 id: parseInt(id)
             },
             data:{
-            id:Number(id),
-            jumlah_barang_keluar: Number(body.jumlahBarangMasuk),
+            jumlah_barang_keluar: Number(body.jumlah_barang_keluar),
             nominal_modal:Number(body.nominal_produk),
-            tanggal_keluar:new Date(body.tanggal_masuk)            
+            tanggal_keluar:new Date(body.tanggal_masuk) || ""             
             }
         })
 

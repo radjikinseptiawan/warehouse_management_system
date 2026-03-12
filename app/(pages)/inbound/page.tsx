@@ -2,9 +2,7 @@
 import ButtonLayer from "@/app/component/ui/Button";
 import Table from "@/app/component/ui/table/table";
 import TableBodyInbound from "@/app/component/ui/table/tableBody/tableBodyOutbound";
-import TableBodyInventory from "@/app/component/ui/table/tableBody/tableBodyInventory";
 import TableHeadInbound from "@/app/component/ui/table/tableHeaders/tableHeadInbound";
-import TableHeadInventory from "@/app/component/ui/table/tableHeaders/tableHeadInventory";
 import PopUpLayer from "@/app/component/ux/PopUp";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { setNamaGudang } from "@/app/slicers/lokasiGudangSlicers";
@@ -12,19 +10,21 @@ import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/o
 import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
 import { useEffect, useState } from "react";
 import { setJumlahBarangMasuk, setNominalModal, setProdukId, setTanggalMasuk } from "@/app/slicers/inboundSlicers";
-import { InboundProductType, TypeProduct } from "@/lib/type";
-import { addProduct, calculateDataProduct, editProduct, getDataById, syncAllDataProduct } from "@/app/layers/dataLayer/inbound";
+import { InboundProductType, ProductData, TypeProduct } from "@/lib/type";
+import { addProduct, editProduct, getDataById, syncAllDataProduct } from "@/app/layers/dataLayer/inbound";
 import DonutChart from "@/app/component/ux/Chart/PieChart";
-import { BarChart, LineChart } from "@mui/x-charts";
 import BasicBars from "@/app/component/ux/Chart/LineChart";
 import Money from "@/app/component/ui/icon/Money";
+import { convertToIdr, nextPage, prevPage } from "@/app/layers/businessLogic/pagination";
+import { convertToDate } from "@/app/layers/businessLogic/pagination";
+import { calculateDataProduct } from "@/app/layers/dataLayer/produk";
 
 
 export default function Page() {
     const [paginationId, setPagination] = useState<number>(0);
     const [rawData,setDataRaw] = useState<InboundProductType[]>([])
     const [selectProductId,setSelectProdukId] = useState<number>(0)
-    const [dataProduk,setDataProduk] = useState<TypeProduct[]>()
+    const [dataProduk,setDataProduk] = useState<ProductData[] | null>(null)
     const itemPerPage = 6;
 
     // Redux State
@@ -54,36 +54,8 @@ export default function Page() {
     }, []);
 
     useEffect(()=>{
-      calculateDataProduct(setDataProduk)
+        calculateDataProduct(setDataProduk)
     },[])
-
-    // Halaman Selanjutnya
-    const nextPage = () => {
-        if (paginationId < totalPages - 1) {
-            setPagination(prev => prev + 1);
-        }
-    };
-
-    // Halaman Sebelumnya
-    const prevPage = () => {
-        setPagination(prev => Math.max(0, prev - 1));
-    };
-
-    // Mengubah nomor ke rupiah
-    const convertToIdr = (idr:number)=>{
-        return new Intl.NumberFormat("ID-id",{
-            style:"currency",
-            currency:"IDR",
-        }).format(idr)
-    }
-
-    const convertToDate = (date : Date)=>{
-        return new Intl.DateTimeFormat("ID-id",{
-            day:"2-digit",
-            month:"long",
-            year:"numeric"
-        }).format(date)
-    }
 
     const addProducts = async()=>{
         const payload : any= {
@@ -108,24 +80,13 @@ export default function Page() {
         dispatch(setKategori(0))
         dispatch(setGudang(0))
         dispatch(setSuppliers(0))
-        dispatch(setImageProduct(""))
-        dispatch(setGudang(0))
-        dispatch(setKategori(0))
-        dispatch(setNamaGudang(""))
-        dispatch(setProductName(""))
-        dispatch(setSuppliers(0))
         dispatch(setTanggalMasuk(""))
         dispatch(setJumlahBarangMasuk(0))
         dispatch(setNominalModal(0))
         setSelectProdukId(0)
         dispatch(setIsOpendit(false))
         dispatch(setIsOpenOverlay(false))
-        dispatch(setImageProduct(""))
-        dispatch(setProductName(""))
-        dispatch(setKategori(0))
-        dispatch(setGudang(0))
-        dispatch(setSuppliers(0))
-        dispatch(setTanggalMasuk(""))
+        dispatch(setTanggalMasuk(new Date().toISOString().split("T")[0]))
         dispatch(setJumlahBarangMasuk(0))
         dispatch(setNominalModal(0))           
     }
@@ -152,7 +113,7 @@ export default function Page() {
                             </div>
                            
                             <div className="shadow border p-2 text-green-400 
-                            h-[20vh] text-center flex flex-col items-center md:text-[14px] text-[8px] lg:w-80 md:w-40 w-20 bg-white 
+                            h-[32vh] text-center flex flex-col items-center md:text-[14px] text-[8px] lg:w-80 md:w-40 w-20 bg-white 
                             rounded-md font-semibold md:font-bold my-4">
                                 <BasicBars/>
                                 {rawData ? convertToIdr(Number(allModal)) : 0}
@@ -167,21 +128,21 @@ export default function Page() {
                             delBtn={()=>console.log("test")}
                             keuanganChange={(e)=>dispatch(setNominalModal(parseInt(e.target.value)))}
                             tanggal="Tanggal Masuk"
-                            tanggalValued={tanggalMasuk ? new Date(tanggalMasuk).toISOString().split("T")[0] : ""}
-                            productName={productName || ""}
+                            tanggalValued={new Date(tanggalMasuk).toISOString().split("T")[0]}
+                            productName={productName ?? ""}
                             tanggalChange={(e)=>dispatch(setTanggalMasuk(e.target.value))}
-                            keuanganValued={nominalModal}
-                            stockValued={jumlahBarangMasuk}
+                            keuanganValued={nominalModal ?? 0}
+                            stockValued={jumlahBarangMasuk ?? 0}
                             keuangan="Modal"
                             stockChange={(e)=>dispatch(setJumlahBarangMasuk(parseInt(e.target.value)))} 
-                            supplierValue={suppliers || ""}
+                            supplierValue={suppliers ?? ""}
                             supplierChange={(e)=>{dispatch(setSuppliers(parseInt(e.target.value)))}}
                             changeKategori={(e)=>{dispatch(setKategori(parseInt(e.target.value)))}}
                             images={""}
-                            kategoriValue={category || ""}
+                            kategoriValue={category ?? ""}
                             gudangChange={(e)=>{dispatch(setGudang(parseInt(e.target.value)))}}
                             gudangValue={gudang || ""}
-                            changeProductName={(e)=>{dispatch(setProductName(productName ? e.target.value : ""))}}
+                            changeProductName={(e)=>{dispatch(setProductName(e.target.value))}}
                             cancel={()=>resetInputValue()}  
                             textBtn="Tambah" 
                             click={addProducts} 
@@ -214,7 +175,7 @@ export default function Page() {
                                     editProduct({
                                         id:selectProductId,
                                         payload:{
-                                            tanggalMasuk : tanggalMasuk,
+                                            tanggalMasuk: tanggalMasuk,
                                             nominalModal:Number(nominalModal),
                                             jumlahBarangMasuk : Number(jumlahBarangMasuk),
                                         },
@@ -274,7 +235,9 @@ export default function Page() {
             <div className="flex justify-between mt-4">
                 <button 
                     className={`p-2 cursor-pointer ${paginationId === 0 ? 'text-gray-400' : 'text-green-500 underline'}`} 
-                    onClick={prevPage}
+                    onClick={()=>{
+                        prevPage({setPagination})
+                    }}
                     disabled={paginationId === 0}
                 >
                     Previous
@@ -284,7 +247,11 @@ export default function Page() {
                 </span>
                 <button 
                     className={`p-2 cursor-pointer ${(paginationId >= totalPages - 1) ? 'text-gray-400' : 'text-green-500 underline'}`} 
-                    onClick={nextPage}
+                    onClick={()=>nextPage({
+                      paginationId,
+                        totalPages,
+                        setPagination
+                    })}
                     disabled={paginationId >= totalPages - 1}
                 >
                     Next

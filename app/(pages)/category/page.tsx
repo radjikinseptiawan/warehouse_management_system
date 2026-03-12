@@ -3,6 +3,7 @@ import ButtonLayer from "@/app/component/ui/Button"
 import CardView from "@/app/component/ux/Card"
 import PopUpLayer from "@/app/component/ux/PopUp"
 import { useAppDispatch, useAppSelector } from "@/app/hooks"
+import { addCategory, deleteCategory, editDataCategory, getCategory, getCategoryDetail } from "@/app/layers/dataLayer/category"
 import { setCategoryName, setWarnaCategory } from "@/app/slicers/categorySlicer"
 import { setAlamatGudang, setNamaGudang, setWarnaGudang } from "@/app/slicers/lokasiGudangSlicers"
 import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer"
@@ -23,51 +24,30 @@ export default function Page(){
     const [categorySelected, setCategorySelected] = useState<number[]>([])
     const [idGudangTerpilih, setIdGudangTerpilih] = useState<number | null>(null) 
   
-    const addCategory = async() => {
+    const addCategoryValue = async() => {
         try {
-            const response = await fetch("/api/category", {
-                method: "POST",
-                body: JSON.stringify({
-                    nama_category: namaCategory,
-                    warna_category: warnaCategory,
-                })
+            const payload: any = {
+                nama_category:namaCategory,
+                warna_category:warnaCategory
+            }
+
+            await addCategory({
+                payload,
+                dispatch,
+                actions:{
+                    setCategoryName,
+                    setWarnaCategory
+                }
             })
 
-            if (response.ok) {
-                dispatch(setIsOpenOverlay(false))
-                dispatch(setWarnaCategory(""))
-                dispatch(setCategoryName(""))
-                getCategory() 
-            }
+            dispatch(setIsOpenOverlay(false))
         } catch(e) {
             console.error(e)
         }
     }
-
-    const getCategory = async() => {
-        try {
-            const response = await fetch("/api/category", { method: "GET" })
-            const data = await response.json()
-            setCategory(data.data)
-        } catch(e) {
-            console.error(e)
-        }
-    }
-
-    const getCategoryDetail = async (id:number) => {
-        try {
-            const response = await fetch(`/api/category/${id}`, { method: "GET" })
-            const data = await response.json()
-            dispatch(setCategoryName(data.data.nama_kategori))
-            dispatch(setWarnaCategory(data.data.warna_category))
-        } catch (e) {
-            console.error(e)
-             }
-        }
-
 
     useEffect(() => {
-        getCategory()
+        getCategory(setCategory)
     }, [])
 
     const dataCheck = (id: number) => {
@@ -76,40 +56,51 @@ export default function Page(){
         )
     }
 
-    const deleteCategory = async(id: number) => {
-        try {
-            const response = await fetch(`/api/category/${id}`, { method: "DELETE" })
-            if (response.ok) {
-                setCategory(prev => prev ? prev.filter(item => item.id !== id) : [])
-                dispatch(setIsOpenDelete(false))
-                setIdGudangTerpilih(null)
+    const editedValue = async()=>{
+        try{
+            const payload : any= {
+                nama_category:namaCategory,
+                warna_category:warnaCategory
             }
-        } catch(e) {
+
+            await editDataCategory({
+                id:idGudangTerpilih,
+                payload,
+                dispatch,
+                actions:{
+                    setCategoryName,
+                    setWarnaCategory
+                }
+            })
+
+            dispatch(setIsOpendit(false))
+        }catch(e){
             console.error(e)
         }
     }
 
-        const editData = async (id:number|null)=>{
-            if(!id) return 
-            try{
-                const response = await fetch(`/api/category/${id}`,{
-                    method:"PATCH",
-                    body:JSON.stringify({
-                        nama_category: namaCategory,
-                        warna_category: warnaCategory,
-                    })
-                })
     
-                if(response.ok){
-                    dispatch(setIsOpendit(false))
-                    dispatch(setCategoryName(""))
-                    dispatch(setWarnaCategory(""))
-                    getCategory()
-                }
-            }catch(e){
-                console.error(e)
-            }
-        }
+    // const editData = async (id:number|null)=>{
+    //         if(!id) return 
+    //         try{
+    //             const response = await fetch(`/api/category/${id}`,{
+    //                 method:"PATCH",
+    //                 body:JSON.stringify({
+    //                     nama_category: namaCategory,
+    //                     warna_category: warnaCategory,
+    //                 })
+    //             })
+    
+    //             if(response.ok){
+    //                 dispatch(setIsOpendit(false))
+    //                 dispatch(setCategoryName(""))
+    //                 dispatch(setWarnaCategory(""))
+    //                 getCategory(setCategory)
+    //             }
+    //         }catch(e){
+    //             console.error(e)
+    //         }
+    //     }
 
 
 
@@ -126,7 +117,14 @@ export default function Page(){
                                     <CardView.Basic 
                                         btnEdit={()=>{
                                             setIdGudangTerpilih(item.id)
-                                            getCategoryDetail(item.id)
+                                            getCategoryDetail({
+                                                id:item.id,
+                                                dispatch,
+                                                actions:{
+                                                    setCategoryName,
+                                                    setWarnaCategory
+                                                }
+                                            })
                                             dispatch(setIsOpendit(true))
                                         }}
                                         btnDel={() => {
@@ -169,7 +167,7 @@ export default function Page(){
         changeColor={(e) => dispatch(setWarnaCategory(e.target.value))} // Sesuai Slicer Kategori
         valued={namaCategory || ""}
         change={(e) => dispatch(setCategoryName(e.target.value))}
-        click={() => editData(idGudangTerpilih)}
+        click={editedValue}
     />
 )}
 
@@ -184,7 +182,7 @@ export default function Page(){
                     nama={"Tambah Kategori"}
                     changeColor={(e) => dispatch(setWarnaCategory(e.target.value))} 
                     change={(e) => dispatch(setCategoryName(e.target.value))}
-                    click={addCategory}
+                    click={addCategoryValue}
                 />
             )}
 
@@ -196,7 +194,19 @@ export default function Page(){
                         dispatch(setIsOpenDelete(false))
                         setIdGudangTerpilih(null)
                     }} 
-                    click={() => idGudangTerpilih && deleteCategory(idGudangTerpilih)} 
+                    click={() =>{
+                        deleteCategory({
+                            id:idGudangTerpilih,
+                            dispatch,
+                            actions:{
+                                setCategory
+                            },
+                            state:{
+                                setIsOpenDelete,
+                                setIdGudangTerpilih
+                            }
+                        })
+                    }} 
                 />
             )}
         </div>

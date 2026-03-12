@@ -10,10 +10,10 @@ export async function POST(req:NextRequest){
     
     const data = await prisma.barang_keluar.create({
         data:{
-            jumlah_barang_keluar:parseInt(body.jumlahBarangMasuk),
+            jumlah_barang_keluar:parseInt(body.jumlahBarangKeluar),
             nominal_modal:parseInt(body.nominalModal),
             produkId:parseInt(body.produkId),
-            tanggal_keluar:new Date(body.tanggalMasuk)
+            tanggal_keluar:new Date(body.tanggalKeluar)
         }
     })
 

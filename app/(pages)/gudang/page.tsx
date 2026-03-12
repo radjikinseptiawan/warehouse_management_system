@@ -3,6 +3,8 @@ import ButtonLayer from "@/app/component/ui/Button"
 import CardView from "@/app/component/ux/Card"
 import PopUpLayer from "@/app/component/ux/PopUp"
 import { useAppDispatch, useAppSelector } from "@/app/hooks"
+import { addGudang, deleteGudang, editDataGudang, getGudang, getGudangDetail } from "@/app/layers/dataLayer/gudang"
+import { editData } from "@/app/layers/dataLayer/vendors"
 import { setCategoryName, setWarnaCategory } from "@/app/slicers/categorySlicer"
 import { setAlamatGudang, setNamaGudang, setWarnaGudang } from "@/app/slicers/lokasiGudangSlicers"
 import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer"
@@ -24,55 +26,28 @@ export default function Page(){
     const [categorySelected, setCategorySelected] = useState<number[]>([])
     const [idGudangTerpilih, setIdGudangTerpilih] = useState<number | null>(null) 
   
-    const addCategory = async() => {
-        try {
-            const response = await fetch("/api/lokasi_gudang", {
-                method: "POST",
-                body: JSON.stringify({
-                    nama_gudang: namaGudang,
-                    warna_gudang: warnaGudang,
-                    alamat_gudang: alamatGudang
-                })
-            })
+    const addGudangValue = async ()=>{
+        const payload : any= {
+            nama_gudang:warnaGudang,
+            warna_gudang:warnaGudang,
+            alamat_gudang:alamatGudang
+        }
 
-            if (response.ok) {
-                dispatch(setIsOpenOverlay(false))
-                dispatch(setAlamatGudang(""))
-                dispatch(setNamaGudang(""))
-                dispatch(setWarnaGudang(""))
-                getGudang() 
+        await addGudang({
+            payload,
+            dispatch,
+            actions:{
+                setAlamatGudang,
+                setNamaGudang,
+                setWarnaGudang
             }
-        } catch(e) {
-            console.error(e)
-        }
-    }
-
-
-    const getGudangDetail = async (id:number) => {
-        try {
-            const response = await fetch(`/api/lokasi_gudang/${id}`, { method: "GET" })
-            const data = await response.json()
-            dispatch(setNamaGudang(data.data.nama_gudang))
-            dispatch(setAlamatGudang(data.data.alamat_gudang))
-            dispatch(setWarnaGudang(data.data.warna_gudang))
-        } catch (e) {
-            console.error(e)
-             }
-        }
-
-    // Mngambil semua data gudang
-    const getGudang = async() => {
-        try {
-            const response = await fetch("/api/lokasi_gudang", { method: "GET" })
-            const data = await response.json()
-            setGudang(data.data)
-        } catch(e) {
-            console.error(e)
-        }
+        })
+        dispatch(setIsOpenOverlay(false))
+        getGudang(setGudang)
     }
 
     useEffect(() => {
-        getGudang()
+        getGudang(setGudang)
     }, [])
 
     const dataCheck = (id: number) => {
@@ -81,42 +56,30 @@ export default function Page(){
         )
     }
 
-    const editData = async (id:number|null)=>{
-            if(!id) return 
-            try{
-                const response = await fetch(`/api/lokasi_gudang/${id}`,{
-                    method:"PATCH",
-                    body:JSON.stringify({
-                        nama_gudang:namaGudang,
-                        warna_gudang: warnaGudang,
-                        alamat_gudang: alamatGudang
-                    })
-                })
-    
-                if(response.ok){
-                    dispatch(setIsOpendit(false))
-                    dispatch(setNamaGudang(""))
-                    dispatch(setAlamatGudang(""))
-                    dispatch(setWarnaGudang(""))
-                    getGudang()
-                }
-            }catch(e){
-                console.error(e)
-            }
+    const gudangEdited = async ()=>{
+        const payload:any = {
+            nama_gudang:namaGudang,
+            warna_gudang:warnaGudang,
+            alamat_gudang:alamatGudang
         }
-    
+        await editDataGudang({
+            id:idGudangTerpilih,
+            payload,
+            dispatch,
+            actions:{
+                setNamaGudang,
+                setAlamatGudang,
+                setWarnaGudang
+            }
+        })
+        dispatch(setIsOpendit(false))
+    }    
 
-    const deleteCategory = async(id: number) => {
-        try {
-            const response = await fetch(`/api/lokasi_gudang/${id}`, { method: "DELETE" })
-            if (response.ok) {
-                setGudang(prev => prev ? prev.filter(item => item.id !== id) : [])
-                dispatch(setIsOpenDelete(false))
-                setIdGudangTerpilih(null)
-            }
-        } catch(e) {
-            console.error(e)
-        }
+
+    const resetInputValue = ()=>{
+            dispatch(setNamaGudang(""))
+            dispatch(setAlamatGudang(""))
+            dispatch(setWarnaGudang(""))
     }
 
     return (
@@ -131,8 +94,16 @@ export default function Page(){
                                 <div className="my-2" key={item.id}>
                                     <CardView.Basic 
                                         btnEdit={()=>{
-                                            getGudangDetail(item.id)
                                             setIdGudangTerpilih(item.id)
+                                            getGudangDetail({
+                                                id:item.id,
+                                                dispatch,
+                                                actions:{
+                                                    setNamaGudang,
+                                                    setAlamatGudang,
+                                                    setWarnaGudang
+                                                }
+                                            })
                                             dispatch(setIsOpendit(true))
                                         }}
                                         btnDel={() => {
@@ -175,7 +146,7 @@ export default function Page(){
                     valued2={alamatGudang}
                     change1={(e) => dispatch(setNamaGudang(e.target.value))}
                     change2={(e) => dispatch(setAlamatGudang(e.target.value))}
-                    click={addCategory}
+                    click={addGudangValue}
                 />
             )}
 
@@ -184,14 +155,17 @@ export default function Page(){
                 <PopUpLayer.PopUp
                     textBtn="Edit"
                     title1="Nama Gudang" title2="Alamat Gudang" title3="Warna Gudang" nama="Edit Gudang"
-                    close={() => dispatch(setIsOpendit(false))}
-                    colorValued={warnaGudang || ""}
+                    close={() => {
+                        resetInputValue()
+                        dispatch(setIsOpendit(false))
+                    }}
+                    colorValued={warnaGudang ?? ""}
                     changeColor={(e) => dispatch(setWarnaGudang(e.target.value))} 
-                    valued1={namaGudang || ""}
-                    valued2={alamatGudang || ""}
+                    valued1={namaGudang ?? ""}
+                    valued2={alamatGudang ?? ""}
                     change1={(e) => dispatch(setNamaGudang(e.target.value))}
                     change2={(e) => {dispatch(setAlamatGudang(e.target.value))}}
-                    click={()=>editData(idGudangTerpilih)}
+                    click={gudangEdited}
                 />
                 )
             }
@@ -202,9 +176,20 @@ export default function Page(){
                     section="Gudang"
                     cancel={() => {
                         dispatch(setIsOpenDelete(false))
+                        resetInputValue()
                         setIdGudangTerpilih(null)
                     }} 
-                    click={() => idGudangTerpilih && deleteCategory(idGudangTerpilih)} 
+                    click={() => deleteGudang({
+                        id:idGudangTerpilih,
+                        dispatch,
+                        state:{
+                            setIdGudangTerpilih,
+                            setIsOpenDelete
+                        },
+                        actions:{
+                            setGudang
+                        }
+                    })} 
                 />
             )}
         </div>

@@ -5,6 +5,8 @@ import TableBodyInventory from "@/app/component/ui/table/tableBody/tableBodyInve
 import TableHeadInventory from "@/app/component/ui/table/tableHeaders/tableHeadInventory";
 import PopUpLayer from "@/app/component/ux/PopUp";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { nextPage, prevPage } from "@/app/layers/businessLogic/pagination";
+import { addProduct, calculateDataProduct, deleteProduct, editProduct, getDataById, syncInventoryData } from "@/app/layers/dataLayer/produk";
 import { setNamaGudang } from "@/app/slicers/lokasiGudangSlicers";
 import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
 import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
@@ -14,8 +16,8 @@ import { useEffect, useState } from "react";
 export default function Page() {
     const [paginationId, setPagination] = useState<number>(0);
     const [data, setData] = useState<ProductData[]>([]); 
-    const [dataMasuk,setDataMasuk] = useState<InboundProductType[]>([])
-    const [rawData,setDataRaw] = useState<ProductData[]>([])
+    const [dataMasuk,setDataMasuk] = useState<InboundProductType[] | null>(null)
+    const [rawData,setDataRaw] = useState<ProductData[] | null>(null)
     const [dataTrash,setDataTrash] = useState<ProductData[]>([])
     const [selectProductId,setSelectProdukId] = useState<number>(0)
     const [idTarget,setIdTarget] = useState<number>(0)
@@ -34,25 +36,13 @@ export default function Page() {
     const publicId = useAppSelector(state=>state.product.public_id)
     
     const dispatch = useAppDispatch()
-    
-    
-    // Mengambil data produk
-    const syncAllDataProduct = async () => {
-        try {
-            const response = await fetch("/api/produk/all", { method: "GET" });
-            const result = await response.json();
-            setDataRaw(result.data);
-        } catch (error) {
-            console.error("Gagal ambil data:", error);
-        }
-    };
 
     // Melihat data sekarang
     const currentData = data.slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
     // Kalkulasi total halaman dibuat
     const totalPages = Math.ceil(data.length / itemPerPage);
     useEffect(() => {
-        syncAllDataProduct()
+        calculateDataProduct(setDataRaw)
     }, []);
 
     useEffect(()=>{
@@ -60,135 +50,103 @@ export default function Page() {
     },[rawData])
 
     // Halaman Selanjutnya
-    const nextPage = () => {
-        if (paginationId < totalPages - 1) {
-            setPagination(prev => prev + 1);
-        }
-    };
 
     const dataSelection = ()=>{
-        const deletedData = rawData.filter((item)=>item.is_delete == true)
+        const deletedData = rawData ? rawData.filter((item)=>item.is_delete == true) : []
         setDataTrash(deletedData)
-        const existData = rawData.filter((item)=>item.is_delete == false)
+        const existData = rawData ? rawData.filter((item)=>item.is_delete == false) : []
         setData(existData)
     }
 
-    // Halaman Sebelumnya
-    const prevPage = () => {
-        setPagination(prev => Math.max(0, prev - 1));
-    };
 
-    const syncInventoryData = async ()=>{
-        const response = await fetch("/api/produk",{method:"GET"})
-        const data = await response.json()
-        setDataMasuk(data.data)
-    }
+
 
     useEffect(()=>{
-        syncInventoryData()
+        syncInventoryData(setDataMasuk)
     },[])
 
     // Menambah Produk
-    const addProduct = async ()=>{
-      try{
-        const formData = new FormData()
-        formData.append("nama_produk",productName as string)
-        formData.append("kategoriId",category ? category.toString():"")
-        formData.append("lokasiId",gudang? gudang.toString(): "")
-        formData.append("vendorId",suppliers ? suppliers.toString():"")
-        formData.append("gambar_produk",imageProduct as string)
-        formData.append("public_id",publicId as string)
-        const response = await fetch("/api/produk",{
-            method:"POST",
-            body:formData
-        })
-        const data = await response.json()
-        if(response.ok){
-            dispatch(setIsOpenOverlay(false))
-            dispatch(setProductName(""))
-            dispatch(setJumlah(0))
-            dispatch(setGudang(0))
-            dispatch(setImageProduct(""))
-            dispatch(setKategori(0))
-            dispatch(setSuppliers(0))
-            syncAllDataProduct()
-            dataSelection()        
-        }
-        console.log(data)
-    }catch(e){
-        console.error(e)
-      }
-    }
-
-    // Hapus Produk
-    const deleteProduct= async(id:number)=>{
-        try{
-            const response = await fetch(`/api/produk/${id}`,{method:"DELETE"})
-            if(response.ok){
-                dispatch(setIsOpenDelete(false))
-                syncAllDataProduct()
-                dataSelection()
+        const addProductValue = async ()=>{
+          try{
+            const payload :any = {
+                nama_produk: productName,
+                kategoriId:category,
+                lokasiId:gudang,
+                vendorId:suppliers,
+                gambar_produk:imageProduct
             }
+
+            await addProduct({
+                payload,
+                dispatch,
+                actions:{
+                    setGudang,
+                    setProductName,
+                    setImageProduct,
+                    setJumlah,
+                    setKategori,
+                    setSuppliers
+                }
+            })
+            dispatch(setIsOpenOverlay(false))
+            calculateDataProduct(setDataRaw)
+            dataSelection()        
         }catch(e){
             console.error(e)
+          }
         }
-    }
 
-    // Ambil data sesuai id
-    const getDataById = async(id:number)=>{
-        try{
-            const response = await fetch(`/api/produk/${id}`,{
-                method:"GET"
+    // Hapus Produk
+    const deleteProductValue= async()=>{
+        try{    
+            await deleteProduct({
+                dispatch,
+                id:idTarget,
+                actions:{
+                    setIsOpenDelete
+                }
             })
-            const data = await response.json()
-            dispatch(setImageProduct(data.data.gambar_produk))
-            dispatch(setProductName(data.data.nama_produk))
-            dispatch(setGudang(data.data.lokasi.id))
-            dispatch(setKategori(data.data.kategori.id))
-            dispatch(setSuppliers(data.data.vendors.id))
+            calculateDataProduct(setDataRaw)
+            dataSelection()    
         }catch(e){
             console.error(e)
         }
     }
 
     // Edit Produk
-    const editProduct = async(id:number)=>{
+    const editProductValue = async()=>{
         try{
-              const response = await fetch(`/api/produk/${id}`,{
-                method:"PATCH",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({
+                const payload: any = {
                     jumlah:jumlah,
                     nama_produk:productName,
                     kategoriId:category,
                     lokasiId:gudang,
                     vendorId:suppliers
-                 })       
-                }) 
-              
-              if(response.ok){
-                dispatch(setImageProduct(""))
-                dispatch(setGudang(0))
-                dispatch(setKategori(0))
-                dispatch(setNamaGudang(""))
-                dispatch(setSuppliers(0))
-                setSelectProdukId(0)
-                dispatch(setIsOpendit(false))
-                syncAllDataProduct()
-                dataSelection()            }
+                }
 
-              const data = await response.json()
-              console.log(data)
-        }catch(e){
+                await editProduct({
+                    id:selectProductId,
+                    payload,
+                    dispatch,
+                    actions:{
+                        setImageProduct,
+                        setGudang,
+                        setProductName,
+                        setSuppliers,
+                        setKategori,
+                        setNamaGudang
+                    }
+                })
+                dispatch(setIsOpendit(false))
+                dataSelection()
+                calculateDataProduct(setDataRaw)
+            }catch(e){
             console.error(e)
         }
     }
 
-     const allStock = rawData.reduce((acc,item)=>{return acc + (item.jumlah || 0)},0)
+     const allStock = rawData ? rawData.reduce((acc,item)=>{return acc + (item.jumlah || 0)},0) : []
    
-
     return (
         <div className="p-4 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
                        
@@ -200,7 +158,7 @@ export default function Page() {
                             </div>
                             <div className="border shadow p-2 text-green-400 bg-white
                             text-center md:text-[14px] text-[8px] font-semibold rounded-md lg:w-80 md:w-40 w-20 md:font-bold my-4">
-                                {rawData.length}
+                                {rawData?.length}
                             <h1>Total Produk</h1>
                             </div>
                            
@@ -234,7 +192,7 @@ export default function Page() {
                                 dispatch(setSuppliers(0))
                             }}  
                             textBtn="Tambah" 
-                            click={addProduct} 
+                            click={addProductValue} 
                             nama="Tambah Produk"/>
                             </div>
                         )
@@ -244,7 +202,7 @@ export default function Page() {
                             <div className="flex items-center justify-center align-middle">
                             <PopUpLayer.PopUpDelete 
                             cancel={()=>dispatch(setIsOpenDelete(false))}
-                            click={()=>deleteProduct(idTarget)}
+                            click={deleteProductValue}
                             section="Produk"/>
                             </div>
                         )
@@ -272,7 +230,7 @@ export default function Page() {
                                 dispatch(setSuppliers(0))
                             }}
                             textBtn="Edit" 
-                            click={()=>editProduct(selectProductId)} 
+                            click={()=>editProductValue()} 
                             nama="Edit Produk"/>
                             </div>
                         )
@@ -293,7 +251,17 @@ export default function Page() {
                                 }}
                                 editClick={()=>{
                                     setSelectProdukId(item.id)
-                                    getDataById(item.id)
+                                    getDataById({
+                                        id:item.id,
+                                        dispatch,
+                                        actions:{
+                                            setGudang,
+                                            setImageProduct,
+                                            setKategori,
+                                            setProductName,
+                                            setSuppliers,
+                                        }
+                                    })
                                     dispatch(setIsOpendit(true))
                                 }}
                                 color={item.kategori.warna_category}
@@ -317,7 +285,7 @@ export default function Page() {
             <div className="flex justify-between mt-4">
                 <button 
                     className={`p-2 cursor-pointer ${paginationId === 0 ? 'text-gray-400' : 'text-green-500 underline'}`} 
-                    onClick={prevPage}
+                    onClick={()=>prevPage({ setPagination })}
                     disabled={paginationId === 0}
                 >
                     Previous
@@ -327,7 +295,11 @@ export default function Page() {
                 </span>
                 <button 
                     className={`p-2 cursor-pointer ${(paginationId >= totalPages - 1) ? 'text-gray-400' : 'text-green-500 underline'}`} 
-                    onClick={nextPage}
+                    onClick={()=>nextPage({
+                        paginationId,
+                        setPagination,
+                        totalPages
+                    })}
                     disabled={paginationId >= totalPages - 1}
                 >
                     Next

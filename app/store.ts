@@ -5,7 +5,7 @@ import isOpenOverlaySlicersReducers from "./slicers/openOverlaySlicer"
 import lokasiGudangSlicersReducers from './slicers/lokasiGudangSlicers'
 import ProductSlicersReducers from './slicers/productSlicers'
 import InboundSlicersReducers from './slicers/inboundSlicers'
-
+import OutboundSlicersReducers from "./slicers/outboundSlicers"
 export const store = configureStore({
     reducer:{
         vendor:VendorSliceReducers,
@@ -13,7 +13,8 @@ export const store = configureStore({
         overlay: isOpenOverlaySlicersReducers,
         gudang:lokasiGudangSlicersReducers,
         product:ProductSlicersReducers,
-        inbound:InboundSlicersReducers
+        inbound:InboundSlicersReducers,
+        outbound:OutboundSlicersReducers
     }
 })
 

@@ -7,10 +7,11 @@ type InboundType = {
         produkId:number | string
 }
 
+
 const initialState : InboundType= {
         jumlahBarangMasuk:0,
         nominalModal:0,
-        tanggalMasuk:"",
+        tanggalMasuk: new Date().toISOString().split("T")[0],
         produkId:0
 }
 export const inboundSlicers = createSlice({

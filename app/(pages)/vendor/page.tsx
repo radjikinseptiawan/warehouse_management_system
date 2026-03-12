@@ -3,6 +3,7 @@ import ButtonLayer from "@/app/component/ui/Button"
 import CardView from "@/app/component/ux/Card"
 import PopUpLayer from "@/app/component/ux/PopUp"
 import { useAppDispatch, useAppSelector } from "@/app/hooks"
+import { addVendor, deleteVendors, editData, getVendors, getVendorsDetail } from "@/app/layers/dataLayer/vendors"
 import { setCategoryName, setWarnaCategory } from "@/app/slicers/categorySlicer"
 import { setAlamatGudang } from "@/app/slicers/lokasiGudangSlicers"
 import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer"
@@ -29,53 +30,27 @@ export default function Page() {
     const [idTargetHapus, setIdTargetHapus] = useState<number | null>(null)
     const [idTargetEdit, setIdTargetEdit] = useState<number | null>(null)
 
-    const getVendors = async () => {
-        try {
-            const response = await fetch("/api/vendors", { method: "GET" })
-            const data = await response.json()
-            setVendor(data.data)
-        } catch (e) {
-            console.error(e)
-        }
-    }
-
-    const getVendorsDetail = async (id:number) => {
-        try {
-            const response = await fetch(`/api/vendors/${id}`, { method: "GET" })
-            const data = await response.json()
-            dispatch(setVendorName(data.data.nama_vendor))
-            dispatch(setVendorAlamat(data.data.alamat_vendor))
-            dispatch(setVendorWarna(data.data.warna_vendor))
-        } catch (e) {
-            console.error(e)
-        }
-    }
-
 
     useEffect(() => {
-        getVendors()
+        getVendors(setVendor)
     }, [])
 
-    const addCategory = async () => {
-        try {
-            const response = await fetch("/api/vendors", {
-                method: "POST",
-                body: JSON.stringify({
-                    nama_vendor: namaVendors,
-                    warna_vendor: warnaVendor,
-                    alamat_vendor: alamatVendors
-                })
-            })
-            if (response.ok) {
-                dispatch(setIsOpenOverlay(false))
-                dispatch(setVendorAlamat(""))
-                dispatch(setVendorName(""))
-                dispatch(setVendorWarna(""))
-                getVendors()
-            }
-        } catch (e) {
-            console.error(e)
+    const addVendors = async()=>{
+        const payload :any = {
+            alamat_vendor: alamatVendors,
+            nama_vendor: namaVendors,
+            warna_vendor: warnaVendor
         }
+        await addVendor({
+            payload,dispatch,
+            actions:{
+            setIsOpenOverlay,
+            setVendorAlamat,
+            setVendorName,
+            setVendorWarna,
+        },refreshVendor:()=>getVendors(setVendor)})
+    
+        getVendors(setVendor)
     }
 
     const dataCheck = (id: number) => {
@@ -84,41 +59,40 @@ export default function Page() {
         )
     }
 
-    const deleteCategory = async (id: number) => {
-        try {
-            const response = await fetch(`/api/vendors/${id}`, { method: "DELETE" })
-            if (response.ok) {
-                setVendor(prev => prev ? prev.filter(item => item.id !== id) : [])
-                dispatch(setIsOpenDelete(false))
-                setIdTargetHapus(null)
-            }
-        } catch (e) {
-            console.error(e)
+    const vendorsDeleted = async()=>{
+        await deleteVendors({
+        id:idTargetHapus,
+        dispatch,
+        state:{
+            setIdTargetHapus,
+            setIsOpenDelete
+        },
+        actions:{
+            setVendor
         }
+    })
     }
 
-    const editData = async (id:number|null)=>{
-        if(!id) return 
-        try{
-            const response = await fetch(`/api/vendors/${id}`,{
-                method:"PATCH",
-                body:JSON.stringify({
-                    nama_vendor:namaVendors,
-                    warna_vendor: warnaVendor,
-                    alamat_vendor: alamatVendors
-                })
-            })
-
-            if(response.ok){
-                dispatch(setIsOpendit(false))
-                dispatch(setVendorName(""))
-                dispatch(setVendorAlamat(""))
-                dispatch(setVendorWarna(""))
-                getVendors()
-            }
-        }catch(e){
-            console.error(e)
+    const dataEdited = async()=>{
+        const payload : any = {
+            nama_vendor:namaVendors,
+            warna_vendor:warnaVendor,
+            alamat_vendor:alamatVendors
         }
+
+        await editData({
+            id:idTargetEdit,
+            payload,
+            dispatch,
+            actions:{
+                setIsOpendit,
+                setVendorName,
+                setVendorAlamat,
+                setVendorWarna
+            }
+        })
+        getVendors(setVendor)
+
     }
 
     return (
@@ -133,7 +107,15 @@ export default function Page() {
                                 <div className="my-2" key={item.id}>
                                     <CardView.Basic 
                                         btnEdit={()=>{
-                                            getVendorsDetail(item.id)
+                                            getVendorsDetail({
+                                                id:item.id,
+                                                dispatch,
+                                                actions:{
+                                                    setVendorName,
+                                                    setVendorAlamat,
+                                                    setVendorWarna
+                                                }
+                                            })
                                             setIdTargetEdit(item.id)
                                             dispatch(setIsOpendit(true))
                                         }}
@@ -175,7 +157,7 @@ export default function Page() {
                     valued1={namaVendors}
                     change1={(e) => dispatch(setVendorName(e.target.value))}
                     change2={(e) => {dispatch(setVendorAlamat(e.target.value))}}
-                    click={addCategory}
+                    click={addVendors}
                 />
             )}
 
@@ -191,7 +173,7 @@ export default function Page() {
                     valued2={alamatVendors}
                     change1={(e) => dispatch(setVendorName(e.target.value))}
                     change2={(e) => {dispatch(setVendorAlamat(e.target.value))}}
-                    click={()=>editData(idTargetEdit)}
+                    click={dataEdited}
                 />
                 )
             }
@@ -202,7 +184,7 @@ export default function Page() {
                         dispatch(setIsOpenDelete(false))
                         setIdTargetHapus(null)
                     }} 
-                    click={() => idTargetHapus && deleteCategory(idTargetHapus)} 
+                    click={vendorsDeleted} 
                 />
             )}
         </div>

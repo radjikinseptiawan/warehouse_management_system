@@ -1,19 +1,21 @@
 import { ChangeEvent } from "react"
 
 export type VendorType = {
+    id:number,
     alamat_vendor:string,
     nama_vendor:string,
     warna_vendor:string
 }
 
 export type GudangType = {
+    id:number
     alamat_gudang:string,
     nama_gudang:string,
     warna_gudang:string
 }
 
 export type CategoryType = {
-    id:number,
+    id:number | null,
     nama_kategori : string,
     warna_category: string
 }
@@ -128,4 +130,56 @@ export type TypeProduct = {
     lokasi: {nama_gudang:string};
     vendors: {nama_vendor:string};
 }
+
+//  ############==             Frontend Call API             ==#######################
+
+
+
+// Add Inbound Page Component
+export type EditProductType = {
+    id:number,
+    payload:{
+        jumlahBarangKeluar:number,
+        nominalModal:number,
+        tanggalKeluar:string
+    }
+    resetActions:()=>void,
+    refreshActions:()=>void
+} 
+
+export type EditProductTypeIn = {
+    id:number,
+    payload:{
+        jumlahBarangMasuk:number,
+        nominalModal:number,
+        tanggalMasuk:string
+    }
+    resetActions:()=>void,
+    refreshActions:()=>void
+}
+
+export type GetDataByIdType = {
+    id:number,
+    dispatch:any,
+    actions:{
+        setProductName:(val:string)=>any,
+        setNominalModal:(val:number)=>any,
+        setJumlahBarangMasuk:(val:number)=>any,
+        setTanggalMasuk:(val:string)=>any
+    }
+}
+
+
+export type AddProductParams = {
+    payload:{
+        jumlahBarangMasuk:number,
+        produkId:number,
+        tanggalMasuk:string,
+        nominalModal:number
+    },
+    dispatch:any,
+    resetAction:()=>void,
+    refreshData:()=>void
+}
+
 

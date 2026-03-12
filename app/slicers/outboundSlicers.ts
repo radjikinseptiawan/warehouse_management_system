@@ -1,36 +1,36 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type OutboundType = {
-        jumlahBarangMasuk:number | string,
-        nominalModal:number | string,
-        tanggalMasuk:string,
+        jumlahBarangKeluar:number | string,
+        nominalKeluar:number | string,
+        tanggalKeluar:string,
         produkId:number | string
 }
 
 const initialState : OutboundType= {
-        jumlahBarangMasuk:0,
-        nominalModal:0,
-        tanggalMasuk:"",
+        jumlahBarangKeluar:0,
+        nominalKeluar:0,
+        tanggalKeluar: new Date().toISOString().split("T")[0],
         produkId:0
 }
 export const inboundSlicers = createSlice({
     name:"inbound",
     initialState,
     reducers:{
-        setJumlahBarangMasuk:(state,action:PayloadAction<number>)=>{
-            state.jumlahBarangMasuk = action.payload
+        setJumlahBarangKeluar:(state,action:PayloadAction<number>)=>{
+            state.jumlahBarangKeluar = action.payload ?? 0
         },
         setNominalModal:(state,action:PayloadAction<number>)=>{
-            state.nominalModal = action.payload
+            state.nominalKeluar = action.payload ?? 0
         },
         setTanggalMasuk:(state,action:PayloadAction<string>)=>{
-            state.tanggalMasuk = action.payload
+            state.tanggalKeluar = action.payload ?? ""
         },
         setProdukId:(state,action:PayloadAction<number>)=>{
-            state.produkId = action.payload
+            state.produkId = action.payload ?? 0
         }
     }
 })
 
-export const { setJumlahBarangMasuk, setTanggalMasuk, setProdukId,setNominalModal } = inboundSlicers.actions
+export const { setJumlahBarangKeluar, setTanggalMasuk, setProdukId,setNominalModal } = inboundSlicers.actions
 export default inboundSlicers.reducer

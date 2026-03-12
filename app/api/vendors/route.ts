@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { VendorType } from "@/lib/type";
 import { NextRequest, NextResponse } from "next/server";
+import { SetStateAction, Dispatch } from "react";
 
 
 // Menambahkan vendor/supplier baru
