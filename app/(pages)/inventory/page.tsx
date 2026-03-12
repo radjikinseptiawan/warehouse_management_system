@@ -148,22 +148,22 @@ export default function Page() {
      const allStock = rawData ? rawData.reduce((acc,item)=>{return acc + (item.jumlah || 0)},0) : []
    
     return (
-        <div className="p-4 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
+        <div className="p-2 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
                        
-                       <div className="flex items-center gap-2 justify-center">
+                       <div className="flex items-center my-2 gap-2 justify-center">
                             <div className="border shadow p-2 text-green-400 bg-white
-                            text-center md:text-[14px] text-[8px] lg:w-80 rounded-md md:w-40 w-20 font-semibold md:font-bold my-4">
+                            text-center md:text-[34px] hidden md:block lg:block text-[8px] lg:w-80 rounded-md md:w-40 w-20 font-semibold md:font-bold my-4">
                                 {data.length}
                             <h1>Produk Tersedia</h1>
                             </div>
-                            <div className="border shadow p-2 text-green-400 bg-white
-                            text-center md:text-[14px] text-[8px] font-semibold rounded-md lg:w-80 md:w-40 w-20 md:font-bold my-4">
+                            <div className="border shadow p-2 text-green-400 bg-white hidden md:block lg:block
+                            text-center md:text-[34px] text-[8px] font-semibold rounded-md lg:w-80 md:w-40 w-20 md:font-bold my-4">
                                 {rawData?.length}
                             <h1>Total Produk</h1>
                             </div>
                            
-                            <div className="shadow border p-2 text-green-400 
-                            text-center md:text-[14px] text-[8px] lg:w-80 md:w-40 w-20 bg-white rounded-md font-semibold md:font-bold my-4">
+                            <div className="shadow border p-2 text-green-400 hidden md:block lg:block
+                            text-center md:text-[34px] text-[8px] lg:w-80 md:w-40 w-20 bg-white rounded-md font-semibold md:font-bold my-4">
                                 {allStock}
                             <h1>Stok Tersedia</h1>
                             </div>

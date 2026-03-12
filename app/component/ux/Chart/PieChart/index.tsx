@@ -1,12 +1,9 @@
+import { InboundProductType } from '@/lib/type';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { ReactNode, useEffect, useState } from 'react';
-
-const data = [
-  { label: 'Group A', value: 400, color: '#0088FE' },
-  { label: 'Group B', value: 300, color: '#00C49F' },
-  { label: 'Group C', value: 300, color: '#FFBB28' },
-  { label: 'Group D', value: 200, color: '#FF8042' },
-];
+import { fetchChartDataInbound, fetchChartDataOutbound } from '../../../../layers/dataLayer/PieLayers';
+import { fillDataPieChart, fillDataPieChartOutbound } from '../../../../layers/businessLogic/PieLogicBusiness';
+import { usePathname } from 'next/navigation';
 
 const settings = {
   margin: { right: 5 },
@@ -15,116 +12,62 @@ const settings = {
   hideLegend: true,
 };
 
-export function DonutCharLayer({children}:{children:ReactNode}) {
-
-  return (
-    <div className='hidden md:block'>
-    {
-    children
-    }
-    </div>
-    );
+export type PieChartDataType = {
+    value:number | null,
+    label:string | null,
+    color:string | null
 }
 
-export function StokMasukDonutChart() {
-    const [chartData, setChartData] = useState<{ label: string, value: number, color?: string }[]>([]);
+export default function PieCharts() {
+    const [labelsName, setLabelsName] = useState<any[] | string[]>([]);
+    const [seriesData, setSeriesData] = useState<string[] | null>([])
+    const pathName = usePathname()
     
-    const fetchData = async () => {
-        try {
-            const res = await fetch("/api/barang_masuk", { method: "GET" });
-            const result = await res.json();
-            const rawData = result.data;
+    
+    const dataFetchFillInbound = async ()=>{
+        const rawData = await fetchChartDataInbound({
+            actions:{
+                setLabelsName
+            }
+        })
 
-            console.log(rawData)
-            const filterData = rawData.reduce((acc : any,item : any)=>{
-                const kategoriName = item.produk.kategori.nama_kategori
-                const jumlah = item.jumlah_barang_masuk
+        fillDataPieChart({
+            data:rawData,
+            actions:{
+                setLabelsName,
+                setSeriesData
+            }
+        })
+    }   
 
-                if(!acc[kategoriName]){
-                    acc[kategoriName] = {
-                        label: kategoriName,
-                        value:0,
-                        color: item.produk.kategori.warna_category
-                    }
-                }
+    const dataFetchFillOutbound = async()=>{
+        const rawData = await fetchChartDataOutbound({
+            actions:{
+                setLabelsName
+            }
+        })
 
-                acc[kategoriName].value += jumlah
-                return acc
-            },{})
-
-            setChartData(Object.values(filterData))
-        } catch (error) {
-            console.error("Gagal load data chart:", error);
-        }
-    };
+        fillDataPieChartOutbound({
+            data:rawData,
+            actions:{
+                setLabelsName,
+                setSeriesData
+            }
+        })
+    }
 
     useEffect(() => {
-        fetchData();
-    }, []);
+       pathName === "/inbound"? dataFetchFillInbound() : dataFetchFillOutbound()
+    }, [pathName]);
 
     return (
         <PieChart
             series={[{ 
                 innerRadius: 60, 
                 outerRadius: 100, 
-                data: chartData.length > 0 ? chartData : [{ label: 'Loading...', value: 0 }], 
-                arcLabel: (item) => `${item.value}`,
+                data: labelsName && labelsName.length > 0 ? labelsName : [{ label: 'Loading...', value: 0 }], 
             }]}
             {...settings}
         />
     );
 }
-
-
-export function StokMasukDonutChartSuppliers(){
-    const [chartData, setChartData] = useState<{ label: string, value: number, color?: string }[]>([]);
-    
-    const fetchData = async () => {
-        try {
-            const res = await fetch("/api/barang_masuk", { method: "GET" });
-            const result = await res.json();
-            const rawData = result.data;
-            
-            console.log(rawData)
-            const filterData = rawData.reduce((acc : any,item : any)=>{
-                const vendorName = item.produk.vendors.nama_vendor
-
-                if(!acc[vendorName]){
-                    acc[vendorName] = {
-                        label: vendorName,
-                        value:0,
-                        color: item.produk.vendors.warna_vendor
-                    }
-                }
-
-                acc[vendorName].value = rawData.length
-                return acc
-            },{})
-
-            setChartData(Object.values(filterData))
-        } catch (error) {
-            console.error("Gagal load data chart:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-
-    return(
-        <PieChart
-            series={[{ 
-                innerRadius: 60, 
-                outerRadius: 100, 
-                data: chartData.length > 0 ? chartData : [{ label: 'Loading...', value: 0 }], 
-                arcLabel: (item) => `${item.value}`,
-            }]}
-            {...settings}
-        />
-    )
-}
-
-DonutCharLayer.StokMasukBaseCategory = StokMasukDonutChart
-DonutCharLayer.StokMasukBaseVendors = StokMasukDonutChartSuppliers
-export default DonutCharLayer 

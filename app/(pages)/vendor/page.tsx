@@ -34,7 +34,6 @@ export default function Page() {
     useEffect(() => {
         getVendors(setVendor)
     }, [])
-
     const addVendors = async()=>{
         const payload :any = {
             alamat_vendor: alamatVendors,

@@ -28,7 +28,7 @@ export default function Page(){
   
     const addGudangValue = async ()=>{
         const payload : any= {
-            nama_gudang:warnaGudang,
+            nama_gudang:namaGudang,
             warna_gudang:warnaGudang,
             alamat_gudang:alamatGudang
         }
@@ -72,6 +72,7 @@ export default function Page(){
                 setWarnaGudang
             }
         })
+        getGudang(setGudang)
         dispatch(setIsOpendit(false))
     }    
 

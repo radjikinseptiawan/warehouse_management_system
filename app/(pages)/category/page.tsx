@@ -39,7 +39,7 @@ export default function Page(){
                     setWarnaCategory
                 }
             })
-
+            getCategory(setCategory)
             dispatch(setIsOpenOverlay(false))
         } catch(e) {
             console.error(e)

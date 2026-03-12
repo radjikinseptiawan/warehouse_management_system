@@ -5,17 +5,20 @@ import PopUpLayer from "@/app/component/ux/PopUp";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
 import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { setJumlahBarangKeluar, setNominalModal, setProdukId, setTanggalMasuk } from "@/app/slicers/outboundSlicers";
 import { OutboundProductType, ProductData, TypeProduct } from "@/lib/type";
 import TableBodyOutbound from "@/app/component/ui/table/tableBody/tableBodyOutbound";
 import TableHeadOutbound from "@/app/component/ui/table/tableHeaders/tableHeadOutbound";
 import { syncAllDataProduct,addProduct, editProduct, getDataById } from "@/app/layers/dataLayer/outbound";
 import DonutCharLayer from "@/app/component/ux/Chart/PieChart";
-import DynamicBarChart from "@/app/component/ux/Chart/LineChart";
+import DynamicBarChart from "@/app/component/ux/Chart/BarChart";
 import { convertToIdr, nextPage, prevPage } from "@/app/layers/businessLogic/pagination";
 import { convertToDate } from "@/app/layers/businessLogic/pagination";
 import { calculateDataProduct } from "@/app/layers/dataLayer/produk";
+import PieCharts from "@/app/component/ux/Chart/PieChart";
+import PieChartsDistributed from "@/app/component/ux/Chart/PieChart/disribusiSuppliers";
+import { getOutSupplierDistribution, getSupplierDistribution } from "@/app/layers/businessLogic/DistribusiSuppliers";
 
 
 export default function Page() {
@@ -70,7 +73,7 @@ export default function Page() {
             resetAction:()=>resetInputValue(),
             refreshData:()=>syncAllDataProduct(setDataRaw)
         })
-
+        window.location.reload()
         dispatch(setIsOpenOverlay(false))
     }
 
@@ -89,9 +92,14 @@ export default function Page() {
             refreshActions:()=>syncAllDataProduct(setDataRaw),
             resetActions:()=>resetInputValue()
         })
-
         setIsOpendit(false)
+        window.location.reload()
     }
+
+        const supplierChartData = useMemo(() => {
+            return getOutSupplierDistribution(rawData);
+        }, [rawData]);
+    
 
     const resetInputValue= ()=>{
         dispatch(setIsOpendit(false))
@@ -121,24 +129,31 @@ export default function Page() {
         <div className="p-4 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
                        
                        <div className="flex items-center gap-2 justify-center">
+                            <div className="hidden md:block lg:block">
                             <div className="border shadow p-2 text-green-400 bg-white
                             text-center md:text-[14px] text-[8px] lg:w-80 rounded-md md:w-40 w-20 font-semibold md:font-bold my-4">
-                                <DonutCharLayer.StokMasukBaseCategory/>
+                                <PieCharts/>
                                 {rawData ? Number(allStock) : 0}
                             <h1>Stok Barang Keluar</h1>
                             </div>
+                            </div>
+
+                            <div className="hidden md:block lg:block">
                             <div className="border shadow p-2 text-green-400 bg-white
                             text-center md:text-[14px] text-[8px] font-semibold rounded-md lg:w-80 md:w-40 w-20 md:font-bold my-4">
-                                <DonutCharLayer.StokMasukBaseVendors/>
-                                {rawData.length}
-                            <h1>Total Produk</h1>
+                              <PieChartsDistributed data={supplierChartData}/>
+                                {supplierChartData ? Number(supplierChartData.length) : 0}
+                                <h1>Distribusi Suppliers</h1>
                             </div>
-                           
-                            <div className="shadow border p-2 text-green-400 
-                            text-center md:text-[14px] text-[8px] lg:w-80 md:w-40 w-20 bg-white rounded-md font-semibold md:font-bold my-4">
-                                <DynamicBarChart/>
-                                {rawData ? convertToIdr(Number(allModal)) : 0}
-                            <h1>Total Revenue</h1>
+                           </div>
+    
+                            <div className="hidden md:block lg:block">
+                                 <div className="shadow border p-2 text-green-400 
+                                    text-center md:text-[14px] text-[8px] lg:w-80 md:w-40 w-20 bg-white rounded-md font-semibold md:font-bold my-4">
+                                    <DynamicBarChart/>
+                                    {rawData ? convertToIdr(Number(allModal)) : 0}
+                                    <h1>Total Revenue</h1>
+                                </div>
                             </div>
 
                        </div>

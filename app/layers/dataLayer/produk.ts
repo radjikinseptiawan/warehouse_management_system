@@ -44,7 +44,6 @@ export const addProduct = async ({payload,dispatch,actions}:AddProductType)=>{
                 dispatch(actions.setKategori(0))
                 dispatch(actions.setSuppliers(0))
             }
-            console.log(data)
         }catch(e){
             console.error(e)
       }
@@ -62,7 +61,6 @@ export const deleteProduct= async({dispatch,id,actions}:DeleteProductType)=>{
         try{
             const response = await fetch(`/api/produk/${id}`,{method:"DELETE"})
             const data = await response.json()
-            console.log(data)
             if(response.ok){
                 dispatch(actions.setIsOpenDelete(false))
             }

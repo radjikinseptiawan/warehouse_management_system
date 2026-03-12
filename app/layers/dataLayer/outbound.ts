@@ -25,7 +25,6 @@ export const addProduct = async ({payload,dispatch,resetAction,refreshData}:AddP
             resetAction
             refreshData()
         }
-        console.log(data)
     }catch(e){
         console.error(e)
       }
@@ -65,7 +64,6 @@ export const editProduct = async({id,payload,refreshActions,resetActions}:EditPr
             })       
             }) 
           
-            console.log(response)
 
           if(response.ok){
             refreshActions(),
@@ -73,7 +71,6 @@ export const editProduct = async({id,payload,refreshActions,resetActions}:EditPr
             }
     
           const data = await response.json()
-          console.log(data)
     }catch(e){
         console.error(e)
     }

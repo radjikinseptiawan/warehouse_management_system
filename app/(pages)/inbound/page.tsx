@@ -8,16 +8,21 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { setNamaGudang } from "@/app/slicers/lokasiGudangSlicers";
 import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
 import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { setJumlahBarangMasuk, setNominalModal, setProdukId, setTanggalMasuk } from "@/app/slicers/inboundSlicers";
 import { InboundProductType, ProductData, TypeProduct } from "@/lib/type";
 import { addProduct, editProduct, getDataById, syncAllDataProduct } from "@/app/layers/dataLayer/inbound";
 import DonutChart from "@/app/component/ux/Chart/PieChart";
-import BasicBars from "@/app/component/ux/Chart/LineChart";
+import BasicBars from "@/app/component/ux/Chart/BarChart";
 import Money from "@/app/component/ui/icon/Money";
 import { convertToIdr, nextPage, prevPage } from "@/app/layers/businessLogic/pagination";
 import { convertToDate } from "@/app/layers/businessLogic/pagination";
 import { calculateDataProduct } from "@/app/layers/dataLayer/produk";
+import { fetchDataBarChart } from "@/app/layers/dataLayer/BarChartLayer";
+import PieChart from "@/app/component/ux/Chart/PieChart";
+import PieCharts from "@/app/component/ux/Chart/PieChart";
+import PieChartsDistributed from "@/app/component/ux/Chart/PieChart/disribusiSuppliers";
+import { getSupplierDistribution } from "@/app/layers/businessLogic/DistribusiSuppliers";
 
 
 export default function Page() {
@@ -25,6 +30,7 @@ export default function Page() {
     const [rawData,setDataRaw] = useState<InboundProductType[]>([])
     const [selectProductId,setSelectProdukId] = useState<number>(0)
     const [dataProduk,setDataProduk] = useState<ProductData[] | null>(null)
+    const [vendors,setVendors] = useState<any[]>([])
     const itemPerPage = 6;
 
     // Redux State
@@ -52,6 +58,10 @@ export default function Page() {
     useEffect(() => {
         syncAllDataProduct(setDataRaw)
     }, []);
+
+    const supplierChartData = useMemo(() => {
+        return getSupplierDistribution(rawData);
+    }, [rawData]);
 
     useEffect(()=>{
         calculateDataProduct(setDataProduk)
@@ -93,25 +103,32 @@ export default function Page() {
 
     const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_masuk || 0)},0) : ""
     const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
-    return (
+        return (
         <div className="p-4 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
                        
                        <div className="flex items-center gap-2 justify-center">
+                        <div className="hidden md:block lg:block">
                             <div className="border shadow p-2 text-green-400 bg-white
                             text-center md:text-[14px] text-[8px] rounded-md lg:w-80 md:w-40 w-20 font-semibold md:font-bold my-4">
                                <span>
-                                <DonutChart.StokMasukBaseCategory/>
+                                <PieCharts/>
                                </span>
                                 {rawData ? Number(allStock) : 0}
                             <h1>Stok Barang Masuk</h1>
                             </div>
+                        </div>
+
+                            <div className="hidden md:block lg:block">
                             <div className="border shadow p-2 text-green-400 bg-white
                             text-center md:text-[14px] text-[8px] font-semibold rounded-md lg:w-80 md:w-40 w-20 md:font-bold my-4">
-                                <DonutChart.StokMasukBaseVendors/>
-                                {rawData.length}
-                            <h1>Total Produk Masuk</h1>
+                                <PieChartsDistributed data={supplierChartData}/>
+                                {supplierChartData ? Number(supplierChartData.length) : 0}
+                            <h1>Distribusi Suppliers</h1>
                             </div>
                            
+
+                            </div>
+                           <div className="hidden md:block lg:block">
                             <div className="shadow border p-2 text-green-400 
                             h-[32vh] text-center flex flex-col items-center md:text-[14px] text-[8px] lg:w-80 md:w-40 w-20 bg-white 
                             rounded-md font-semibold md:font-bold my-4">
@@ -119,6 +136,8 @@ export default function Page() {
                                 {rawData ? convertToIdr(Number(allModal)) : 0}
                             <h1>Total Modal</h1>
                             </div>
+
+                           </div>
                        </div>
                        
                         {
@@ -182,6 +201,7 @@ export default function Page() {
                                         resetActions:()=>resetInputValue(),
                                         refreshActions:()=>syncAllDataProduct(setDataRaw)
                                     })
+                                    window.location.reload()
                             }} 
                             nama="Edit Produk"/>
                             </div>

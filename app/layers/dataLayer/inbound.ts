@@ -5,6 +5,7 @@ import { SetStateAction,Dispatch } from "react";
 export const syncAllDataProduct = async (setDataRaw:Dispatch<SetStateAction<InboundProductType[]>>) => {
         try {
             const response = await fetch("/api/barang_masuk", { method: "GET" });
+            await fetch("/api/produk",{method:"GET"})
             const result = await response.json();
             {setDataRaw(result.data)};
         } catch (error) {
@@ -29,7 +30,7 @@ export const addProduct = async ({
             resetAction()
             refreshData()
         }
-        console.log(data)
+        window.location.reload()
     }catch(e){
         console.error(e)
       }
@@ -45,7 +46,6 @@ export  const getDataById = async({id,dispatch,actions}:GetDataByIdType)=>{
             dispatch(actions.setNominalModal(data.data.nominal_modal))
             dispatch(actions.setJumlahBarangMasuk(data.data.jumlah_barang_masuk))
             dispatch(actions.setTanggalMasuk(data.data.tanggal_masuk))
-            console.log(data)
         }catch(e){
             console.error(e)
         }
@@ -74,7 +74,6 @@ export const editProduct = async({id,payload,refreshActions,resetActions}:EditPr
             }
     
           const data = await response.json()
-          console.log(data)
     }catch(e){
         console.error(e)
     }
