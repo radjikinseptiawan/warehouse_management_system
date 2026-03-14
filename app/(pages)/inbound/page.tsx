@@ -23,6 +23,8 @@ import PieChart from "@/app/component/ux/Chart/PieChart";
 import PieCharts from "@/app/component/ux/Chart/PieChart";
 import PieChartsDistributed from "@/app/component/ux/Chart/PieChart/disribusiSuppliers";
 import { getSupplierDistribution } from "@/app/layers/businessLogic/DistribusiSuppliers";
+import SearchIcon from "@/app/component/ui/icon/Search";
+import FilterIcon from "@/app/component/ui/icon/Filter";
 
 
 export default function Page() {
@@ -30,7 +32,8 @@ export default function Page() {
     const [rawData,setDataRaw] = useState<InboundProductType[]>([])
     const [selectProductId,setSelectProdukId] = useState<number>(0)
     const [dataProduk,setDataProduk] = useState<ProductData[] | null>(null)
-    const [vendors,setVendors] = useState<any[]>([])
+    const [findItem, setFindItem] = useState<string>("")
+    const [resultFindItem,setResultFindItem] = useState<InboundProductType[] | null>(null)
     const itemPerPage = 6;
 
     // Redux State
@@ -101,6 +104,13 @@ export default function Page() {
         dispatch(setNominalModal(0))           
     }
 
+    const findDataByName = async(inputValue: string)=>{
+        const dataFounded = rawData.filter((item)=>item.produk.nama_produk.toLowerCase().includes(inputValue?.toLowerCase() || ""))
+    
+        setResultFindItem(dataFounded)
+    }
+
+
     const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_masuk || 0)},0) : ""
     const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
         return (
@@ -125,7 +135,6 @@ export default function Page() {
                                 {supplierChartData ? Number(supplierChartData.length) : 0}
                             <h1>Distribusi Suppliers</h1>
                             </div>
-                           
 
                             </div>
                            <div className="hidden md:block lg:block">
@@ -139,6 +148,25 @@ export default function Page() {
 
                            </div>
                        </div>
+{/* Bagian Cari Produk */}
+                          <div className="flex items-center justify-center">
+                                <input type="search" autoComplete="false" 
+                                onChange={(e)=>{
+                                    const data = e.target.value
+                                    setFindItem(data)
+                                    findDataByName(data)    
+                                }}
+                                className="border text-black 
+                                w-60
+                                border-green-400 p-1 rounded-md bg-gray-200"/>
+                                <button onClick={()=>findDataByName(findItem)} className="p-2 rounded-md bg-[#048720]">
+                                    <SearchIcon/>
+                                </button>
+                                <button className="p-2 rounded-md bg-[#048720] mx-1">
+                                    <FilterIcon/>
+                                </button>
+                        </div>
+
                        
                         {
                         isOpenOverlay && (
@@ -214,7 +242,7 @@ export default function Page() {
             <Table>
                 <TableHeadInbound />   
                 <tbody className="text-black">
-                    {currentData.length > 0 ? (
+                    {!resultFindItem || findItem == "" ? (
                         currentData.map((item, index) => (
                             <TableBodyInbound
                                 key={index}
@@ -244,11 +272,40 @@ export default function Page() {
                                 nomor={(paginationId * itemPerPage) + index + 1}
                             />
                         ))
-                    ) : (
-                        <tr>
-                            <td colSpan={7} className="text-center h-80 p-4">Memuat data atau data kosong...</td>
-                        </tr>
-                    )}
+                    ) : 
+                    (resultFindItem?.map((item,index)=>{
+                        return(
+                            <TableBodyInbound
+                                key={index++}
+                                nominalModal={`${convertToIdr(item.nominal_modal)}`}
+                                tanggalMasuk={`${convertToDate(new Date(item.tanggal_masuk))}`}
+                                editClick={()=>{
+                                    setSelectProdukId(item.id)
+                                    getDataById({
+                                        id:item.id,
+                                        dispatch:dispatch,
+                                        actions:{
+                                            setProductName,
+                                            setJumlahBarangMasuk,
+                                            setNominalModal,
+                                            setTanggalMasuk
+                                        }
+                                    })
+                                    dispatch(setIsOpendit(true))
+                                }}
+                                color={item.produk.kategori.warna_category}
+                                nama={item.produk.nama_produk}
+                                image={item.produk.gambar_produk}
+                                kategori={item.produk.kategori.nama_kategori}
+                                jumlah={item.jumlah_barang_masuk}
+                                lokasi={item.produk.lokasi.nama_gudang}
+                                vendor={item.produk.vendors.nama_vendor}
+                                nomor={(paginationId * itemPerPage) + index + 1}
+                            />
+                        )
+                    }))
+                }
+                    
                 </tbody>
             </Table>
 

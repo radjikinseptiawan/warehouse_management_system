@@ -153,21 +153,22 @@ export default function Page() {
                        <div className="flex items-center my-2 gap-2 justify-center">
                             <div className="border shadow p-2 text-green-400 bg-white
                             text-center md:text-[34px] hidden md:block lg:block text-[8px] lg:w-80 rounded-md md:w-40 w-20 font-semibold md:font-bold my-4">
-                                {data.length}
+                                {data.length ?? 0}
                             <h1>Produk Tersedia</h1>
                             </div>
                             <div className="border shadow p-2 text-green-400 bg-white hidden md:block lg:block
                             text-center md:text-[34px] text-[8px] font-semibold rounded-md lg:w-80 md:w-40 w-20 md:font-bold my-4">
-                                {rawData?.length}
+                                {rawData?.length ?? 0}
                             <h1>Total Produk</h1>
                             </div>
                            
                             <div className="shadow border p-2 text-green-400 hidden md:block lg:block
                             text-center md:text-[34px] text-[8px] lg:w-80 md:w-40 w-20 bg-white rounded-md font-semibold md:font-bold my-4">
-                                {allStock}
+                                {allStock ?? 0}
                             <h1>Stok Tersedia</h1>
                             </div>
-
+                            
+        
                        </div>
                        
                         {

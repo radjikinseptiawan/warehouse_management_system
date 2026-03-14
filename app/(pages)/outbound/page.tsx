@@ -19,6 +19,8 @@ import { calculateDataProduct } from "@/app/layers/dataLayer/produk";
 import PieCharts from "@/app/component/ux/Chart/PieChart";
 import PieChartsDistributed from "@/app/component/ux/Chart/PieChart/disribusiSuppliers";
 import { getOutSupplierDistribution, getSupplierDistribution } from "@/app/layers/businessLogic/DistribusiSuppliers";
+import SearchIcon from "@/app/component/ui/icon/Search";
+import FilterIcon from "@/app/component/ui/icon/Filter";
 
 
 export default function Page() {
@@ -26,6 +28,9 @@ export default function Page() {
     const [rawData,setDataRaw] = useState<OutboundProductType[]>([])
     const [selectProductId,setSelectProdukId] = useState<number>(0)
     const [dataProduk,setDataProduk] = useState<ProductData[] | null>(null)
+    const [findItem, setFindItem] = useState<string>("")
+    const [resultFindItem,setResultFindItem] = useState<OutboundProductType[] | null>(null)
+
     const itemPerPage = 6;
 
     // Redux State
@@ -123,6 +128,13 @@ export default function Page() {
         dispatch(setNominalModal(0))           
     }
 
+    const findDataByName = async(inputValue: string)=>{
+        const dataFounded = rawData.filter((item)=>item.produk.nama_produk.toLowerCase().includes(inputValue?.toLowerCase() || ""))
+    
+        setResultFindItem(dataFounded)
+    }
+
+
     const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_keluar || 0)},0) : ""
     const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
     return (
@@ -218,6 +230,26 @@ export default function Page() {
                             </div>
                         )
                     }
+
+                    <div className="flex items-center justify-center">
+                                <input type="search" placeholder="Ketik Nama Produk" autoComplete="false" 
+                                onChange={(e)=>{
+                                    const data = e.target.value
+                                    setFindItem(data)
+                                    findDataByName(data)    
+                                }}
+                                className="border text-black 
+                                w-60
+                                border-green-400 p-1 rounded-md bg-gray-200"/>
+                                <button onClick={()=>findDataByName(findItem)} className="p-2 rounded-md bg-[#048720]">
+                                    <SearchIcon/>
+                                </button>
+                                <button className="p-2 rounded-md bg-[#048720] mx-1">
+                                    <FilterIcon/>
+                                </button>
+                        </div>
+
+
             <h1 className="text-xl font-bold text-black mb-4">List Barang Keluar</h1>
             <ButtonLayer.Button clicker={() =>dispatch(setIsOpenOverlay(true))} text="Tambah Barang Keluar" />
             <p className="text-red-500 w-72 text-[12px] md:text-sm md:w-xl">Demi Menjaga kecocokan barang masuk dan keluar, kami tidak menyediakan fitur hapus di fitur Inbound dan Outbound!. Harap lebih teliti dalam pengisian data!</p>
@@ -225,7 +257,7 @@ export default function Page() {
             <Table>
                 <TableHeadOutbound />   
                 <tbody className="text-black">
-                    {currentData.length > 0 ? (
+                    {!resultFindItem || findItem == "" ? (
                         currentData.map((item, index) => (
                             <TableBodyOutbound
                                 key={index}
@@ -255,11 +287,37 @@ export default function Page() {
                                 nomor={(paginationId * itemPerPage) + index + 1}
                             />
                         ))
-                    ) : (
-                        <tr>
-                            <td colSpan={7} className="text-center h-80 p-4">Memuat data atau data kosong...</td>
-                        </tr>
-                    )}
+                    ) : (resultFindItem?.map((item,index)=>{
+                                            return(
+                                                <TableBodyOutbound
+                                                    key={index++}
+                                                    nominalModal={`${convertToIdr(item.nominal_modal)}`}
+                                                    tanggalMasuk={`${convertToDate(new Date(item.tanggal_keluar))}`}
+                                                    editClick={()=>{
+                                                        setSelectProdukId(item.id)
+                                                        getDataById({
+                                                            id:item.id,
+                                                            dispatch:dispatch,
+                                                            actions:{
+                                                                setProductName,
+                                                                setJumlahBarangMasuk : setJumlahBarangKeluar,
+                                                                setNominalModal,
+                                                                setTanggalMasuk
+                                                            }
+                                                        })
+                                                        dispatch(setIsOpendit(true))
+                                                    }}
+                                                    color={item.produk.kategori.warna_category}
+                                                    nama={item.produk.nama_produk}
+                                                    image={item.produk.gambar_produk}
+                                                    kategori={item.produk.kategori.nama_kategori}
+                                                    jumlah={item.jumlah_barang_keluar}
+                                                    lokasi={item.produk.lokasi.nama_gudang}
+                                                    vendor={item.produk.vendors.nama_vendor}
+                                                    nomor={(paginationId * itemPerPage) + index + 1}
+                                                />
+                                            )
+                                        }))}
                 </tbody>
             </Table>
 
