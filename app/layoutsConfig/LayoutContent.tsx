@@ -5,25 +5,27 @@ import { ReactNode, useState } from "react";
 import TopBar from "../component/ux/TopBar";
 import Sliders from "../component/ux/Sliders";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "../slicers/openOverlaySlicer";
+import { setIsOpenDelete, setIsOpendit, setIsOpenFilter, setIsOpenOverlay } from "../slicers/openOverlaySlicer";
 
 export default function LayoutContent({children}:{children:ReactNode}){
  const [isOpen,setIsOpen] = useState<boolean>(false)
  const isOpenOverlay = useAppSelector((state)=>state.overlay.isOpenOverlay)
  const isOpenHapus = useAppSelector(state=>state.overlay.isOpenDelete)
  const isOpenEdit = useAppSelector((state)=>state.overlay.isOpenEdit)
+ const isOpenFilter = useAppSelector(state=>state.overlay.isOpenFilter)
  const dispatch = useAppDispatch()
 
 
   const closeOverlay = ()=>{
     dispatch(setIsOpenOverlay(false))
     dispatch(setIsOpenDelete(false))
+    dispatch(setIsOpenFilter(false))
     dispatch(setIsOpendit(false))
   }  
  return(
             <div className="flex min-h-screen">
            {
-                    (isOpenOverlay || isOpenHapus || isOpenEdit) && <div onClick={closeOverlay} className="bg-black/80 z-40 h-full w-full fixed"></div>
+                    (isOpenOverlay || isOpenHapus || isOpenEdit || isOpenFilter) && <div onClick={closeOverlay} className="bg-black/80 z-40 h-full w-full fixed"></div>
             }
               <AnimatePresence>
                 {isOpen && (

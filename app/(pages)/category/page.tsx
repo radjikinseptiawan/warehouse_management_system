@@ -79,31 +79,6 @@ export default function Page(){
         }
     }
 
-    
-    // const editData = async (id:number|null)=>{
-    //         if(!id) return 
-    //         try{
-    //             const response = await fetch(`/api/category/${id}`,{
-    //                 method:"PATCH",
-    //                 body:JSON.stringify({
-    //                     nama_category: namaCategory,
-    //                     warna_category: warnaCategory,
-    //                 })
-    //             })
-    
-    //             if(response.ok){
-    //                 dispatch(setIsOpendit(false))
-    //                 dispatch(setCategoryName(""))
-    //                 dispatch(setWarnaCategory(""))
-    //                 getCategory(setCategory)
-    //             }
-    //         }catch(e){
-    //             console.error(e)
-    //         }
-    //     }
-
-
-
     return (
         <>
         <div className="flex justify-center h-screen bg-gray-50">

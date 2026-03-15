@@ -3,7 +3,7 @@ import ButtonLayer from "@/app/component/ui/Button";
 import Table from "@/app/component/ui/table/table";
 import PopUpLayer from "@/app/component/ux/PopUp";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
+import { setIsOpendit, setIsOpenFilter, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
 import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
 import { useEffect, useMemo, useState } from "react";
 import { setJumlahBarangKeluar, setNominalModal, setProdukId, setTanggalMasuk } from "@/app/slicers/outboundSlicers";
@@ -21,6 +21,7 @@ import PieChartsDistributed from "@/app/component/ux/Chart/PieChart/disribusiSup
 import { getOutSupplierDistribution, getSupplierDistribution } from "@/app/layers/businessLogic/DistribusiSuppliers";
 import SearchIcon from "@/app/component/ui/icon/Search";
 import FilterIcon from "@/app/component/ui/icon/Filter";
+import { sortingDataOut } from "@/app/layers/businessLogic/table";
 
 
 export default function Page() {
@@ -48,13 +49,14 @@ export default function Page() {
     
     // UI/UX 
     const isOpenOverlay = useAppSelector(state=>state.overlay.isOpenOverlay)
-    const isOpenDelete = useAppSelector(state=>state.overlay.isOpenDelete)
+    const isOpenFilter = useAppSelector(state=>state.overlay.isOpenFilter)
     const isOpenEdit = useAppSelector(state=>state.overlay.isOpenEdit)    
     const dispatch = useAppDispatch()
     
     
     const currentData = rawData.slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
-  
+
+
     const totalPages = Math.ceil(rawData.length / itemPerPage);
     useEffect(() => {
         syncAllDataProduct(setDataRaw)
@@ -63,6 +65,9 @@ export default function Page() {
     useEffect(()=>{
         calculateDataProduct(setDataProduk)
     },[])
+
+    const dataSorting = sortingDataOut(currentData)
+
 
     const addProducts = async()=>{
         const payload : any= {
@@ -244,7 +249,7 @@ export default function Page() {
                                 <button onClick={()=>findDataByName(findItem)} className="p-2 rounded-md bg-[#048720]">
                                     <SearchIcon/>
                                 </button>
-                                <button className="p-2 rounded-md bg-[#048720] mx-1">
+                                <button onClick={()=>dispatch(setIsOpenFilter(true))} className="p-2 rounded-md bg-[#048720] mx-1">
                                     <FilterIcon/>
                                 </button>
                         </div>
@@ -258,7 +263,7 @@ export default function Page() {
                 <TableHeadOutbound />   
                 <tbody className="text-black">
                     {!resultFindItem || findItem == "" ? (
-                        currentData.map((item, index) => (
+                        dataSorting.map((item, index) => (
                             <TableBodyOutbound
                                 key={index}
                                 nominalModal={`${convertToIdr(item.nominal_modal)}`}

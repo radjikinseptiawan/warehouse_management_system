@@ -5,8 +5,8 @@ import TableBodyInbound from "@/app/component/ui/table/tableBody/tableBodyOutbou
 import TableHeadInbound from "@/app/component/ui/table/tableHeaders/tableHeadInbound";
 import PopUpLayer from "@/app/component/ux/PopUp";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { setNamaGudang } from "@/app/slicers/lokasiGudangSlicers";
-import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
+import { AnimatePresence, motion } from "motion/react";
+import { setIsOpenDelete, setIsOpendit, setIsOpenFilter, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
 import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
 import { useEffect, useMemo, useState } from "react";
 import { setJumlahBarangMasuk, setNominalModal, setProdukId, setTanggalMasuk } from "@/app/slicers/inboundSlicers";
@@ -25,6 +25,9 @@ import PieChartsDistributed from "@/app/component/ux/Chart/PieChart/disribusiSup
 import { getSupplierDistribution } from "@/app/layers/businessLogic/DistribusiSuppliers";
 import SearchIcon from "@/app/component/ui/icon/Search";
 import FilterIcon from "@/app/component/ui/icon/Filter";
+import { filterData, findDataByName, sortingDataIn } from "@/app/layers/businessLogic/table";
+import Selector from "@/app/component/ui/Selector";
+import Input from "@/app/component/ui/Input";
 
 
 export default function Page() {
@@ -43,6 +46,12 @@ export default function Page() {
     const tanggalMasuk = useAppSelector((state)=>state.inbound.tanggalMasuk)
     const nominalModal = useAppSelector(state=>state.inbound.nominalModal)
 
+    // Redux State
+    // Filter State Management
+    const kategoriPilihan = useAppSelector((state)=>state.filter.kategoriPilihan)
+    const vendorPilihan = useAppSelector((state)=>state.filter.vendorPilihan)
+    const filterPilihan = useAppSelector((state)=>state.filter.filterPilihan)
+
     // Inventory State Management
     const suppliers = useAppSelector(state=>state.product.suppliers)
     const category = useAppSelector(state=>state.product.kategori)
@@ -52,15 +61,13 @@ export default function Page() {
     // UI/UX 
     const isOpenOverlay = useAppSelector(state=>state.overlay.isOpenOverlay)
     const isOpenEdit = useAppSelector(state=>state.overlay.isOpenEdit)    
+    const isOpenFilter = useAppSelector(state=>state.overlay.isOpenFilter)
     const dispatch = useAppDispatch()
     
-    // Melihat data sekarang
-    const currentData = rawData.slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
-    // Kalkulasi total halaman dibuat
-    const totalPages = Math.ceil(rawData.length / itemPerPage);
     useEffect(() => {
         syncAllDataProduct(setDataRaw)
     }, []);
+
 
     const supplierChartData = useMemo(() => {
         return getSupplierDistribution(rawData);
@@ -104,12 +111,18 @@ export default function Page() {
         dispatch(setNominalModal(0))           
     }
 
-    const findDataByName = async(inputValue: string)=>{
-        const dataFounded = rawData.filter((item)=>item.produk.nama_produk.toLowerCase().includes(inputValue?.toLowerCase() || ""))
-    
-        setResultFindItem(dataFounded)
-    }
 
+    const filterDataPilihan = useMemo(()=>filterData({
+        rawData,
+        kategoriPilihan,
+        vendorPilihan,
+        filterPilihan,
+        findItem
+    }),[kategoriPilihan,rawData,vendorPilihan,filterPilihan,findItem])
+
+    const currentData = filterDataPilihan.slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
+    const totalPages = Math.ceil(filterDataPilihan.length / itemPerPage);
+    const dataSorting = sortingDataIn(currentData)
 
     const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_masuk || 0)},0) : ""
     const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
@@ -150,22 +163,56 @@ export default function Page() {
                        </div>
 {/* Bagian Cari Produk */}
                           <div className="flex items-center justify-center">
-                                <input type="search" autoComplete="false" 
-                                onChange={(e)=>{
+                                <Input.Basic types="search" mind="Ketik Nama Produk"  
+                                change={(e)=>{
                                     const data = e.target.value
                                     setFindItem(data)
-                                    findDataByName(data)    
+                                    findDataByName(rawData,data,setResultFindItem)    
                                 }}
-                                className="border text-black 
-                                w-60
-                                border-green-400 p-1 rounded-md bg-gray-200"/>
-                                <button onClick={()=>findDataByName(findItem)} className="p-2 rounded-md bg-[#048720]">
+                                />
+                                <button onClick={()=>findDataByName(rawData,findItem,setResultFindItem)} className="p-2 rounded-md bg-[#048720]">
                                     <SearchIcon/>
                                 </button>
-                                <button className="p-2 rounded-md bg-[#048720] mx-1">
+                                <button onClick={()=>dispatch(setIsOpenFilter(true))} className="p-2 rounded-md bg-[#048720] mx-1">
                                     <FilterIcon/>
                                 </button>
                         </div>
+                        <AnimatePresence>
+                        {
+                            isOpenFilter &&
+                            (
+                            <motion.div 
+                            key="sidebar"
+                            initial={{ x: 256 }}
+                            animate={{ x: 0 }}
+                            exit={{ x: 256 }}
+                            transition={{ duration: 0.3 }}
+                            className="fixed top-0 bg-white z-50 p-3 w-80 h-screen right-0">
+                                <button onClick={()=>dispatch(setIsOpenFilter(false))}>
+                                    X
+                                </button>
+                                <h1 className="font-bold text-center text-black md:text-2xl text-xl">Filter Data</h1>
+                                <hr/>
+                                <div className=" flex flex-col text-black">
+                                    <Selector.OptionCategory/>
+                                </div> 
+                        
+                                <div className="mt-10 flex flex-col text-black">
+                                   <Selector.OptionVendors/>
+                                   </div> 
+
+                                <div className="mt-10 flex flex-col text-black">
+                                    <Selector.OptionFilterTime/>
+                                </div> 
+
+                                <div className="mt-20 flex items-center justify-center">
+                                <ButtonLayer.Button clicker={()=>{}} text="Submit"/>
+                                <a href="" className="text-green-500 text-end w-full font-semibold italic my-10">EXPORT TO EXCEL</a>
+                                </div>                                
+                            </motion.div>     
+                            )
+                        }
+                        </AnimatePresence>
 
                        
                         {
@@ -243,7 +290,7 @@ export default function Page() {
                 <TableHeadInbound />   
                 <tbody className="text-black">
                     {!resultFindItem || findItem == "" ? (
-                        currentData.map((item, index) => (
+                        dataSorting.map((item, index) => (
                             <TableBodyInbound
                                 key={index}
                                 nominalModal={`${convertToIdr(item.nominal_modal)}`}
