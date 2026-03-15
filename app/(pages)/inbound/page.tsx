@@ -78,9 +78,10 @@ export default function Page() {
     };
 
     const supplierChartData = useMemo(() => {
-        return getSupplierDistribution(rawData);
+        const filterData : any = getSupplierDistribution(rawData);
+        return filterData
     }, [rawData]);
-
+    
     useEffect(()=>{
         calculateDataProduct(setDataProduk)
     },[])
@@ -134,7 +135,7 @@ export default function Page() {
 
     const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_masuk || 0)},0) : ""
     const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
-        return (
+    return (
         <div className="p-4 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
                        
                        <div className="flex items-center gap-2 justify-center">

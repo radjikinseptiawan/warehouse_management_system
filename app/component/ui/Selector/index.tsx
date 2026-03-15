@@ -3,7 +3,7 @@ import { getCategory } from "@/app/layers/dataLayer/category";
 import { getVendors } from "@/app/layers/dataLayer/vendors";
 import { ReactNode, useEffect, useState } from "react";
 import { useAppDispatch } from "@/app/hooks";
-import { setFilterPilihan, setKategoriPilihan, setVendorPilihan } from "@/app/slicers/FilterSlicers";
+import { setFilterPilihan, setFilterPilihanKeluar, setKategoriPilihan, setVendorPilihan } from "@/app/slicers/FilterSlicers";
 
 const selectStyle = "w-full p-2.5 text-sm text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer";
 
@@ -81,8 +81,26 @@ function OptionFilterTime() {
     );
 }
 
+
+function OptionFilterTimeOut(){
+    const dispatch = useAppDispatch()
+    return (
+        <FieldWrapper label="Rentang Waktu">
+            <select className={selectStyle} onChange={(e)=>dispatch(setFilterPilihanKeluar(e.target.value))}>
+                <option value="">Semua Hari</option>
+                <option value="0">Hari Ini</option>
+                <option value="3">3 Hari Lalu</option>
+                <option value="7">7 Hari Lalu</option>
+                <option value="30">30 Hari Lalu</option>
+                <option value="90">90 Hari Lalu</option>
+            </select>
+        </FieldWrapper>
+    );
+}
+
+
 SelectorLayers.OptionCategory = OptionCategory;
 SelectorLayers.OptionVendors = OptionVendors;
 SelectorLayers.OptionFilterTime = OptionFilterTime;
-
+SelectorLayers.OptionFilterTimeOut = OptionFilterTimeOut
 export default SelectorLayers;

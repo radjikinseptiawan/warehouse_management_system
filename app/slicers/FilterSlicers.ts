@@ -3,13 +3,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type InitialState = {
     filterPilihan:string,
     kategoriPilihan:string,
-    vendorPilihan:string
+    vendorPilihan:string,
+    filterPilihanKeluar:string
 }
 
 const initialState : InitialState= {
     filterPilihan:"",
     kategoriPilihan:"",
-    vendorPilihan:""
+    vendorPilihan:"",
+    filterPilihanKeluar:""
 }
 
 export const FilterSlicers = createSlice({
@@ -24,8 +26,11 @@ export const FilterSlicers = createSlice({
         },
         setVendorPilihan:(state,action:PayloadAction<string>)=>{
             state.vendorPilihan = action.payload
+        },
+        setFilterPilihanKeluar:(state,action: PayloadAction<string>)=>{
+            state.filterPilihanKeluar = action.payload
         }
     }
 })
-export const { setFilterPilihan,setKategoriPilihan,setVendorPilihan } = FilterSlicers.actions
+export const { setFilterPilihan,setKategoriPilihan,setVendorPilihan, setFilterPilihanKeluar } = FilterSlicers.actions
 export default FilterSlicers.reducer

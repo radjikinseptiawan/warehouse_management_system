@@ -10,7 +10,7 @@ import { setJumlahBarangKeluar, setNominalModal, setProdukId, setTanggalMasuk } 
 import { OutboundProductType, ProductData, TypeProduct } from "@/lib/type";
 import TableBodyOutbound from "@/app/component/ui/table/tableBody/tableBodyOutbound";
 import TableHeadOutbound from "@/app/component/ui/table/tableHeaders/tableHeadOutbound";
-import { syncAllDataProduct,addProduct, editProduct, getDataById } from "@/app/layers/dataLayer/outbound";
+import { syncAllDataProductOut,addProduct, editProduct, getDataById } from "@/app/layers/dataLayer/outbound";
 import DonutCharLayer from "@/app/component/ux/Chart/PieChart";
 import DynamicBarChart from "@/app/component/ux/Chart/BarChart";
 import { convertToIdr, nextPage, prevPage } from "@/app/layers/businessLogic/pagination";
@@ -60,7 +60,7 @@ export default function Page() {
     const dispatch = useAppDispatch()
     
     useEffect(() => {
-        syncAllDataProduct(setDataRaw)
+        syncAllDataProductOut(setDataRaw)
     }, []);
 
     useEffect(()=>{
@@ -79,7 +79,7 @@ export default function Page() {
             payload,
             dispatch,
             resetAction:()=>resetInputValue(),
-            refreshData:()=>syncAllDataProduct(setDataRaw)
+            refreshData:()=>syncAllDataProductOut(setDataRaw)
         })
         window.location.reload()
         dispatch(setIsOpenOverlay(false))
@@ -97,7 +97,7 @@ export default function Page() {
         await editProduct({
             id:selected,
             payload,
-            refreshActions:()=>syncAllDataProduct(setDataRaw),
+            refreshActions:()=>syncAllDataProductOut(setDataRaw),
             resetActions:()=>resetInputValue()
         })
         setIsOpendit(false)

@@ -20,10 +20,10 @@ export const findDataByName = async(rawData:InboundProductType[],inputValue: str
 
 export const filterData = ({ rawData, kategoriPilihan, vendorPilihan, filterPilihan, findItem }: {
     rawData: InboundProductType[],
-    kategoriPilihan: string,
-    vendorPilihan: string,
+    kategoriPilihan?: string,
+    vendorPilihan?: string,
     filterPilihan: string,
-    findItem: string
+    findItem?: string
 }) => {
     let data = [...rawData];
 
@@ -61,10 +61,10 @@ export const filterData = ({ rawData, kategoriPilihan, vendorPilihan, filterPili
 
 export const filterDataOut = ({ rawData, kategoriPilihan, vendorPilihan, filterPilihan, findItem }: {
     rawData: OutboundProductType[],
-    kategoriPilihan: string,
-    vendorPilihan: string,
+    kategoriPilihan?: string,
+    vendorPilihan?: string,
     filterPilihan: string,
-    findItem: string
+    findItem?: string
 }) => {
     let data = [...rawData];
 

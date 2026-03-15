@@ -1,9 +1,10 @@
 import { InboundProductType } from '@/lib/type';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { fetchChartDataInbound, fetchChartDataOutbound } from '../../../../layers/dataLayer/PieLayers';
 import { fillDataPieChart, fillDataPieChartOutbound } from '../../../../layers/businessLogic/PieLogicBusiness';
 import { usePathname } from 'next/navigation';
+import { filterData } from '@/app/layers/businessLogic/table';
 
 const settings = {
   margin: { right: 5 },
@@ -22,7 +23,7 @@ export default function PieCharts() {
     const [labelsName, setLabelsName] = useState<any[] | string[]>([]);
     const [seriesData, setSeriesData] = useState<string[] | null>([])
     const pathName = usePathname()
-    
+
     
     const dataFetchFillInbound = async ()=>{
         const rawData = await fetchChartDataInbound({
