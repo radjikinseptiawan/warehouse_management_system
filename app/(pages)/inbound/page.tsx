@@ -25,7 +25,7 @@ import PieChartsDistributed from "@/app/component/ux/Chart/PieChart/disribusiSup
 import { getSupplierDistribution } from "@/app/layers/businessLogic/DistribusiSuppliers";
 import SearchIcon from "@/app/component/ui/icon/Search";
 import FilterIcon from "@/app/component/ui/icon/Filter";
-import { filterData, findDataByName, sortingDataIn } from "@/app/layers/businessLogic/table";
+import { exportToExcelIn, filterData, findDataByName, sortingDataIn } from "@/app/layers/businessLogic/table";
 import Selector from "@/app/component/ui/Selector";
 import Input from "@/app/component/ui/Input";
 
@@ -68,6 +68,14 @@ export default function Page() {
         syncAllDataProduct(setDataRaw)
     }, []);
 
+    const handleExport = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (filterDataPilihan.length > 0) {
+            exportToExcelIn(filterDataPilihan, `Laporan_Inbound_${new Date().toLocaleDateString()}`);
+        } else {
+            alert("Tidak ada data untuk diexport!");
+        }
+    };
 
     const supplierChartData = useMemo(() => {
         return getSupplierDistribution(rawData);
@@ -207,7 +215,7 @@ export default function Page() {
 
                                 <div className="mt-20 flex items-center justify-center">
                                 <ButtonLayer.Button clicker={()=>{}} text="Submit"/>
-                                <a href="" className="text-green-500 text-end w-full font-semibold italic my-10">EXPORT TO EXCEL</a>
+                                <a href="" onClick={handleExport} className="text-green-500 text-end w-full font-semibold italic my-10">EXPORT TO EXCEL</a>
                                 </div>                                
                             </motion.div>     
                             )

@@ -21,7 +21,9 @@ import PieChartsDistributed from "@/app/component/ux/Chart/PieChart/disribusiSup
 import { getOutSupplierDistribution, getSupplierDistribution } from "@/app/layers/businessLogic/DistribusiSuppliers";
 import SearchIcon from "@/app/component/ui/icon/Search";
 import FilterIcon from "@/app/component/ui/icon/Filter";
-import { sortingDataOut } from "@/app/layers/businessLogic/table";
+import { exportToExcelOut, filterData, filterDataOut, sortingDataOut } from "@/app/layers/businessLogic/table";
+import { AnimatePresence, motion } from "motion/react";
+import Selector from "@/app/component/ui/Selector";
 
 
 export default function Page() {
@@ -41,6 +43,10 @@ export default function Page() {
     const tanggalKeluar = useAppSelector((state)=>state.outbound.tanggalKeluar)
     const nominalModal = useAppSelector(state=>state.outbound.nominalKeluar)
 
+    const kategoriPilihan = useAppSelector((state)=>state.filter.kategoriPilihan)
+    const vendorPilihan = useAppSelector((state)=>state.filter.vendorPilihan)
+    const filterPilihan = useAppSelector((state)=>state.filter.filterPilihan)
+    
     // Inventory State Management
     const suppliers = useAppSelector(state=>state.product.suppliers)
     const category = useAppSelector(state=>state.product.kategori)
@@ -53,11 +59,6 @@ export default function Page() {
     const isOpenEdit = useAppSelector(state=>state.overlay.isOpenEdit)    
     const dispatch = useAppDispatch()
     
-    
-    const currentData = rawData.slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
-
-
-    const totalPages = Math.ceil(rawData.length / itemPerPage);
     useEffect(() => {
         syncAllDataProduct(setDataRaw)
     }, []);
@@ -65,9 +66,6 @@ export default function Page() {
     useEffect(()=>{
         calculateDataProduct(setDataProduk)
     },[])
-
-    const dataSorting = sortingDataOut(currentData)
-
 
     const addProducts = async()=>{
         const payload : any= {
@@ -139,6 +137,26 @@ export default function Page() {
         setResultFindItem(dataFounded)
     }
 
+        const filterDataPilihan = useMemo(()=>filterDataOut({
+            rawData,
+            kategoriPilihan,
+            vendorPilihan,
+            filterPilihan,
+            findItem
+        }),[kategoriPilihan,rawData,vendorPilihan,filterPilihan,findItem])
+    
+        const currentData = filterDataPilihan.slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
+        const totalPages = Math.ceil(filterDataPilihan.length / itemPerPage);
+        const dataSorting = sortingDataOut(currentData)
+
+        const handleExport = (e: React.MouseEvent) => {
+            e.preventDefault();
+            if (filterDataPilihan.length > 0) {
+                exportToExcelOut(filterDataPilihan, `Laporan_Outbound_${new Date().toLocaleDateString()}`);
+            } else {
+                alert("Tidak ada data untuk diexport!");
+            }
+        };
 
     const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_keluar || 0)},0) : ""
     const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
@@ -175,6 +193,44 @@ export default function Page() {
 
                        </div>
                        
+ <AnimatePresence>
+                        {
+                            isOpenFilter &&
+                            (
+                            <motion.div 
+                            key="sidebar"
+                            initial={{ x: 256 }}
+                            animate={{ x: 0 }}
+                            exit={{ x: 256 }}
+                            transition={{ duration: 0.3 }}
+                            className="fixed top-0 bg-white z-50 p-3 w-80 h-screen right-0">
+                                <button onClick={()=>dispatch(setIsOpenFilter(false))}>
+                                    X
+                                </button>
+                                <h1 className="font-bold text-center text-black md:text-2xl text-xl">Filter Data</h1>
+                                <hr/>
+                                <div className=" flex flex-col text-black">
+                                    <Selector.OptionCategory/>
+                                </div> 
+                        
+                                <div className="mt-10 flex flex-col text-black">
+                                   <Selector.OptionVendors/>
+                                   </div> 
+
+                                <div className="mt-10 flex flex-col text-black">
+                                    <Selector.OptionFilterTime/>
+                                </div> 
+
+                                <div className="mt-20 flex items-center justify-center">
+                                <ButtonLayer.Button clicker={()=>{}} text="Submit"/>
+                                <a href="" onClick={handleExport} className="text-green-500 text-end w-full font-semibold italic my-10">EXPORT TO EXCEL</a>
+                                </div>                                
+                            </motion.div>     
+                            )
+                        }
+                        </AnimatePresence>
+
+
                         {
                         isOpenOverlay && (
                             <div className="flex items-center justify-center">
