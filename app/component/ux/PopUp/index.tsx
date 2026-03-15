@@ -32,7 +32,7 @@ function PopUpProduct({
     supplierValue
 }:PopUpProduction){
         const [dataGudang, setDataGudang] = useState<DataGudang[]>([])
-        const [dataKategori,setDataKatgori] = useState<CategoryType[]>([])
+        const [dataKategori,setDataKatgori] = useState<CategoryType[] | any>([])
         const [dataSuppliers,setDataSuppliers] = useState<DataVendors[]>([])
 
         const suppliersFetch = async()=>{
@@ -99,7 +99,7 @@ function PopUpProduct({
         <select onChange={changeKategori} value={kategoriValue} className="w-full mt-1 p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-green-500 outline-none">
           <option value="">Pilih kategori</option>
 
-          {dataKategori.map((item)=>(
+          {dataKategori.map((item : any)=>(
             <option key={item.id} value={item.id}>
               {item.nama_kategori}
             </option>
