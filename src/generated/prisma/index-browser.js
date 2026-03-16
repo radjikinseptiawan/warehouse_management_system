@@ -120,6 +120,14 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  role: 'role'
+};
+
 exports.Prisma.VendorsScalarFieldEnum = {
   id: 'id',
   nama_vendor: 'nama_vendor',
@@ -144,12 +152,12 @@ exports.Prisma.ProdukScalarFieldEnum = {
   id: 'id',
   nama_produk: 'nama_produk',
   kategoriId: 'kategoriId',
-  jumlah: 'jumlah',
-  gambar_produk: 'gambar_produk',
-  public_id: 'public_id',
-  is_delete: 'is_delete',
   vendorsId: 'vendorsId',
-  lokasiId: 'lokasiId'
+  jumlah: 'jumlah',
+  lokasiId: 'lokasiId',
+  gambar_produk: 'gambar_produk',
+  is_delete: 'is_delete',
+  public_id: 'public_id'
 };
 
 exports.Prisma.Barang_masukScalarFieldEnum = {
@@ -182,9 +190,13 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.Role = exports.$Enums.Role = {
+  ADMIN: 'ADMIN',
+  USER: 'USER'
+};
 
 exports.Prisma.ModelName = {
+  user: 'user',
   vendors: 'vendors',
   category: 'category',
   lokasi_gudang: 'lokasi_gudang',

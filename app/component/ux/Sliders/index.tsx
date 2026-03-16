@@ -1,4 +1,5 @@
 "use client"
+import { signOut } from "next-auth/react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 
@@ -7,11 +8,6 @@ const listSliders = [
         text:"Home",
         params:"/home",
         icon:"/SVG/dashboard-svgrepo-com (1).svg"
-    },
-    {
-        text:"Notification",
-        params:"/notification",
-        icon:"/SVG/notification-bell-on-svgrepo-com (1).svg"    
     },
     {
         text:"Inventory",
@@ -27,11 +23,6 @@ const listSliders = [
         text:"Outbound",
         params:"/outbound",
         icon:"/SVG/outbound-svgrepo-com.svg"
-    },
-    {
-        text:"Logout",
-        params:"/",
-        icon:"/SVG/logout-2-svgrepo-com.svg"
     }
 ]
 
@@ -59,6 +50,14 @@ export default function Sliders(){
                     )
                 })
             }   
+                <button 
+                onClick={()=>signOut({callbackUrl:"/"})}
+                className="p-3 w-full flex items-center rounde-md gap-2 text-72 hover:bg-green-200/20">
+                    <div>
+                        <Image src={"/SVG/logout-2-svgrepo-com.svg"} width={30} height={30} alt="Logout"/>
+                    </div>
+                    <li>Logout</li>
+                </button>
             </ul>
         </div>
         </div>

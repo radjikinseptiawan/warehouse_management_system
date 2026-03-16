@@ -6,7 +6,7 @@ import TopBar from "../component/ux/TopBar";
 import Sliders from "../component/ux/Sliders";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setIsOpenDelete, setIsOpendit, setIsOpenFilter, setIsOpenOverlay } from "../slicers/openOverlaySlicer";
-
+import { SessionProvider } from "next-auth/react"
 export default function LayoutContent({children}:{children:ReactNode}){
  const [isOpen,setIsOpen] = useState<boolean>(false)
  const isOpenOverlay = useAppSelector((state)=>state.overlay.isOpenOverlay)
@@ -23,7 +23,8 @@ export default function LayoutContent({children}:{children:ReactNode}){
     dispatch(setIsOpendit(false))
   }  
  return(
-            <div className="flex min-h-screen">
+         <SessionProvider>
+         <div className="flex min-h-screen">
            {
                     (isOpenOverlay || isOpenHapus || isOpenEdit || isOpenFilter) && <div onClick={closeOverlay} className="bg-black/80 z-40 h-full w-full fixed"></div>
             }
@@ -50,6 +51,7 @@ export default function LayoutContent({children}:{children:ReactNode}){
                 </main>
               </div>
     
-            </div>        
+            </div>       
+            </SessionProvider> 
  )   
 }

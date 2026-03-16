@@ -8,7 +8,7 @@ export function ButtonLayer({children}:{children:ReactNode}){
     )
 }
 
-export function Button({clicker,text,color = "bg-[#048720]" }:{color?:string,clicker?:()=>void,text:string}){
+export function Button({clicker,text,color = "bg-[#048720]" }:{color?:string,clicker?:()=>void ,text:string}){
     return(
     <button 
     onClick={clicker}

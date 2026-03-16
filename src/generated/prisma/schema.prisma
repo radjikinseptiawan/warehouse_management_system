@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -13,7 +7,14 @@ datasource db {
   provider = "postgresql"
 }
 
-// Tabel vendor
+model user {
+  id       String  @id @default(cuid())
+  name     String?
+  email    String? @unique
+  password String
+  role     Role
+}
+
 model vendors {
   id            Int      @id @default(autoincrement())
   nama_vendor   String
@@ -22,7 +23,6 @@ model vendors {
   produk        produk[]
 }
 
-// Tabel Kategori
 model category {
   id             Int      @id @default(autoincrement())
   nama_kategori  String
@@ -30,7 +30,6 @@ model category {
   produk         produk[]
 }
 
-// Tabel Lokasi Gudang
 model lokasi_gudang {
   id            Int      @id @default(autoincrement())
   nama_gudang   String
@@ -39,43 +38,42 @@ model lokasi_gudang {
   produk        produk[]
 }
 
-// Tabel Produk
 model produk {
-  id            Int      @id @default(autoincrement())
+  id            Int             @id @default(autoincrement())
   nama_produk   String
   kategoriId    Int
-  kategori      category @relation(fields: [kategoriId], references: [id])
-  jumlah        Int      @default(0)
+  vendorsId     Int
+  jumlah        Int             @default(0)
+  lokasiId      Int
   gambar_produk String?
+  is_delete     Boolean         @default(false)
   public_id     String?
-  is_delete     Boolean  @default(false)
-
-  vendorsId Int
-  vendors   vendors @relation(fields: [vendorsId], references: [id])
-
-  lokasiId Int
-  lokasi   lokasi_gudang @relation(fields: [lokasiId], references: [id])
-
-  inbound  barang_masuk[]
-  outbound barang_keluar[]
+  outbound      barang_keluar[]
+  inbound       barang_masuk[]
+  kategori      category        @relation(fields: [kategoriId], references: [id])
+  lokasi        lokasi_gudang   @relation(fields: [lokasiId], references: [id])
+  vendors       vendors         @relation(fields: [vendorsId], references: [id])
 }
 
-// Tabel inbound 
 model barang_masuk {
   id                  Int      @id @default(autoincrement())
   produkId            Int
-  produk              produk   @relation(fields: [produkId], references: [id])
   tanggal_masuk       DateTime @default(now())
   nominal_modal       Int
   jumlah_barang_masuk Int
+  produk              produk   @relation(fields: [produkId], references: [id])
 }
 
-// Tabel Outbound
 model barang_keluar {
   id                   Int      @id @default(autoincrement())
   produkId             Int
-  produk               produk   @relation(fields: [produkId], references: [id])
   tanggal_keluar       DateTime @default(now())
   nominal_modal        Int
   jumlah_barang_keluar Int
+  produk               produk   @relation(fields: [produkId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  USER
 }
