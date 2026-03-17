@@ -1,0 +1,12 @@
+dibuat tabel jumlah * harga barang (butir/kilo/karung)
+tabel jumlah menggunakan satuan kg dan per karung
+
+
+pengeluaran fasilitas per bulan untuk kandang 
+
+bug fixing == jumlah ga bisa minus
+
+
+jika stok dioutbound lebih besar dari inbound maka tolak permintaan
+	untuk menjalankan logika ini gw perlu mengambil ID per produk dari data inbound
+	setelahnya data tersebut dibandingkan antara jumlah yg dapat keluar dengan jumlah maksimal keluar

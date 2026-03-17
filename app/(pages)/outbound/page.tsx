@@ -5,7 +5,7 @@ import PopUpLayer from "@/app/component/ux/PopUp";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { setIsOpendit, setIsOpenFilter, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
 import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
-import { useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { setJumlahBarangKeluar, setNominalModal, setProdukId, setTanggalMasuk } from "@/app/slicers/outboundSlicers";
 import { OutboundProductType, ProductData, TypeProduct } from "@/lib/type";
 import TableBodyOutbound from "@/app/component/ui/table/tableBody/tableBodyOutbound";
@@ -24,6 +24,7 @@ import FilterIcon from "@/app/component/ui/icon/Filter";
 import { exportToExcelOut, filterData, filterDataOut, sortingDataOut } from "@/app/layers/businessLogic/table";
 import { AnimatePresence, motion } from "motion/react";
 import Selector from "@/app/component/ui/Selector";
+import { isNotZeroOutbound } from "@/app/layers/businessLogic/popUpInput";
 
 
 export default function Page() {
@@ -35,14 +36,13 @@ export default function Page() {
     const [resultFindItem,setResultFindItem] = useState<OutboundProductType[] | null>(null)
 
     const itemPerPage = 6;
-
     // Redux State
     // outbound State Management
     const produkId = useAppSelector((state)=>state.outbound.produkId)
     const jumlahBarangKeluar = useAppSelector((state)=>state.outbound.jumlahBarangKeluar)
     const tanggalKeluar = useAppSelector((state)=>state.outbound.tanggalKeluar)
     const nominalModal = useAppSelector(state=>state.outbound.nominalKeluar)
-
+    const productId = useAppSelector((state)=>state.inbound.produkId)
     const kategoriPilihan = useAppSelector((state)=>state.filter.kategoriPilihan)
     const vendorPilihan = useAppSelector((state)=>state.filter.vendorPilihan)
     const filterPilihan = useAppSelector((state)=>state.filter.filterPilihan)
@@ -66,6 +66,7 @@ export default function Page() {
     useEffect(()=>{
         calculateDataProduct(setDataProduk)
     },[])
+
 
     const addProducts = async()=>{
         const payload : any= {
@@ -104,9 +105,10 @@ export default function Page() {
         window.location.reload()
     }
 
-        const supplierChartData = useMemo(() => {
-            return getOutSupplierDistribution(rawData);
-        }, [rawData]);
+    const supplierChartData = useMemo(() => {
+        return getOutSupplierDistribution(rawData);
+    }, [rawData]);
+
     
 
     const resetInputValue= ()=>{
@@ -243,7 +245,15 @@ export default function Page() {
                             keuanganValued={nominalModal ?? 0}
                             stockValued={jumlahBarangKeluar ?? 0}
                             keuangan="Laba Kotor/Revenue"
-                            stockChange={(e)=>dispatch(setJumlahBarangKeluar(parseInt(e.target.value)))} 
+                            stockChange={(e)=>{
+                                isNotZeroOutbound(e,{
+                                dispatch,
+                                setJumlahBarangKeluar,
+                                stokId:Number(productId),
+                                produk:dataProduk
+                            })
+                            
+                            }} 
                             supplierValue={suppliers ?? ""}
                             supplierChange={(e)=>{dispatch(setSuppliers(parseInt(e.target.value)))}}
                             changeKategori={(e)=>{dispatch(setKategori(parseInt(e.target.value)))}}
@@ -277,7 +287,7 @@ export default function Page() {
                             tanggalValued={tanggalKeluar ? new Date(tanggalKeluar).toISOString().split("T")[0] : ""}
 
                             stockValued={jumlahBarangKeluar ?? 0}
-                            stockChange={(e)=>dispatch(setJumlahBarangKeluar(parseInt(e.target.value)))}
+                            stockChange={(e)=>isNotZeroOutbound(e,{dispatch,setJumlahBarangKeluar})}
 
                             keuangan="Laba Kotor/Revenue"
                             keuanganChange={(e)=>{dispatch(setNominalModal(parseInt(e.target.value)))}}

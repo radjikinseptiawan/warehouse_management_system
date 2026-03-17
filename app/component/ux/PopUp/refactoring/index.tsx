@@ -67,6 +67,7 @@ export function InputPopupKeuangan({keuanganValued,keuangan,keuanganChange}:{
                     <div>
               <label className="block text-sm  font-semibold text-gray-700 mb-1">{keuangan}</label>
               <input
+                min={0}
                 type="number"
                 className="w-full p-2.5 border text-black rounded-lg border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
                 value={keuanganValued}

@@ -28,6 +28,7 @@ import FilterIcon from "@/app/component/ui/icon/Filter";
 import { exportToExcelIn, filterData, findDataByName, sortingDataIn } from "@/app/layers/businessLogic/table";
 import Selector from "@/app/component/ui/Selector";
 import Input from "@/app/component/ui/Input";
+import { isNotZeroInbond } from "@/app/layers/businessLogic/popUpInput";
 
 
 export default function Page() {
@@ -237,7 +238,7 @@ export default function Page() {
                             keuanganValued={nominalModal ?? 0}
                             stockValued={jumlahBarangMasuk ?? 0}
                             keuangan="Modal"
-                            stockChange={(e)=>dispatch(setJumlahBarangMasuk(parseInt(e.target.value)))} 
+                            stockChange={(e)=>isNotZeroInbond(e,{dispatch,setJumlahBarangMasuk})} 
                             supplierValue={suppliers ?? ""}
                             supplierChange={(e)=>{dispatch(setSuppliers(parseInt(e.target.value)))}}
                             changeKategori={(e)=>{dispatch(setKategori(parseInt(e.target.value)))}}
@@ -264,11 +265,13 @@ export default function Page() {
                             kategoriValue={""} // bagian isi kategori
                             supplierValue={""} //  bagian isi suppliers/vendor
                             images={""}
-                            changeProductName={(e)=>{dispatch(setProductName(e.target.value))}}
+                            changeProductName={(e)=>{
+                               dispatch(setProductName(e.target.value))
+                            }}
                             tanggalChange={(e)=>{dispatch(setTanggalMasuk(e.target.value))}}
                             tanggalValued={tanggalMasuk ? new Date(tanggalMasuk).toISOString().split("T")[0] : ""}
                             stockValued={jumlahBarangMasuk}
-                            stockChange={(e)=>dispatch(setJumlahBarangMasuk(parseInt(e.target.value)))}
+                            stockChange={(e)=>isNotZeroInbond(e,{dispatch,setJumlahBarangMasuk})}
                             keuangan="Nominal Modal"
                             keuanganChange={(e)=>{dispatch(setNominalModal(parseInt(e.target.value)))}}
                             keuanganValued={nominalModal}

@@ -326,7 +326,7 @@ function PopUpProductInbound({
   const [selectData,setSelectData] = useState<ProductData | any>(null)
   const [searchTerm,setSearchTerm] = useState<string>("")
   const [isDropDown,setIsDropDown] = useState<boolean>(false)
-
+  
 
   const inputFilterProduk = dataProduk.filter((item)=>item.nama_produk.toLowerCase().includes(searchTerm?.toLowerCase()))
  
@@ -338,7 +338,7 @@ function PopUpProductInbound({
   }
   const produkItemId = async (namaProduk: string) => {
       const selectedData = dataProduk.find(item => item.nama_produk === namaProduk);
-  
+
       if (selectedData) {
       setSelectData(selectedData);
       dispatch(setProdukId(selectedData.id)); 
