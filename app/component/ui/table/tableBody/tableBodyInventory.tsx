@@ -26,6 +26,7 @@ export default function TableBodyInventory({
                             <span className="px-2 py-1 rounded-full text-xs text-white" style={{backgroundColor:`${color}`}}>{kategori}</span>
                         </td>
                         <td className="p-3">{jumlah}</td>
+                        <td className="p-3 text-center text-sm">kg</td>
                         <td className="p-3 text-sm">{lokasi}</td>
                         <td className="p-3 text-sm text-blue-600">{vendor}</td>
                         <td className="p-3">
