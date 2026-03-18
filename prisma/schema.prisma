@@ -30,6 +30,11 @@ model category {
   produk         produk[]
 }
 
+model satuan{
+  id Int @id @default(autoincrement())
+  nama_satuan String?
+}
+
 model lokasi_gudang {
   id            Int      @id @default(autoincrement())
   nama_gudang   String

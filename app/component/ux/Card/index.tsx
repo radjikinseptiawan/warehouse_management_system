@@ -22,7 +22,7 @@ function Basic({
         clickCheck:()=>void
         vendorName:string,
         vendorAddress?:string,
-        color:string,
+        color?:string,
         checklist?:boolean | null| any,
         }){
     return(
@@ -35,6 +35,49 @@ function Basic({
                     <div className="flex justify-between items-center">
                         <input type="color" value={color} disabled/>
                     <span>
+                    <button disabled={disableEdit} 
+                    onClick={btnEdit}
+                    className={`${disableEdit ? 
+                        "mx-1 cursor-not-allowed bg-gray-500 p-1 w-20 text-white font-bold rounded-md": 
+                        "mx-1 cursor-pointer bg-yellow-500 p-1 w-20 text-white font-bold rounded-md"}`}
+                    >Edit</button>
+                    <button 
+                    
+                    onClick={btnDel}
+                    className="mx-1 cursor-pointer bg-red-500 p-1 w-20 text-white font-bold rounded-md">Hapus</button>
+                    </span>
+                    </div>
+                </div>
+    )
+}
+
+
+function BasicSatuan({
+    vendorName,
+    vendorAddress,
+    color,
+    disableEdit,
+    clickCheck,
+    checklist,
+    btnEdit,
+    btnDel
+}:{
+        btnDel:()=>void,
+        btnEdit:()=>void,
+        disableEdit:boolean ,
+        clickCheck:()=>void
+        vendorName:string,
+        vendorAddress?:string,
+        color?:string,
+        checklist?:boolean | null| any,
+        }){
+    return(
+        <div className="bg-[#fafafa] p-2 rounded-md border-b-3 border-green-500">
+                    <span className="flex justify-between text-gray-600">
+                    <h1 className="font-semibold">{vendorName}</h1>
+                    </span>
+                    <div className="flex justify-between items-center">
+                    <span className="my-2">
                     <button disabled={disableEdit} 
                     onClick={btnEdit}
                     className={`${disableEdit ? 
@@ -75,4 +118,5 @@ function BasicSkeleton(){
 
 CardView.BasicSkeleton = BasicSkeleton
 CardView.Basic = Basic
+CardView.BasicSatuan = BasicSatuan
 export default CardView

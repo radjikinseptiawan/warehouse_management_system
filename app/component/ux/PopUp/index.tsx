@@ -585,6 +585,52 @@ function PopUpDelete({
     )
 }
 
+function PopUpAddSatuan({satuanValue,valueChanger,cancel,confirm}:{cancel:()=>void,confirm:()=>void,satuanValue:string, valueChanger:(e: ChangeEvent<HTMLInputElement>)=>void}){
+  return(
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
+            <div className="bg-white w-full max-w-sm mx-4 p-6 rounded-xl shadow-2xl transform transition-all border border-gray-100">
+
+              <div className="mb-4 text-left">
+                <h3 className="text-lg font-bold text-gray-800">Tambah Satuan Baru</h3>
+                <p className="text-sm text-gray-500">Masukkan nama satuan yang ingin ditambahkan.</p>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                    Nama Satuan
+                  </label>
+                  <input 
+                    type="text" 
+                    value={satuanValue}
+                    onChange={valueChanger}
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-black placeholder:text-gray-400" 
+                    placeholder="Contoh: Kilogram, Pcs, dll" 
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-6">
+                <button 
+                  onClick={cancel}
+                  className="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold transition-colors"
+                >
+                  Batal
+                </button>
+                <button 
+                  onClick={confirm}
+                  className="flex-1 px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold shadow-md shadow-green-200 transition-all active:scale-95"
+                >
+                  Simpan
+                </button>
+              </div>
+
+            </div>
+          </div>
+  )
+}
+
+PopUpLayer.PopUpAddSatuan = PopUpAddSatuan
 PopUpLayer.PopUpDelete = PopUpDelete
 PopUpLayer.PopUpCategoryColor = PopUpCategoryColor
 PopUpLayer.PopUp = PopUpCategory
