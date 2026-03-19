@@ -12,6 +12,7 @@ export async function POST(req:NextRequest){
                 gambar_produk:body.gambar_produk,
                 lokasiId:body.lokasiId,
                 kategoriId:body.kategoriId,
+                unitId:body.unitId,
                 vendorsId:body.vendorId
             }
         })
@@ -36,7 +37,8 @@ export async function GET(){
             include:{
                 vendors:true,
                 lokasi:true,
-                kategori:true
+                kategori:true,
+                unit:true
             }
         })
 

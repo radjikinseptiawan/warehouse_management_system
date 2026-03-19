@@ -3,8 +3,8 @@ import { ChangeEvent, SetStateAction } from "react"
 export const isNotZeroOutbound = (e: ChangeEvent<HTMLInputElement>, {
     dispatch,
     setJumlahBarangKeluar,
-    stokId, // ID produk yang dipilih
-    produk  // List data produk dari state
+    stokId, 
+    produk  
 }: {
     dispatch: any,
     setJumlahBarangKeluar: any,

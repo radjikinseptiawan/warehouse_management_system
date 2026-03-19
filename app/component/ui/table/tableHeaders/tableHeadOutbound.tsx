@@ -9,6 +9,7 @@ export default function TableHeadOutbound(){
                         <th className="p-3">Lokasi</th> 
                         <th className="p-3">Supplier</th> 
                         <th className="p-3">Jumlah Keluar</th>
+                        <th className="p-3">Unit</th>
                         <th className="p-3">Revenue</th>
                         <th className="p-3">Tanggal Keluar</th>
                         <th className="p-3">Aksi</th> 

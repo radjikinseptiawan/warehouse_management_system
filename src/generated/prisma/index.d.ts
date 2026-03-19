@@ -29,6 +29,11 @@ export type vendors = $Result.DefaultSelection<Prisma.$vendorsPayload>
  */
 export type category = $Result.DefaultSelection<Prisma.$categoryPayload>
 /**
+ * Model satuan
+ * 
+ */
+export type satuan = $Result.DefaultSelection<Prisma.$satuanPayload>
+/**
  * Model lokasi_gudang
  * 
  */
@@ -216,6 +221,16 @@ export class PrismaClient<
     * ```
     */
   get category(): Prisma.categoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.satuan`: Exposes CRUD operations for the **satuan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Satuans
+    * const satuans = await prisma.satuan.findMany()
+    * ```
+    */
+  get satuan(): Prisma.satuanDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.lokasi_gudang`: Exposes CRUD operations for the **lokasi_gudang** model.
@@ -693,6 +708,7 @@ export namespace Prisma {
     user: 'user',
     vendors: 'vendors',
     category: 'category',
+    satuan: 'satuan',
     lokasi_gudang: 'lokasi_gudang',
     produk: 'produk',
     barang_masuk: 'barang_masuk',
@@ -712,7 +728,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "vendors" | "category" | "lokasi_gudang" | "produk" | "barang_masuk" | "barang_keluar"
+      modelProps: "user" | "vendors" | "category" | "satuan" | "lokasi_gudang" | "produk" | "barang_masuk" | "barang_keluar"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -935,6 +951,80 @@ export namespace Prisma {
           count: {
             args: Prisma.categoryCountArgs<ExtArgs>
             result: $Utils.Optional<CategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      satuan: {
+        payload: Prisma.$satuanPayload<ExtArgs>
+        fields: Prisma.satuanFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.satuanFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.satuanFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload>
+          }
+          findFirst: {
+            args: Prisma.satuanFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.satuanFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload>
+          }
+          findMany: {
+            args: Prisma.satuanFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload>[]
+          }
+          create: {
+            args: Prisma.satuanCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload>
+          }
+          createMany: {
+            args: Prisma.satuanCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.satuanCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload>[]
+          }
+          delete: {
+            args: Prisma.satuanDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload>
+          }
+          update: {
+            args: Prisma.satuanUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload>
+          }
+          deleteMany: {
+            args: Prisma.satuanDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.satuanUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.satuanUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload>[]
+          }
+          upsert: {
+            args: Prisma.satuanUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$satuanPayload>
+          }
+          aggregate: {
+            args: Prisma.SatuanAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSatuan>
+          }
+          groupBy: {
+            args: Prisma.satuanGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SatuanGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.satuanCountArgs<ExtArgs>
+            result: $Utils.Optional<SatuanCountAggregateOutputType> | number
           }
         }
       }
@@ -1345,6 +1435,7 @@ export namespace Prisma {
     user?: userOmit
     vendors?: vendorsOmit
     category?: categoryOmit
+    satuan?: satuanOmit
     lokasi_gudang?: lokasi_gudangOmit
     produk?: produkOmit
     barang_masuk?: barang_masukOmit
@@ -1482,6 +1573,37 @@ export namespace Prisma {
    * CategoryCountOutputType without action
    */
   export type CategoryCountOutputTypeCountProdukArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: produkWhereInput
+  }
+
+
+  /**
+   * Count Type SatuanCountOutputType
+   */
+
+  export type SatuanCountOutputType = {
+    produk: number
+  }
+
+  export type SatuanCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    produk?: boolean | SatuanCountOutputTypeCountProdukArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SatuanCountOutputType without action
+   */
+  export type SatuanCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SatuanCountOutputType
+     */
+    select?: SatuanCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SatuanCountOutputType without action
+   */
+  export type SatuanCountOutputTypeCountProdukArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: produkWhereInput
   }
 
@@ -4726,6 +4848,1071 @@ export namespace Prisma {
 
 
   /**
+   * Model satuan
+   */
+
+  export type AggregateSatuan = {
+    _count: SatuanCountAggregateOutputType | null
+    _avg: SatuanAvgAggregateOutputType | null
+    _sum: SatuanSumAggregateOutputType | null
+    _min: SatuanMinAggregateOutputType | null
+    _max: SatuanMaxAggregateOutputType | null
+  }
+
+  export type SatuanAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SatuanSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SatuanMinAggregateOutputType = {
+    id: number | null
+    nama_satuan: string | null
+  }
+
+  export type SatuanMaxAggregateOutputType = {
+    id: number | null
+    nama_satuan: string | null
+  }
+
+  export type SatuanCountAggregateOutputType = {
+    id: number
+    nama_satuan: number
+    _all: number
+  }
+
+
+  export type SatuanAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type SatuanSumAggregateInputType = {
+    id?: true
+  }
+
+  export type SatuanMinAggregateInputType = {
+    id?: true
+    nama_satuan?: true
+  }
+
+  export type SatuanMaxAggregateInputType = {
+    id?: true
+    nama_satuan?: true
+  }
+
+  export type SatuanCountAggregateInputType = {
+    id?: true
+    nama_satuan?: true
+    _all?: true
+  }
+
+  export type SatuanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which satuan to aggregate.
+     */
+    where?: satuanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of satuans to fetch.
+     */
+    orderBy?: satuanOrderByWithRelationInput | satuanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: satuanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` satuans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` satuans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned satuans
+    **/
+    _count?: true | SatuanCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SatuanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SatuanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SatuanMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SatuanMaxAggregateInputType
+  }
+
+  export type GetSatuanAggregateType<T extends SatuanAggregateArgs> = {
+        [P in keyof T & keyof AggregateSatuan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSatuan[P]>
+      : GetScalarType<T[P], AggregateSatuan[P]>
+  }
+
+
+
+
+  export type satuanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: satuanWhereInput
+    orderBy?: satuanOrderByWithAggregationInput | satuanOrderByWithAggregationInput[]
+    by: SatuanScalarFieldEnum[] | SatuanScalarFieldEnum
+    having?: satuanScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SatuanCountAggregateInputType | true
+    _avg?: SatuanAvgAggregateInputType
+    _sum?: SatuanSumAggregateInputType
+    _min?: SatuanMinAggregateInputType
+    _max?: SatuanMaxAggregateInputType
+  }
+
+  export type SatuanGroupByOutputType = {
+    id: number
+    nama_satuan: string | null
+    _count: SatuanCountAggregateOutputType | null
+    _avg: SatuanAvgAggregateOutputType | null
+    _sum: SatuanSumAggregateOutputType | null
+    _min: SatuanMinAggregateOutputType | null
+    _max: SatuanMaxAggregateOutputType | null
+  }
+
+  type GetSatuanGroupByPayload<T extends satuanGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SatuanGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SatuanGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SatuanGroupByOutputType[P]>
+            : GetScalarType<T[P], SatuanGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type satuanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama_satuan?: boolean
+    produk?: boolean | satuan$produkArgs<ExtArgs>
+    _count?: boolean | SatuanCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["satuan"]>
+
+  export type satuanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama_satuan?: boolean
+  }, ExtArgs["result"]["satuan"]>
+
+  export type satuanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama_satuan?: boolean
+  }, ExtArgs["result"]["satuan"]>
+
+  export type satuanSelectScalar = {
+    id?: boolean
+    nama_satuan?: boolean
+  }
+
+  export type satuanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_satuan", ExtArgs["result"]["satuan"]>
+  export type satuanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    produk?: boolean | satuan$produkArgs<ExtArgs>
+    _count?: boolean | SatuanCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type satuanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type satuanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $satuanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "satuan"
+    objects: {
+      produk: Prisma.$produkPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nama_satuan: string | null
+    }, ExtArgs["result"]["satuan"]>
+    composites: {}
+  }
+
+  type satuanGetPayload<S extends boolean | null | undefined | satuanDefaultArgs> = $Result.GetResult<Prisma.$satuanPayload, S>
+
+  type satuanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<satuanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SatuanCountAggregateInputType | true
+    }
+
+  export interface satuanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['satuan'], meta: { name: 'satuan' } }
+    /**
+     * Find zero or one Satuan that matches the filter.
+     * @param {satuanFindUniqueArgs} args - Arguments to find a Satuan
+     * @example
+     * // Get one Satuan
+     * const satuan = await prisma.satuan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends satuanFindUniqueArgs>(args: SelectSubset<T, satuanFindUniqueArgs<ExtArgs>>): Prisma__satuanClient<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Satuan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {satuanFindUniqueOrThrowArgs} args - Arguments to find a Satuan
+     * @example
+     * // Get one Satuan
+     * const satuan = await prisma.satuan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends satuanFindUniqueOrThrowArgs>(args: SelectSubset<T, satuanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__satuanClient<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Satuan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {satuanFindFirstArgs} args - Arguments to find a Satuan
+     * @example
+     * // Get one Satuan
+     * const satuan = await prisma.satuan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends satuanFindFirstArgs>(args?: SelectSubset<T, satuanFindFirstArgs<ExtArgs>>): Prisma__satuanClient<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Satuan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {satuanFindFirstOrThrowArgs} args - Arguments to find a Satuan
+     * @example
+     * // Get one Satuan
+     * const satuan = await prisma.satuan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends satuanFindFirstOrThrowArgs>(args?: SelectSubset<T, satuanFindFirstOrThrowArgs<ExtArgs>>): Prisma__satuanClient<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Satuans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {satuanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Satuans
+     * const satuans = await prisma.satuan.findMany()
+     * 
+     * // Get first 10 Satuans
+     * const satuans = await prisma.satuan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const satuanWithIdOnly = await prisma.satuan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends satuanFindManyArgs>(args?: SelectSubset<T, satuanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Satuan.
+     * @param {satuanCreateArgs} args - Arguments to create a Satuan.
+     * @example
+     * // Create one Satuan
+     * const Satuan = await prisma.satuan.create({
+     *   data: {
+     *     // ... data to create a Satuan
+     *   }
+     * })
+     * 
+     */
+    create<T extends satuanCreateArgs>(args: SelectSubset<T, satuanCreateArgs<ExtArgs>>): Prisma__satuanClient<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Satuans.
+     * @param {satuanCreateManyArgs} args - Arguments to create many Satuans.
+     * @example
+     * // Create many Satuans
+     * const satuan = await prisma.satuan.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends satuanCreateManyArgs>(args?: SelectSubset<T, satuanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Satuans and returns the data saved in the database.
+     * @param {satuanCreateManyAndReturnArgs} args - Arguments to create many Satuans.
+     * @example
+     * // Create many Satuans
+     * const satuan = await prisma.satuan.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Satuans and only return the `id`
+     * const satuanWithIdOnly = await prisma.satuan.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends satuanCreateManyAndReturnArgs>(args?: SelectSubset<T, satuanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Satuan.
+     * @param {satuanDeleteArgs} args - Arguments to delete one Satuan.
+     * @example
+     * // Delete one Satuan
+     * const Satuan = await prisma.satuan.delete({
+     *   where: {
+     *     // ... filter to delete one Satuan
+     *   }
+     * })
+     * 
+     */
+    delete<T extends satuanDeleteArgs>(args: SelectSubset<T, satuanDeleteArgs<ExtArgs>>): Prisma__satuanClient<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Satuan.
+     * @param {satuanUpdateArgs} args - Arguments to update one Satuan.
+     * @example
+     * // Update one Satuan
+     * const satuan = await prisma.satuan.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends satuanUpdateArgs>(args: SelectSubset<T, satuanUpdateArgs<ExtArgs>>): Prisma__satuanClient<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Satuans.
+     * @param {satuanDeleteManyArgs} args - Arguments to filter Satuans to delete.
+     * @example
+     * // Delete a few Satuans
+     * const { count } = await prisma.satuan.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends satuanDeleteManyArgs>(args?: SelectSubset<T, satuanDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Satuans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {satuanUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Satuans
+     * const satuan = await prisma.satuan.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends satuanUpdateManyArgs>(args: SelectSubset<T, satuanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Satuans and returns the data updated in the database.
+     * @param {satuanUpdateManyAndReturnArgs} args - Arguments to update many Satuans.
+     * @example
+     * // Update many Satuans
+     * const satuan = await prisma.satuan.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Satuans and only return the `id`
+     * const satuanWithIdOnly = await prisma.satuan.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends satuanUpdateManyAndReturnArgs>(args: SelectSubset<T, satuanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Satuan.
+     * @param {satuanUpsertArgs} args - Arguments to update or create a Satuan.
+     * @example
+     * // Update or create a Satuan
+     * const satuan = await prisma.satuan.upsert({
+     *   create: {
+     *     // ... data to create a Satuan
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Satuan we want to update
+     *   }
+     * })
+     */
+    upsert<T extends satuanUpsertArgs>(args: SelectSubset<T, satuanUpsertArgs<ExtArgs>>): Prisma__satuanClient<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Satuans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {satuanCountArgs} args - Arguments to filter Satuans to count.
+     * @example
+     * // Count the number of Satuans
+     * const count = await prisma.satuan.count({
+     *   where: {
+     *     // ... the filter for the Satuans we want to count
+     *   }
+     * })
+    **/
+    count<T extends satuanCountArgs>(
+      args?: Subset<T, satuanCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SatuanCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Satuan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SatuanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SatuanAggregateArgs>(args: Subset<T, SatuanAggregateArgs>): Prisma.PrismaPromise<GetSatuanAggregateType<T>>
+
+    /**
+     * Group by Satuan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {satuanGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends satuanGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: satuanGroupByArgs['orderBy'] }
+        : { orderBy?: satuanGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, satuanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSatuanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the satuan model
+   */
+  readonly fields: satuanFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for satuan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__satuanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    produk<T extends satuan$produkArgs<ExtArgs> = {}>(args?: Subset<T, satuan$produkArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$produkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the satuan model
+   */
+  interface satuanFieldRefs {
+    readonly id: FieldRef<"satuan", 'Int'>
+    readonly nama_satuan: FieldRef<"satuan", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * satuan findUnique
+   */
+  export type satuanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    /**
+     * Filter, which satuan to fetch.
+     */
+    where: satuanWhereUniqueInput
+  }
+
+  /**
+   * satuan findUniqueOrThrow
+   */
+  export type satuanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    /**
+     * Filter, which satuan to fetch.
+     */
+    where: satuanWhereUniqueInput
+  }
+
+  /**
+   * satuan findFirst
+   */
+  export type satuanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    /**
+     * Filter, which satuan to fetch.
+     */
+    where?: satuanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of satuans to fetch.
+     */
+    orderBy?: satuanOrderByWithRelationInput | satuanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for satuans.
+     */
+    cursor?: satuanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` satuans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` satuans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of satuans.
+     */
+    distinct?: SatuanScalarFieldEnum | SatuanScalarFieldEnum[]
+  }
+
+  /**
+   * satuan findFirstOrThrow
+   */
+  export type satuanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    /**
+     * Filter, which satuan to fetch.
+     */
+    where?: satuanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of satuans to fetch.
+     */
+    orderBy?: satuanOrderByWithRelationInput | satuanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for satuans.
+     */
+    cursor?: satuanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` satuans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` satuans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of satuans.
+     */
+    distinct?: SatuanScalarFieldEnum | SatuanScalarFieldEnum[]
+  }
+
+  /**
+   * satuan findMany
+   */
+  export type satuanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    /**
+     * Filter, which satuans to fetch.
+     */
+    where?: satuanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of satuans to fetch.
+     */
+    orderBy?: satuanOrderByWithRelationInput | satuanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing satuans.
+     */
+    cursor?: satuanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` satuans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` satuans.
+     */
+    skip?: number
+    distinct?: SatuanScalarFieldEnum | SatuanScalarFieldEnum[]
+  }
+
+  /**
+   * satuan create
+   */
+  export type satuanCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    /**
+     * The data needed to create a satuan.
+     */
+    data?: XOR<satuanCreateInput, satuanUncheckedCreateInput>
+  }
+
+  /**
+   * satuan createMany
+   */
+  export type satuanCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many satuans.
+     */
+    data: satuanCreateManyInput | satuanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * satuan createManyAndReturn
+   */
+  export type satuanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * The data used to create many satuans.
+     */
+    data: satuanCreateManyInput | satuanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * satuan update
+   */
+  export type satuanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    /**
+     * The data needed to update a satuan.
+     */
+    data: XOR<satuanUpdateInput, satuanUncheckedUpdateInput>
+    /**
+     * Choose, which satuan to update.
+     */
+    where: satuanWhereUniqueInput
+  }
+
+  /**
+   * satuan updateMany
+   */
+  export type satuanUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update satuans.
+     */
+    data: XOR<satuanUpdateManyMutationInput, satuanUncheckedUpdateManyInput>
+    /**
+     * Filter which satuans to update
+     */
+    where?: satuanWhereInput
+    /**
+     * Limit how many satuans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * satuan updateManyAndReturn
+   */
+  export type satuanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * The data used to update satuans.
+     */
+    data: XOR<satuanUpdateManyMutationInput, satuanUncheckedUpdateManyInput>
+    /**
+     * Filter which satuans to update
+     */
+    where?: satuanWhereInput
+    /**
+     * Limit how many satuans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * satuan upsert
+   */
+  export type satuanUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    /**
+     * The filter to search for the satuan to update in case it exists.
+     */
+    where: satuanWhereUniqueInput
+    /**
+     * In case the satuan found by the `where` argument doesn't exist, create a new satuan with this data.
+     */
+    create: XOR<satuanCreateInput, satuanUncheckedCreateInput>
+    /**
+     * In case the satuan was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<satuanUpdateInput, satuanUncheckedUpdateInput>
+  }
+
+  /**
+   * satuan delete
+   */
+  export type satuanDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    /**
+     * Filter which satuan to delete.
+     */
+    where: satuanWhereUniqueInput
+  }
+
+  /**
+   * satuan deleteMany
+   */
+  export type satuanDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which satuans to delete
+     */
+    where?: satuanWhereInput
+    /**
+     * Limit how many satuans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * satuan.produk
+   */
+  export type satuan$produkArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the produk
+     */
+    select?: produkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the produk
+     */
+    omit?: produkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: produkInclude<ExtArgs> | null
+    where?: produkWhereInput
+    orderBy?: produkOrderByWithRelationInput | produkOrderByWithRelationInput[]
+    cursor?: produkWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProdukScalarFieldEnum | ProdukScalarFieldEnum[]
+  }
+
+  /**
+   * satuan without action
+   */
+  export type satuanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model lokasi_gudang
    */
 
@@ -5832,6 +7019,7 @@ export namespace Prisma {
     id: number | null
     kategoriId: number | null
     vendorsId: number | null
+    unitId: number | null
     jumlah: number | null
     lokasiId: number | null
   }
@@ -5840,6 +7028,7 @@ export namespace Prisma {
     id: number | null
     kategoriId: number | null
     vendorsId: number | null
+    unitId: number | null
     jumlah: number | null
     lokasiId: number | null
   }
@@ -5849,6 +7038,7 @@ export namespace Prisma {
     nama_produk: string | null
     kategoriId: number | null
     vendorsId: number | null
+    unitId: number | null
     jumlah: number | null
     lokasiId: number | null
     gambar_produk: string | null
@@ -5861,6 +7051,7 @@ export namespace Prisma {
     nama_produk: string | null
     kategoriId: number | null
     vendorsId: number | null
+    unitId: number | null
     jumlah: number | null
     lokasiId: number | null
     gambar_produk: string | null
@@ -5873,6 +7064,7 @@ export namespace Prisma {
     nama_produk: number
     kategoriId: number
     vendorsId: number
+    unitId: number
     jumlah: number
     lokasiId: number
     gambar_produk: number
@@ -5886,6 +7078,7 @@ export namespace Prisma {
     id?: true
     kategoriId?: true
     vendorsId?: true
+    unitId?: true
     jumlah?: true
     lokasiId?: true
   }
@@ -5894,6 +7087,7 @@ export namespace Prisma {
     id?: true
     kategoriId?: true
     vendorsId?: true
+    unitId?: true
     jumlah?: true
     lokasiId?: true
   }
@@ -5903,6 +7097,7 @@ export namespace Prisma {
     nama_produk?: true
     kategoriId?: true
     vendorsId?: true
+    unitId?: true
     jumlah?: true
     lokasiId?: true
     gambar_produk?: true
@@ -5915,6 +7110,7 @@ export namespace Prisma {
     nama_produk?: true
     kategoriId?: true
     vendorsId?: true
+    unitId?: true
     jumlah?: true
     lokasiId?: true
     gambar_produk?: true
@@ -5927,6 +7123,7 @@ export namespace Prisma {
     nama_produk?: true
     kategoriId?: true
     vendorsId?: true
+    unitId?: true
     jumlah?: true
     lokasiId?: true
     gambar_produk?: true
@@ -6026,6 +7223,7 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
+    unitId: number | null
     jumlah: number
     lokasiId: number
     gambar_produk: string | null
@@ -6057,6 +7255,7 @@ export namespace Prisma {
     nama_produk?: boolean
     kategoriId?: boolean
     vendorsId?: boolean
+    unitId?: boolean
     jumlah?: boolean
     lokasiId?: boolean
     gambar_produk?: boolean
@@ -6066,6 +7265,7 @@ export namespace Prisma {
     inbound?: boolean | produk$inboundArgs<ExtArgs>
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     lokasi?: boolean | lokasi_gudangDefaultArgs<ExtArgs>
+    unit?: boolean | produk$unitArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
     _count?: boolean | ProdukCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["produk"]>
@@ -6075,6 +7275,7 @@ export namespace Prisma {
     nama_produk?: boolean
     kategoriId?: boolean
     vendorsId?: boolean
+    unitId?: boolean
     jumlah?: boolean
     lokasiId?: boolean
     gambar_produk?: boolean
@@ -6082,6 +7283,7 @@ export namespace Prisma {
     public_id?: boolean
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     lokasi?: boolean | lokasi_gudangDefaultArgs<ExtArgs>
+    unit?: boolean | produk$unitArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["produk"]>
 
@@ -6090,6 +7292,7 @@ export namespace Prisma {
     nama_produk?: boolean
     kategoriId?: boolean
     vendorsId?: boolean
+    unitId?: boolean
     jumlah?: boolean
     lokasiId?: boolean
     gambar_produk?: boolean
@@ -6097,6 +7300,7 @@ export namespace Prisma {
     public_id?: boolean
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     lokasi?: boolean | lokasi_gudangDefaultArgs<ExtArgs>
+    unit?: boolean | produk$unitArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["produk"]>
 
@@ -6105,6 +7309,7 @@ export namespace Prisma {
     nama_produk?: boolean
     kategoriId?: boolean
     vendorsId?: boolean
+    unitId?: boolean
     jumlah?: boolean
     lokasiId?: boolean
     gambar_produk?: boolean
@@ -6112,23 +7317,26 @@ export namespace Prisma {
     public_id?: boolean
   }
 
-  export type produkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_produk" | "kategoriId" | "vendorsId" | "jumlah" | "lokasiId" | "gambar_produk" | "is_delete" | "public_id", ExtArgs["result"]["produk"]>
+  export type produkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_produk" | "kategoriId" | "vendorsId" | "unitId" | "jumlah" | "lokasiId" | "gambar_produk" | "is_delete" | "public_id", ExtArgs["result"]["produk"]>
   export type produkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     outbound?: boolean | produk$outboundArgs<ExtArgs>
     inbound?: boolean | produk$inboundArgs<ExtArgs>
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     lokasi?: boolean | lokasi_gudangDefaultArgs<ExtArgs>
+    unit?: boolean | produk$unitArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
     _count?: boolean | ProdukCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type produkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     lokasi?: boolean | lokasi_gudangDefaultArgs<ExtArgs>
+    unit?: boolean | produk$unitArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
   }
   export type produkIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     lokasi?: boolean | lokasi_gudangDefaultArgs<ExtArgs>
+    unit?: boolean | produk$unitArgs<ExtArgs>
     vendors?: boolean | vendorsDefaultArgs<ExtArgs>
   }
 
@@ -6139,6 +7347,7 @@ export namespace Prisma {
       inbound: Prisma.$barang_masukPayload<ExtArgs>[]
       kategori: Prisma.$categoryPayload<ExtArgs>
       lokasi: Prisma.$lokasi_gudangPayload<ExtArgs>
+      unit: Prisma.$satuanPayload<ExtArgs> | null
       vendors: Prisma.$vendorsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6146,6 +7355,7 @@ export namespace Prisma {
       nama_produk: string
       kategoriId: number
       vendorsId: number
+      unitId: number | null
       jumlah: number
       lokasiId: number
       gambar_produk: string | null
@@ -6549,6 +7759,7 @@ export namespace Prisma {
     inbound<T extends produk$inboundArgs<ExtArgs> = {}>(args?: Subset<T, produk$inboundArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$barang_masukPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     kategori<T extends categoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, categoryDefaultArgs<ExtArgs>>): Prisma__categoryClient<$Result.GetResult<Prisma.$categoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     lokasi<T extends lokasi_gudangDefaultArgs<ExtArgs> = {}>(args?: Subset<T, lokasi_gudangDefaultArgs<ExtArgs>>): Prisma__lokasi_gudangClient<$Result.GetResult<Prisma.$lokasi_gudangPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    unit<T extends produk$unitArgs<ExtArgs> = {}>(args?: Subset<T, produk$unitArgs<ExtArgs>>): Prisma__satuanClient<$Result.GetResult<Prisma.$satuanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     vendors<T extends vendorsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, vendorsDefaultArgs<ExtArgs>>): Prisma__vendorsClient<$Result.GetResult<Prisma.$vendorsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6583,6 +7794,7 @@ export namespace Prisma {
     readonly nama_produk: FieldRef<"produk", 'String'>
     readonly kategoriId: FieldRef<"produk", 'Int'>
     readonly vendorsId: FieldRef<"produk", 'Int'>
+    readonly unitId: FieldRef<"produk", 'Int'>
     readonly jumlah: FieldRef<"produk", 'Int'>
     readonly lokasiId: FieldRef<"produk", 'Int'>
     readonly gambar_produk: FieldRef<"produk", 'String'>
@@ -7029,6 +8241,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Barang_masukScalarFieldEnum | Barang_masukScalarFieldEnum[]
+  }
+
+  /**
+   * produk.unit
+   */
+  export type produk$unitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the satuan
+     */
+    select?: satuanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the satuan
+     */
+    omit?: satuanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: satuanInclude<ExtArgs> | null
+    where?: satuanWhereInput
   }
 
   /**
@@ -9302,6 +10533,14 @@ export namespace Prisma {
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
+  export const SatuanScalarFieldEnum: {
+    id: 'id',
+    nama_satuan: 'nama_satuan'
+  };
+
+  export type SatuanScalarFieldEnum = (typeof SatuanScalarFieldEnum)[keyof typeof SatuanScalarFieldEnum]
+
+
   export const Lokasi_gudangScalarFieldEnum: {
     id: 'id',
     nama_gudang: 'nama_gudang',
@@ -9317,6 +10556,7 @@ export namespace Prisma {
     nama_produk: 'nama_produk',
     kategoriId: 'kategoriId',
     vendorsId: 'vendorsId',
+    unitId: 'unitId',
     jumlah: 'jumlah',
     lokasiId: 'lokasiId',
     gambar_produk: 'gambar_produk',
@@ -9609,6 +10849,48 @@ export namespace Prisma {
     warna_category?: StringWithAggregatesFilter<"category"> | string
   }
 
+  export type satuanWhereInput = {
+    AND?: satuanWhereInput | satuanWhereInput[]
+    OR?: satuanWhereInput[]
+    NOT?: satuanWhereInput | satuanWhereInput[]
+    id?: IntFilter<"satuan"> | number
+    nama_satuan?: StringNullableFilter<"satuan"> | string | null
+    produk?: ProdukListRelationFilter
+  }
+
+  export type satuanOrderByWithRelationInput = {
+    id?: SortOrder
+    nama_satuan?: SortOrderInput | SortOrder
+    produk?: produkOrderByRelationAggregateInput
+  }
+
+  export type satuanWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: satuanWhereInput | satuanWhereInput[]
+    OR?: satuanWhereInput[]
+    NOT?: satuanWhereInput | satuanWhereInput[]
+    nama_satuan?: StringNullableFilter<"satuan"> | string | null
+    produk?: ProdukListRelationFilter
+  }, "id">
+
+  export type satuanOrderByWithAggregationInput = {
+    id?: SortOrder
+    nama_satuan?: SortOrderInput | SortOrder
+    _count?: satuanCountOrderByAggregateInput
+    _avg?: satuanAvgOrderByAggregateInput
+    _max?: satuanMaxOrderByAggregateInput
+    _min?: satuanMinOrderByAggregateInput
+    _sum?: satuanSumOrderByAggregateInput
+  }
+
+  export type satuanScalarWhereWithAggregatesInput = {
+    AND?: satuanScalarWhereWithAggregatesInput | satuanScalarWhereWithAggregatesInput[]
+    OR?: satuanScalarWhereWithAggregatesInput[]
+    NOT?: satuanScalarWhereWithAggregatesInput | satuanScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"satuan"> | number
+    nama_satuan?: StringNullableWithAggregatesFilter<"satuan"> | string | null
+  }
+
   export type lokasi_gudangWhereInput = {
     AND?: lokasi_gudangWhereInput | lokasi_gudangWhereInput[]
     OR?: lokasi_gudangWhereInput[]
@@ -9669,6 +10951,7 @@ export namespace Prisma {
     nama_produk?: StringFilter<"produk"> | string
     kategoriId?: IntFilter<"produk"> | number
     vendorsId?: IntFilter<"produk"> | number
+    unitId?: IntNullableFilter<"produk"> | number | null
     jumlah?: IntFilter<"produk"> | number
     lokasiId?: IntFilter<"produk"> | number
     gambar_produk?: StringNullableFilter<"produk"> | string | null
@@ -9678,6 +10961,7 @@ export namespace Prisma {
     inbound?: Barang_masukListRelationFilter
     kategori?: XOR<CategoryScalarRelationFilter, categoryWhereInput>
     lokasi?: XOR<Lokasi_gudangScalarRelationFilter, lokasi_gudangWhereInput>
+    unit?: XOR<SatuanNullableScalarRelationFilter, satuanWhereInput> | null
     vendors?: XOR<VendorsScalarRelationFilter, vendorsWhereInput>
   }
 
@@ -9686,6 +10970,7 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
+    unitId?: SortOrderInput | SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrderInput | SortOrder
@@ -9695,6 +10980,7 @@ export namespace Prisma {
     inbound?: barang_masukOrderByRelationAggregateInput
     kategori?: categoryOrderByWithRelationInput
     lokasi?: lokasi_gudangOrderByWithRelationInput
+    unit?: satuanOrderByWithRelationInput
     vendors?: vendorsOrderByWithRelationInput
   }
 
@@ -9706,6 +10992,7 @@ export namespace Prisma {
     nama_produk?: StringFilter<"produk"> | string
     kategoriId?: IntFilter<"produk"> | number
     vendorsId?: IntFilter<"produk"> | number
+    unitId?: IntNullableFilter<"produk"> | number | null
     jumlah?: IntFilter<"produk"> | number
     lokasiId?: IntFilter<"produk"> | number
     gambar_produk?: StringNullableFilter<"produk"> | string | null
@@ -9715,6 +11002,7 @@ export namespace Prisma {
     inbound?: Barang_masukListRelationFilter
     kategori?: XOR<CategoryScalarRelationFilter, categoryWhereInput>
     lokasi?: XOR<Lokasi_gudangScalarRelationFilter, lokasi_gudangWhereInput>
+    unit?: XOR<SatuanNullableScalarRelationFilter, satuanWhereInput> | null
     vendors?: XOR<VendorsScalarRelationFilter, vendorsWhereInput>
   }, "id">
 
@@ -9723,6 +11011,7 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
+    unitId?: SortOrderInput | SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrderInput | SortOrder
@@ -9743,6 +11032,7 @@ export namespace Prisma {
     nama_produk?: StringWithAggregatesFilter<"produk"> | string
     kategoriId?: IntWithAggregatesFilter<"produk"> | number
     vendorsId?: IntWithAggregatesFilter<"produk"> | number
+    unitId?: IntNullableWithAggregatesFilter<"produk"> | number | null
     jumlah?: IntWithAggregatesFilter<"produk"> | number
     lokasiId?: IntWithAggregatesFilter<"produk"> | number
     gambar_produk?: StringNullableWithAggregatesFilter<"produk"> | string | null
@@ -10013,6 +11303,42 @@ export namespace Prisma {
     warna_category?: StringFieldUpdateOperationsInput | string
   }
 
+  export type satuanCreateInput = {
+    nama_satuan?: string | null
+    produk?: produkCreateNestedManyWithoutUnitInput
+  }
+
+  export type satuanUncheckedCreateInput = {
+    id?: number
+    nama_satuan?: string | null
+    produk?: produkUncheckedCreateNestedManyWithoutUnitInput
+  }
+
+  export type satuanUpdateInput = {
+    nama_satuan?: NullableStringFieldUpdateOperationsInput | string | null
+    produk?: produkUpdateManyWithoutUnitNestedInput
+  }
+
+  export type satuanUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama_satuan?: NullableStringFieldUpdateOperationsInput | string | null
+    produk?: produkUncheckedUpdateManyWithoutUnitNestedInput
+  }
+
+  export type satuanCreateManyInput = {
+    id?: number
+    nama_satuan?: string | null
+  }
+
+  export type satuanUpdateManyMutationInput = {
+    nama_satuan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type satuanUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama_satuan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type lokasi_gudangCreateInput = {
     nama_gudang: string
     alamat_gudang: string
@@ -10073,6 +11399,7 @@ export namespace Prisma {
     inbound?: barang_masukCreateNestedManyWithoutProdukInput
     kategori: categoryCreateNestedOneWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
+    unit?: satuanCreateNestedOneWithoutProdukInput
     vendors: vendorsCreateNestedOneWithoutProdukInput
   }
 
@@ -10081,6 +11408,7 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
+    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
@@ -10100,6 +11428,7 @@ export namespace Prisma {
     inbound?: barang_masukUpdateManyWithoutProdukNestedInput
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
+    unit?: satuanUpdateOneWithoutProdukNestedInput
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
   }
 
@@ -10108,6 +11437,7 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10122,6 +11452,7 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
+    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
@@ -10142,6 +11473,7 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10457,6 +11789,29 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type satuanCountOrderByAggregateInput = {
+    id?: SortOrder
+    nama_satuan?: SortOrder
+  }
+
+  export type satuanAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type satuanMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nama_satuan?: SortOrder
+  }
+
+  export type satuanMinOrderByAggregateInput = {
+    id?: SortOrder
+    nama_satuan?: SortOrder
+  }
+
+  export type satuanSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type lokasi_gudangCountOrderByAggregateInput = {
     id?: SortOrder
     nama_gudang?: SortOrder
@@ -10486,6 +11841,17 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -10513,6 +11879,11 @@ export namespace Prisma {
     isNot?: lokasi_gudangWhereInput
   }
 
+  export type SatuanNullableScalarRelationFilter = {
+    is?: satuanWhereInput | null
+    isNot?: satuanWhereInput | null
+  }
+
   export type VendorsScalarRelationFilter = {
     is?: vendorsWhereInput
     isNot?: vendorsWhereInput
@@ -10531,6 +11902,7 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
+    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrder
@@ -10542,6 +11914,7 @@ export namespace Prisma {
     id?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
+    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
   }
@@ -10551,6 +11924,7 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
+    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrder
@@ -10563,6 +11937,7 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
+    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrder
@@ -10574,8 +11949,25 @@ export namespace Prisma {
     id?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
+    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -10796,6 +12188,48 @@ export namespace Prisma {
     deleteMany?: produkScalarWhereInput | produkScalarWhereInput[]
   }
 
+  export type produkCreateNestedManyWithoutUnitInput = {
+    create?: XOR<produkCreateWithoutUnitInput, produkUncheckedCreateWithoutUnitInput> | produkCreateWithoutUnitInput[] | produkUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: produkCreateOrConnectWithoutUnitInput | produkCreateOrConnectWithoutUnitInput[]
+    createMany?: produkCreateManyUnitInputEnvelope
+    connect?: produkWhereUniqueInput | produkWhereUniqueInput[]
+  }
+
+  export type produkUncheckedCreateNestedManyWithoutUnitInput = {
+    create?: XOR<produkCreateWithoutUnitInput, produkUncheckedCreateWithoutUnitInput> | produkCreateWithoutUnitInput[] | produkUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: produkCreateOrConnectWithoutUnitInput | produkCreateOrConnectWithoutUnitInput[]
+    createMany?: produkCreateManyUnitInputEnvelope
+    connect?: produkWhereUniqueInput | produkWhereUniqueInput[]
+  }
+
+  export type produkUpdateManyWithoutUnitNestedInput = {
+    create?: XOR<produkCreateWithoutUnitInput, produkUncheckedCreateWithoutUnitInput> | produkCreateWithoutUnitInput[] | produkUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: produkCreateOrConnectWithoutUnitInput | produkCreateOrConnectWithoutUnitInput[]
+    upsert?: produkUpsertWithWhereUniqueWithoutUnitInput | produkUpsertWithWhereUniqueWithoutUnitInput[]
+    createMany?: produkCreateManyUnitInputEnvelope
+    set?: produkWhereUniqueInput | produkWhereUniqueInput[]
+    disconnect?: produkWhereUniqueInput | produkWhereUniqueInput[]
+    delete?: produkWhereUniqueInput | produkWhereUniqueInput[]
+    connect?: produkWhereUniqueInput | produkWhereUniqueInput[]
+    update?: produkUpdateWithWhereUniqueWithoutUnitInput | produkUpdateWithWhereUniqueWithoutUnitInput[]
+    updateMany?: produkUpdateManyWithWhereWithoutUnitInput | produkUpdateManyWithWhereWithoutUnitInput[]
+    deleteMany?: produkScalarWhereInput | produkScalarWhereInput[]
+  }
+
+  export type produkUncheckedUpdateManyWithoutUnitNestedInput = {
+    create?: XOR<produkCreateWithoutUnitInput, produkUncheckedCreateWithoutUnitInput> | produkCreateWithoutUnitInput[] | produkUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: produkCreateOrConnectWithoutUnitInput | produkCreateOrConnectWithoutUnitInput[]
+    upsert?: produkUpsertWithWhereUniqueWithoutUnitInput | produkUpsertWithWhereUniqueWithoutUnitInput[]
+    createMany?: produkCreateManyUnitInputEnvelope
+    set?: produkWhereUniqueInput | produkWhereUniqueInput[]
+    disconnect?: produkWhereUniqueInput | produkWhereUniqueInput[]
+    delete?: produkWhereUniqueInput | produkWhereUniqueInput[]
+    connect?: produkWhereUniqueInput | produkWhereUniqueInput[]
+    update?: produkUpdateWithWhereUniqueWithoutUnitInput | produkUpdateWithWhereUniqueWithoutUnitInput[]
+    updateMany?: produkUpdateManyWithWhereWithoutUnitInput | produkUpdateManyWithWhereWithoutUnitInput[]
+    deleteMany?: produkScalarWhereInput | produkScalarWhereInput[]
+  }
+
   export type produkCreateNestedManyWithoutLokasiInput = {
     create?: XOR<produkCreateWithoutLokasiInput, produkUncheckedCreateWithoutLokasiInput> | produkCreateWithoutLokasiInput[] | produkUncheckedCreateWithoutLokasiInput[]
     connectOrCreate?: produkCreateOrConnectWithoutLokasiInput | produkCreateOrConnectWithoutLokasiInput[]
@@ -10862,6 +12296,12 @@ export namespace Prisma {
     create?: XOR<lokasi_gudangCreateWithoutProdukInput, lokasi_gudangUncheckedCreateWithoutProdukInput>
     connectOrCreate?: lokasi_gudangCreateOrConnectWithoutProdukInput
     connect?: lokasi_gudangWhereUniqueInput
+  }
+
+  export type satuanCreateNestedOneWithoutProdukInput = {
+    create?: XOR<satuanCreateWithoutProdukInput, satuanUncheckedCreateWithoutProdukInput>
+    connectOrCreate?: satuanCreateOrConnectWithoutProdukInput
+    connect?: satuanWhereUniqueInput
   }
 
   export type vendorsCreateNestedOneWithoutProdukInput = {
@@ -10932,12 +12372,30 @@ export namespace Prisma {
     update?: XOR<XOR<lokasi_gudangUpdateToOneWithWhereWithoutProdukInput, lokasi_gudangUpdateWithoutProdukInput>, lokasi_gudangUncheckedUpdateWithoutProdukInput>
   }
 
+  export type satuanUpdateOneWithoutProdukNestedInput = {
+    create?: XOR<satuanCreateWithoutProdukInput, satuanUncheckedCreateWithoutProdukInput>
+    connectOrCreate?: satuanCreateOrConnectWithoutProdukInput
+    upsert?: satuanUpsertWithoutProdukInput
+    disconnect?: satuanWhereInput | boolean
+    delete?: satuanWhereInput | boolean
+    connect?: satuanWhereUniqueInput
+    update?: XOR<XOR<satuanUpdateToOneWithWhereWithoutProdukInput, satuanUpdateWithoutProdukInput>, satuanUncheckedUpdateWithoutProdukInput>
+  }
+
   export type vendorsUpdateOneRequiredWithoutProdukNestedInput = {
     create?: XOR<vendorsCreateWithoutProdukInput, vendorsUncheckedCreateWithoutProdukInput>
     connectOrCreate?: vendorsCreateOrConnectWithoutProdukInput
     upsert?: vendorsUpsertWithoutProdukInput
     connect?: vendorsWhereUniqueInput
     update?: XOR<XOR<vendorsUpdateToOneWithWhereWithoutProdukInput, vendorsUpdateWithoutProdukInput>, vendorsUncheckedUpdateWithoutProdukInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type barang_keluarUncheckedUpdateManyWithoutProdukNestedInput = {
@@ -11133,6 +12591,33 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -11176,12 +12661,14 @@ export namespace Prisma {
     inbound?: barang_masukCreateNestedManyWithoutProdukInput
     kategori: categoryCreateNestedOneWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
+    unit?: satuanCreateNestedOneWithoutProdukInput
   }
 
   export type produkUncheckedCreateWithoutVendorsInput = {
     id?: number
     nama_produk: string
     kategoriId: number
+    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
@@ -11225,6 +12712,7 @@ export namespace Prisma {
     nama_produk?: StringFilter<"produk"> | string
     kategoriId?: IntFilter<"produk"> | number
     vendorsId?: IntFilter<"produk"> | number
+    unitId?: IntNullableFilter<"produk"> | number | null
     jumlah?: IntFilter<"produk"> | number
     lokasiId?: IntFilter<"produk"> | number
     gambar_produk?: StringNullableFilter<"produk"> | string | null
@@ -11241,6 +12729,7 @@ export namespace Prisma {
     outbound?: barang_keluarCreateNestedManyWithoutProdukInput
     inbound?: barang_masukCreateNestedManyWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
+    unit?: satuanCreateNestedOneWithoutProdukInput
     vendors: vendorsCreateNestedOneWithoutProdukInput
   }
 
@@ -11248,6 +12737,7 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     vendorsId: number
+    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
@@ -11283,6 +12773,59 @@ export namespace Prisma {
     data: XOR<produkUpdateManyMutationInput, produkUncheckedUpdateManyWithoutKategoriInput>
   }
 
+  export type produkCreateWithoutUnitInput = {
+    nama_produk: string
+    jumlah?: number
+    gambar_produk?: string | null
+    is_delete?: boolean
+    public_id?: string | null
+    outbound?: barang_keluarCreateNestedManyWithoutProdukInput
+    inbound?: barang_masukCreateNestedManyWithoutProdukInput
+    kategori: categoryCreateNestedOneWithoutProdukInput
+    lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
+    vendors: vendorsCreateNestedOneWithoutProdukInput
+  }
+
+  export type produkUncheckedCreateWithoutUnitInput = {
+    id?: number
+    nama_produk: string
+    kategoriId: number
+    vendorsId: number
+    jumlah?: number
+    lokasiId: number
+    gambar_produk?: string | null
+    is_delete?: boolean
+    public_id?: string | null
+    outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
+    inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
+  }
+
+  export type produkCreateOrConnectWithoutUnitInput = {
+    where: produkWhereUniqueInput
+    create: XOR<produkCreateWithoutUnitInput, produkUncheckedCreateWithoutUnitInput>
+  }
+
+  export type produkCreateManyUnitInputEnvelope = {
+    data: produkCreateManyUnitInput | produkCreateManyUnitInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type produkUpsertWithWhereUniqueWithoutUnitInput = {
+    where: produkWhereUniqueInput
+    update: XOR<produkUpdateWithoutUnitInput, produkUncheckedUpdateWithoutUnitInput>
+    create: XOR<produkCreateWithoutUnitInput, produkUncheckedCreateWithoutUnitInput>
+  }
+
+  export type produkUpdateWithWhereUniqueWithoutUnitInput = {
+    where: produkWhereUniqueInput
+    data: XOR<produkUpdateWithoutUnitInput, produkUncheckedUpdateWithoutUnitInput>
+  }
+
+  export type produkUpdateManyWithWhereWithoutUnitInput = {
+    where: produkScalarWhereInput
+    data: XOR<produkUpdateManyMutationInput, produkUncheckedUpdateManyWithoutUnitInput>
+  }
+
   export type produkCreateWithoutLokasiInput = {
     nama_produk: string
     jumlah?: number
@@ -11292,6 +12835,7 @@ export namespace Prisma {
     outbound?: barang_keluarCreateNestedManyWithoutProdukInput
     inbound?: barang_masukCreateNestedManyWithoutProdukInput
     kategori: categoryCreateNestedOneWithoutProdukInput
+    unit?: satuanCreateNestedOneWithoutProdukInput
     vendors: vendorsCreateNestedOneWithoutProdukInput
   }
 
@@ -11300,6 +12844,7 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
+    unitId?: number | null
     jumlah?: number
     gambar_produk?: string | null
     is_delete?: boolean
@@ -11412,6 +12957,20 @@ export namespace Prisma {
   export type lokasi_gudangCreateOrConnectWithoutProdukInput = {
     where: lokasi_gudangWhereUniqueInput
     create: XOR<lokasi_gudangCreateWithoutProdukInput, lokasi_gudangUncheckedCreateWithoutProdukInput>
+  }
+
+  export type satuanCreateWithoutProdukInput = {
+    nama_satuan?: string | null
+  }
+
+  export type satuanUncheckedCreateWithoutProdukInput = {
+    id?: number
+    nama_satuan?: string | null
+  }
+
+  export type satuanCreateOrConnectWithoutProdukInput = {
+    where: satuanWhereUniqueInput
+    create: XOR<satuanCreateWithoutProdukInput, satuanUncheckedCreateWithoutProdukInput>
   }
 
   export type vendorsCreateWithoutProdukInput = {
@@ -11532,6 +13091,26 @@ export namespace Prisma {
     warna_gudang?: StringFieldUpdateOperationsInput | string
   }
 
+  export type satuanUpsertWithoutProdukInput = {
+    update: XOR<satuanUpdateWithoutProdukInput, satuanUncheckedUpdateWithoutProdukInput>
+    create: XOR<satuanCreateWithoutProdukInput, satuanUncheckedCreateWithoutProdukInput>
+    where?: satuanWhereInput
+  }
+
+  export type satuanUpdateToOneWithWhereWithoutProdukInput = {
+    where?: satuanWhereInput
+    data: XOR<satuanUpdateWithoutProdukInput, satuanUncheckedUpdateWithoutProdukInput>
+  }
+
+  export type satuanUpdateWithoutProdukInput = {
+    nama_satuan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type satuanUncheckedUpdateWithoutProdukInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama_satuan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type vendorsUpsertWithoutProdukInput = {
     update: XOR<vendorsUpdateWithoutProdukInput, vendorsUncheckedUpdateWithoutProdukInput>
     create: XOR<vendorsCreateWithoutProdukInput, vendorsUncheckedCreateWithoutProdukInput>
@@ -11565,6 +13144,7 @@ export namespace Prisma {
     outbound?: barang_keluarCreateNestedManyWithoutProdukInput
     kategori: categoryCreateNestedOneWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
+    unit?: satuanCreateNestedOneWithoutProdukInput
     vendors: vendorsCreateNestedOneWithoutProdukInput
   }
 
@@ -11573,6 +13153,7 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
+    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
@@ -11606,6 +13187,7 @@ export namespace Prisma {
     outbound?: barang_keluarUpdateManyWithoutProdukNestedInput
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
+    unit?: satuanUpdateOneWithoutProdukNestedInput
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
   }
 
@@ -11614,6 +13196,7 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11631,6 +13214,7 @@ export namespace Prisma {
     inbound?: barang_masukCreateNestedManyWithoutProdukInput
     kategori: categoryCreateNestedOneWithoutProdukInput
     lokasi: lokasi_gudangCreateNestedOneWithoutProdukInput
+    unit?: satuanCreateNestedOneWithoutProdukInput
     vendors: vendorsCreateNestedOneWithoutProdukInput
   }
 
@@ -11639,6 +13223,7 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
+    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
@@ -11672,6 +13257,7 @@ export namespace Prisma {
     inbound?: barang_masukUpdateManyWithoutProdukNestedInput
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
+    unit?: satuanUpdateOneWithoutProdukNestedInput
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
   }
 
@@ -11680,6 +13266,7 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11692,6 +13279,7 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     kategoriId: number
+    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
@@ -11709,12 +13297,14 @@ export namespace Prisma {
     inbound?: barang_masukUpdateManyWithoutProdukNestedInput
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
+    unit?: satuanUpdateOneWithoutProdukNestedInput
   }
 
   export type produkUncheckedUpdateWithoutVendorsInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11728,6 +13318,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11739,6 +13330,7 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     vendorsId: number
+    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
@@ -11755,6 +13347,7 @@ export namespace Prisma {
     outbound?: barang_keluarUpdateManyWithoutProdukNestedInput
     inbound?: barang_masukUpdateManyWithoutProdukNestedInput
     lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
+    unit?: satuanUpdateOneWithoutProdukNestedInput
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
   }
 
@@ -11762,6 +13355,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     vendorsId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11775,6 +13369,58 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     vendorsId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
+    jumlah?: IntFieldUpdateOperationsInput | number
+    lokasiId?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    is_delete?: BoolFieldUpdateOperationsInput | boolean
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type produkCreateManyUnitInput = {
+    id?: number
+    nama_produk: string
+    kategoriId: number
+    vendorsId: number
+    jumlah?: number
+    lokasiId: number
+    gambar_produk?: string | null
+    is_delete?: boolean
+    public_id?: string | null
+  }
+
+  export type produkUpdateWithoutUnitInput = {
+    nama_produk?: StringFieldUpdateOperationsInput | string
+    jumlah?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    is_delete?: BoolFieldUpdateOperationsInput | boolean
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    outbound?: barang_keluarUpdateManyWithoutProdukNestedInput
+    inbound?: barang_masukUpdateManyWithoutProdukNestedInput
+    kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
+    lokasi?: lokasi_gudangUpdateOneRequiredWithoutProdukNestedInput
+    vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
+  }
+
+  export type produkUncheckedUpdateWithoutUnitInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama_produk?: StringFieldUpdateOperationsInput | string
+    kategoriId?: IntFieldUpdateOperationsInput | number
+    vendorsId?: IntFieldUpdateOperationsInput | number
+    jumlah?: IntFieldUpdateOperationsInput | number
+    lokasiId?: IntFieldUpdateOperationsInput | number
+    gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
+    is_delete?: BoolFieldUpdateOperationsInput | boolean
+    public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
+    inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
+  }
+
+  export type produkUncheckedUpdateManyWithoutUnitInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama_produk?: StringFieldUpdateOperationsInput | string
+    kategoriId?: IntFieldUpdateOperationsInput | number
+    vendorsId?: IntFieldUpdateOperationsInput | number
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11787,6 +13433,7 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
+    unitId?: number | null
     jumlah?: number
     gambar_produk?: string | null
     is_delete?: boolean
@@ -11802,6 +13449,7 @@ export namespace Prisma {
     outbound?: barang_keluarUpdateManyWithoutProdukNestedInput
     inbound?: barang_masukUpdateManyWithoutProdukNestedInput
     kategori?: categoryUpdateOneRequiredWithoutProdukNestedInput
+    unit?: satuanUpdateOneWithoutProdukNestedInput
     vendors?: vendorsUpdateOneRequiredWithoutProdukNestedInput
   }
 
@@ -11810,6 +13458,7 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
@@ -11823,6 +13472,7 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean

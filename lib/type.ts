@@ -42,6 +42,7 @@ export type DataCategory = {
 
 export type ProductData = {
     gambar_produk: string;
+    unit:string | number | any,
     is_delete: boolean,
     id:number,
     nama_produk: string;
@@ -58,6 +59,8 @@ export type ProductData = {
 // PopUpProduction
 export type PopUpProduction = {
         cancel:()=>void,
+        satuanValue:string,
+        satuanChange:(e : ChangeEvent<HTMLSelectElement>)=>void
         supplierValue:number  | string,
         nama:string,
         images:string,
@@ -117,6 +120,9 @@ export type InboundProductType = {
 
 
 export type TypeProduct = {
+    unit:{
+        nama_satuan:string
+    },
     gambar_produk: string;
     is_delete: boolean,
     id:number,

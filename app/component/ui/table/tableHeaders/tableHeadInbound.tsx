@@ -9,6 +9,7 @@ export default function TableHeadInbound(){
                         <th className="p-3">Lokasi</th> 
                         <th className="p-3">Supplier</th> 
                         <th className="p-3">Stok Masuk</th>
+                        <th className="p-3">Unit</th>
                         <th className="p-3">Nominal Modal</th>
                         <th className="p-3">Tanggal Masuk</th>
                         <th className="p-3">Aksi</th> 

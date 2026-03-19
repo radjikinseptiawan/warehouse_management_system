@@ -23,6 +23,7 @@ export type AddProductType = {
         setProductName: (val:string)=>void,
         setJumlah:(val:number)=>void,
         setGudang:(val:number)=>void,
+        setSatuan:(val:number)=>void,
         setImageProduct:(val:string)=>void,
         setKategori:(val:number)=>void,
         setSuppliers:(val:number)=>void
@@ -39,6 +40,7 @@ export const addProduct = async ({payload,dispatch,actions}:AddProductType)=>{
             if(response.ok){
                 dispatch(actions.setProductName(""))
                 dispatch(actions.setJumlah(0))
+                dispatch(actions.setSatuan(0))
                 dispatch(actions.setGudang(0))
                 dispatch(actions.setImageProduct(""))
                 dispatch(actions.setKategori(0))

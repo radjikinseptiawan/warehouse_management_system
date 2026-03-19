@@ -3,6 +3,7 @@
 import ButtonLayer from "@/app/component/ui/Button"
 import GudangIcon from "@/app/component/ui/icon/Gudang"
 import ProductIcon from "@/app/component/ui/icon/Product"
+import ScalesIcon from "@/app/component/ui/icon/Scales"
 import Supplier from "@/app/component/ui/icon/Suppliers"
 import SelectorLayers from "@/app/component/ui/Selector"
 import { useAppSelector } from "@/app/hooks"
@@ -70,7 +71,10 @@ export default function Page() {
         label: item.produk.nama_produk
     }))
 
-    const countingOutcome = filterDataIn.reduce((acc, item) => acc + (item.nominal_modal || 0), 0)
+    const countingOutcome = filterDataIn.reduce((acc, item) => {
+        const modal = item.nominal_modal * item.jumlah_barang_masuk
+        return acc + modal
+    }, 0)
 
     const filterDataOuts = useMemo(() => {
         return filterDataOut({ rawData: rawDataOut, filterPilihan: filterPilihanOut })
@@ -82,7 +86,10 @@ export default function Page() {
         label: item.produk.nama_produk
     }))
 
-    const countingIncome = filterDataOuts.reduce((acc, item) => acc + (item.nominal_modal || 0), 0)
+    const countingIncome = filterDataOuts.reduce((acc, item) => {
+        const modal = item.nominal_modal * item.jumlah_barang_keluar
+        return acc + modal
+    }, 0)
 
     return (
         <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-8">
@@ -101,6 +108,11 @@ export default function Page() {
                     clicker={() => window.location.href = "/category"}
                     icon={<ProductIcon />}
                     text="Kelola Kategori Produk"
+                />
+                <ButtonLayer.Main
+                    clicker={()=>window.location.href = "/satuan"}
+                    icon={<ScalesIcon/>}
+                    text="Kelola Satuan"
                 />
             </div>
 

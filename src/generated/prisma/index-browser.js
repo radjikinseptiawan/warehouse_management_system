@@ -141,6 +141,11 @@ exports.Prisma.CategoryScalarFieldEnum = {
   warna_category: 'warna_category'
 };
 
+exports.Prisma.SatuanScalarFieldEnum = {
+  id: 'id',
+  nama_satuan: 'nama_satuan'
+};
+
 exports.Prisma.Lokasi_gudangScalarFieldEnum = {
   id: 'id',
   nama_gudang: 'nama_gudang',
@@ -153,6 +158,7 @@ exports.Prisma.ProdukScalarFieldEnum = {
   nama_produk: 'nama_produk',
   kategoriId: 'kategoriId',
   vendorsId: 'vendorsId',
+  unitId: 'unitId',
   jumlah: 'jumlah',
   lokasiId: 'lokasiId',
   gambar_produk: 'gambar_produk',
@@ -199,6 +205,7 @@ exports.Prisma.ModelName = {
   user: 'user',
   vendors: 'vendors',
   category: 'category',
+  satuan: 'satuan',
   lokasi_gudang: 'lokasi_gudang',
   produk: 'produk',
   barang_masuk: 'barang_masuk',

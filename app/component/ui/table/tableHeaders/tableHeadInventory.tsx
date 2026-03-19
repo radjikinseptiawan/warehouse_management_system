@@ -6,6 +6,7 @@ export default function TableHeadInventory(){
                         <th className="p-3">Gambar</th>
                         <th className="p-3">Nama Produk</th>
                         <th className="p-3">Kategori</th>
+                        <th className="p-3">Unit</th>
                         <th className="p-3">Stok</th>
                         <th className="p-3">Lokasi</th> 
                         <th className="p-3">Supplier</th> 

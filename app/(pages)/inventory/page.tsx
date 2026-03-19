@@ -9,13 +9,13 @@ import { nextPage, prevPage } from "@/app/layers/businessLogic/pagination";
 import { addProduct, calculateDataProduct, deleteProduct, editProduct, getDataById, syncInventoryData } from "@/app/layers/dataLayer/produk";
 import { setNamaGudang } from "@/app/slicers/lokasiGudangSlicers";
 import { setIsOpenDelete, setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer";
-import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSuppliers } from "@/app/slicers/productSlicers";
+import { setGudang, setImageProduct, setJumlah, setKategori, setProductName, setSatuan, setSuppliers } from "@/app/slicers/productSlicers";
 import { InboundProductType, ProductData } from "@/lib/type";
 import { useEffect, useState } from "react";
 
 export default function Page() {
     const [paginationId, setPagination] = useState<number>(0);
-    const [data, setData] = useState<ProductData[]>([]); 
+    const [data, setData] = useState<ProductData[]>([]);
     const [dataMasuk,setDataMasuk] = useState<InboundProductType[] | null>(null)
     const [rawData,setDataRaw] = useState<ProductData[] | null>(null)
     const [dataTrash,setDataTrash] = useState<ProductData[]>([])
@@ -33,10 +33,10 @@ export default function Page() {
     const isOpenOverlay = useAppSelector(state=>state.overlay.isOpenOverlay)
     const isOpenDelete = useAppSelector(state=>state.overlay.isOpenDelete)
     const isOpenEdit = useAppSelector(state=>state.overlay.isOpenEdit)
-    const publicId = useAppSelector(state=>state.product.public_id)
-    
+    const satuanValue = useAppSelector((state)=>state.product.satuan)
     const dispatch = useAppDispatch()
 
+    console.log(satuanValue)
     // Melihat data sekarang
     const currentData = data.slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
     // Kalkulasi total halaman dibuat
@@ -69,6 +69,7 @@ export default function Page() {
         const addProductValue = async ()=>{
           try{
             const payload :any = {
+                unitId:satuanValue,
                 nama_produk: productName,
                 kategoriId:category,
                 lokasiId:gudang,
@@ -85,12 +86,13 @@ export default function Page() {
                     setImageProduct,
                     setJumlah,
                     setKategori,
-                    setSuppliers
+                    setSuppliers,
+                    setSatuan
                 }
             })
             dispatch(setIsOpenOverlay(false))
             calculateDataProduct(setDataRaw)
-            dataSelection()        
+            dataSelection()
         }catch(e){
             console.error(e)
           }
@@ -98,7 +100,7 @@ export default function Page() {
 
     // Hapus Produk
     const deleteProductValue= async()=>{
-        try{    
+        try{
             await deleteProduct({
                 dispatch,
                 id:idTarget,
@@ -107,7 +109,7 @@ export default function Page() {
                 }
             })
             calculateDataProduct(setDataRaw)
-            dataSelection()    
+            dataSelection()
         }catch(e){
             console.error(e)
         }
@@ -145,11 +147,12 @@ export default function Page() {
         }
     }
 
+    console.log(currentData)
      const allStock = rawData ? rawData.reduce((acc,item)=>{return acc + (item.jumlah || 0)},0) : []
-   
+
     return (
         <div className="p-2 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
-                       
+
                        <div className="flex items-center my-2 gap-2 justify-center">
                             <div className="border shadow p-2 text-green-400 bg-white
                             text-center md:text-[34px] hidden md:block lg:block text-[8px] lg:w-80 rounded-md md:w-40 w-20 font-semibold md:font-bold my-4">
@@ -161,20 +164,22 @@ export default function Page() {
                                 {rawData?.length ?? 0}
                             <h1>Total Produk</h1>
                             </div>
-                           
+
                             <div className="shadow border p-2 text-green-400 hidden md:block lg:block
                             text-center md:text-[34px] text-[8px] lg:w-80 md:w-40 w-20 bg-white rounded-md font-semibold md:font-bold my-4">
                                 {allStock ?? 0}
                             <h1>Stok Tersedia</h1>
                             </div>
-                            
-        
+
+
                        </div>
-                       
+
                         {
                         isOpenOverlay && (
                             <div className="flex items-center justify-center">
-                            <PopUpLayer.PopUpProduct 
+                            <PopUpLayer.PopUpProduct
+                            satuanValue={satuanValue}
+                            satuanChange={(e)=>dispatch(setSatuan(parseInt(e.target.value)))}
                             supplierValue={suppliers || ""}
                             supplierChange={(e)=>{dispatch(setSuppliers(parseInt(e.target.value)))}}
                             changeKategori={(e)=>{dispatch(setKategori(parseInt(e.target.value)))}}
@@ -191,9 +196,9 @@ export default function Page() {
                                 dispatch(setKategori(0))
                                 dispatch(setGudang(0))
                                 dispatch(setSuppliers(0))
-                            }}  
-                            textBtn="Tambah" 
-                            click={addProductValue} 
+                            }}
+                            textBtn="Tambah"
+                            click={addProductValue}
                             nama="Tambah Produk"/>
                             </div>
                         )
@@ -201,7 +206,7 @@ export default function Page() {
                     {
                         isOpenDelete && (
                             <div className="flex items-center justify-center align-middle">
-                            <PopUpLayer.PopUpDelete 
+                            <PopUpLayer.PopUpDelete
                             cancel={()=>dispatch(setIsOpenDelete(false))}
                             click={deleteProductValue}
                             section="Produk"/>
@@ -212,7 +217,9 @@ export default function Page() {
                     {
                         isOpenEdit && (
                             <div className="flex items-center justify-center">
-                            <PopUpLayer.PopUpProduct 
+                            <PopUpLayer.PopUpProduct
+                            satuanValue={satuanValue}
+                            satuanChange={(e)=>dispatch(setSatuan(e.target.value))}
                             images={imageProduct ? String(imageProduct) : "/upload.png"}
                             supplierValue={suppliers || ""}
                             supplierChange={(e)=>{dispatch(setSuppliers(parseInt(e.target.value)))}}
@@ -230,22 +237,23 @@ export default function Page() {
                                 dispatch(setGudang(0))
                                 dispatch(setSuppliers(0))
                             }}
-                            textBtn="Edit" 
-                            click={()=>editProductValue()} 
+                            textBtn="Edit"
+                            click={()=>editProductValue()}
                             nama="Edit Produk"/>
                             </div>
                         )
                     }
             <h1 className="text-xl font-bold text-black mb-4">Inventory Barang</h1>
             <ButtonLayer.Button clicker={() =>dispatch(setIsOpenOverlay(true))} text="Tambah Inventory" />
-            
+
             <Table>
-                <TableHeadInventory />   
+                <TableHeadInventory />
                 <tbody className="text-black">
                     {currentData.length > 0 ? (
                         currentData.map((item, index) => (
                             <TableBodyInventory
                                 key={index}
+                                unit={item.unit.nama_satuan}
                                 clicker={()=>{
                                     dispatch(setIsOpenDelete(true))
                                     setIdTarget(item.id)
@@ -284,8 +292,8 @@ export default function Page() {
             </Table>
 
             <div className="flex justify-between mt-4">
-                <button 
-                    className={`p-2 cursor-pointer ${paginationId === 0 ? 'text-gray-400' : 'text-green-500 underline'}`} 
+                <button
+                    className={`p-2 cursor-pointer ${paginationId === 0 ? 'text-gray-400' : 'text-green-500 underline'}`}
                     onClick={()=>prevPage({ setPagination })}
                     disabled={paginationId === 0}
                 >
@@ -294,8 +302,8 @@ export default function Page() {
                 <span className="self-center text-sm text-gray-600">
                     Halaman {paginationId + 1} dari {totalPages || 1}
                 </span>
-                <button 
-                    className={`p-2 cursor-pointer ${(paginationId >= totalPages - 1) ? 'text-gray-400' : 'text-green-500 underline'}`} 
+                <button
+                    className={`p-2 cursor-pointer ${(paginationId >= totalPages - 1) ? 'text-gray-400' : 'text-green-500 underline'}`}
                     onClick={()=>nextPage({
                         paginationId,
                         setPagination,

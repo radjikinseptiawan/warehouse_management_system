@@ -30,6 +30,7 @@ export default function TableBodyInbound({
                         <td className="p-3 text-sm">{lokasi}</td>
                         <td className="p-3 text-sm text-blue-600">{vendor}</td>
                         <td className="p-3 text-center text-sm">{jumlah}</td>
+                        <td className="p-3 text-center text-sm">kg</td>
                         <td className="p-3 text-center text-sm">{nominalModal}</td>
                         <td className="p-3 text-center text-sm">{tanggalMasuk}</td>
                         <td className="p-3">
