@@ -592,13 +592,13 @@ function PopUpDelete({
     click?:()=>void,
 }){
     return(
-        <div className="flex items-center justify-center fixed text-black h-screen z-50">
+        <div className="flex items-center justify-center fixed text-black h-screen top-5 z-50">
             <div className="bg-white shadow-xl p-2 rounded-md lg:w-2xl text-center md:w-xl">
             <h1 className="text-2xl font-semibold">Hapus {section}</h1>
                 <span className="text-white">
                   <h1 className="text-black my-4">Kamu yakin ingin menghapus data ini?</h1>
                 <div className="gap-2 flex items-center justify-center">
-                <ButtonLayer.Button text="Batalkan" color="bg-[#910200]" clicker={cancel}/>
+                <ButtonLayer.Button text="Batalkan" color="bg-[#d6d6d4]" clicker={cancel}/>
                 <ButtonLayer.Button color="bg-[#690503]" text="Hapus" clicker={click}/>
                 </div>
                 </span>
