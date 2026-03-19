@@ -1,7 +1,9 @@
 "use client"
 
 import ButtonLayer from "@/app/component/ui/Button"
+import TeamIcon from "@/app/component/ui/icon/Employee"
 import GudangIcon from "@/app/component/ui/icon/Gudang"
+import AbstractIcon from "@/app/component/ui/icon/Operational"
 import ProductIcon from "@/app/component/ui/icon/Product"
 import ScalesIcon from "@/app/component/ui/icon/Scales"
 import Supplier from "@/app/component/ui/icon/Suppliers"
@@ -113,6 +115,18 @@ export default function Page() {
                     clicker={()=>window.location.href = "/satuan"}
                     icon={<ScalesIcon/>}
                     text="Kelola Satuan"
+                />
+
+                <ButtonLayer.Main
+                    clicker={()=>window.location.href = "/karyawan"}
+                    icon={<TeamIcon/>}
+                    text="Kelola Karyawan"
+                />
+
+                <ButtonLayer.Main
+                    clicker={()=>window.location.href = "/operasional"}
+                    text="Kelola Operasional"
+                    icon={<AbstractIcon/>}
                 />
             </div>
 

@@ -15,6 +15,15 @@ model user {
   role     Role
 }
 
+model Karyawan{
+  id Int @id @default(autoincrement())
+  nama_karyawan String 
+  alamat_karyawan String
+  gaji_karyawan Int
+  mulai_kerja String
+  status isActive
+}
+
 model vendors {
   id            Int      @id @default(autoincrement())
   nama_vendor   String
@@ -84,4 +93,9 @@ model barang_keluar {
 enum Role {
   ADMIN
   USER
+}
+
+enum isActive {
+  Aktif
+  NonAktif
 }

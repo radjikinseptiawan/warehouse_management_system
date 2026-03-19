@@ -7,6 +7,7 @@ import ProductSlicersReducers from './slicers/productSlicers'
 import InboundSlicersReducers from './slicers/inboundSlicers'
 import OutboundSlicersReducers from "./slicers/outboundSlicers"
 import  FilterSlicersReducers from "./slicers/FilterSlicers";
+import KaryawanReducers from "./slicers/karyawanSlicers"
 export const store = configureStore({
     reducer:{
         vendor:VendorSliceReducers,
@@ -16,7 +17,8 @@ export const store = configureStore({
         product:ProductSlicersReducers,
         inbound:InboundSlicersReducers,
         outbound:OutboundSlicersReducers,
-        filter:FilterSlicersReducers
+        filter:FilterSlicersReducers,
+        karyawan:KaryawanReducers
     }
 })
 

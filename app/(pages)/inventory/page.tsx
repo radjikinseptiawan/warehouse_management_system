@@ -253,7 +253,7 @@ export default function Page() {
                         currentData.map((item, index) => (
                             <TableBodyInventory
                                 key={index}
-                                unit={item.unit.nama_satuan}
+                                unit={item.unit?.nama_satuan}
                                 clicker={()=>{
                                     dispatch(setIsOpenDelete(true))
                                     setIdTarget(item.id)
