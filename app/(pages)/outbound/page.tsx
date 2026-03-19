@@ -161,7 +161,10 @@ export default function Page() {
         };
 
     const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_keluar || 0)},0) : ""
-    const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
+    const allModal = rawData.reduce((acc,item)=>{
+        const modal = item.nominal_modal * item.jumlah_barang_keluar  
+        return acc + modal
+    },0)
     return (
         <div className="p-4 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
                        
@@ -332,7 +335,8 @@ export default function Page() {
                         dataSorting.map((item, index) => (
                             <TableBodyOutbound
                                 key={index}
-                                nominalModal={`${convertToIdr(item.nominal_modal)}`}
+                                unit={item.produk.unit?.nama_satuan}
+                                nominalModal={`${convertToIdr(item.nominal_modal * item.jumlah_barang_keluar)}`}
                                 tanggalMasuk={`${convertToDate(new Date(item.tanggal_keluar))}`}
                                 editClick={()=>{
                                     setSelectProdukId(item.id)
@@ -362,7 +366,8 @@ export default function Page() {
                                             return(
                                                 <TableBodyOutbound
                                                     key={index++}
-                                                    nominalModal={`${convertToIdr(item.nominal_modal)}`}
+                                                    unit={item.produk.unit?.nama_satuan}
+                                                    nominalModal={`${convertToIdr(item.nominal_modal * item.jumlah_barang_keluar)}`}
                                                     tanggalMasuk={`${convertToDate(new Date(item.tanggal_keluar))}`}
                                                     editClick={()=>{
                                                         setSelectProdukId(item.id)

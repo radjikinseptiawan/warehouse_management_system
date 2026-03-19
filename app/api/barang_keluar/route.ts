@@ -44,7 +44,8 @@ export async function GET(){
                     include:{
                         vendors:true,
                         kategori:true,
-                        lokasi:true
+                        lokasi:true,
+                        unit:true
                     }
                 }
             }

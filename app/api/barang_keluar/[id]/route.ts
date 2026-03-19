@@ -16,7 +16,8 @@ export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>
                     include:{
                         vendors:true,
                         kategori:true,
-                        lokasi:true
+                        lokasi:true,
+                        unit:true
                     }
                 }
             }

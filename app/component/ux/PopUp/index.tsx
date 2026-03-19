@@ -6,6 +6,7 @@ import { BatalkanButton, GudangInput, InputPopupDate, InputPopupKeuangan, InputP
 import { setProdukId } from "@/app/slicers/inboundSlicers"
 import { useAppDispatch } from "@/app/hooks"
 import TrashIcon from "../../ui/icon/Trash"
+import { getSatuan } from "@/app/layers/dataLayer/satuan"
 
 function PopUpLayer({children}:{children:ReactNode}){
     return(
@@ -27,6 +28,8 @@ function PopUpProduct({
     kategoriValue,
     images,
     gudangValue,
+    satuanChange,
+    satuanValue,
     gudangChange,
     supplierChange,
     supplierValue
@@ -34,11 +37,15 @@ function PopUpProduct({
         const [dataGudang, setDataGudang] = useState<DataGudang[]>([])
         const [dataKategori,setDataKatgori] = useState<CategoryType[] | any>([])
         const [dataSuppliers,setDataSuppliers] = useState<DataVendors[]>([])
-
+        const [dataSatuan,setDataSatuan] = useState<{id:number,nama_satuan:string}[] | null>([])
         const suppliersFetch = async()=>{
             const response = await fetch("/api/vendors",{method:"GET"})
             const data = await response.json()
             setDataSuppliers(data.data)            
+        }
+
+        const satuanFetch = async()=>{
+           getSatuan(setDataSatuan)
         }
 
         const dataGudangFetch = async()=>{
@@ -57,7 +64,8 @@ function PopUpProduct({
             kategoriFetch()
             dataGudangFetch()
             suppliersFetch()
-        },[])
+            satuanFetch()
+          },[])
 
         return(
 <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
@@ -91,6 +99,20 @@ function PopUpProduct({
           disabled
       />
       <p className="text-[12px] text-red-500">Jumlah atau Stok hanya bisa di input di halaman inbound/outbound*</p>
+
+      <div className="flex flex-col">
+      <label className="text-sm font-medium">Satuan</label>
+      <select onChange={satuanChange} value={satuanValue} className="w-full mt-1 p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-green-500 outline-none">
+        <option value="">Pilih Satuan</option>
+          {
+            dataSatuan?.map((item,index)=>{
+              return(
+                <option value={item.id} key={index}>{item.nama_satuan}</option>
+              )
+            })
+          }
+      </select>
+      </div>
       </div>
 
       {/* Kategori */}
@@ -585,14 +607,27 @@ function PopUpDelete({
     )
 }
 
-function PopUpAddSatuan({satuanValue,valueChanger,cancel,confirm}:{cancel:()=>void,confirm:()=>void,satuanValue:string, valueChanger:(e: ChangeEvent<HTMLInputElement>)=>void}){
+function PopUpAddSatuan({
+  title,
+  satuanValue,
+  valueChanger,
+  cancel,
+  subtitle,
+  confirm
+}:{cancel:()=>void,
+  title:string,
+  confirm:()=>void,
+  satuanValue:string, 
+  subtitle:string,
+  valueChanger:(e: ChangeEvent<HTMLInputElement>)=>void
+}){
   return(
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
             <div className="bg-white w-full max-w-sm mx-4 p-6 rounded-xl shadow-2xl transform transition-all border border-gray-100">
 
               <div className="mb-4 text-left">
-                <h3 className="text-lg font-bold text-gray-800">Tambah Satuan Baru</h3>
-                <p className="text-sm text-gray-500">Masukkan nama satuan yang ingin ditambahkan.</p>
+                <h3 className="text-lg font-bold text-gray-800">{title}</h3>
+                <p className="text-sm text-gray-500">{subtitle}</p>
               </div>
 
               <div className="space-y-4">

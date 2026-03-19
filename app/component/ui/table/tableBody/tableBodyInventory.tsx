@@ -1,5 +1,5 @@
 export default function TableBodyInventory({
-    nama,nomor,image,jumlah,kategori,lokasi,
+    nama,nomor,image,jumlah,kategori,lokasi, unit,
     color, clicker,editClick,
     vendor}:{
         color:string,
@@ -10,6 +10,7 @@ export default function TableBodyInventory({
     jumlah:number,
     kategori:number | any,
     lokasi:number | any,
+    unit:number | any,
     vendor:number | any,
     clicker:()=>void
 }){
@@ -25,8 +26,8 @@ export default function TableBodyInventory({
                         <td className="p-3">
                             <span className="px-2 py-1 rounded-full text-xs text-white" style={{backgroundColor:`${color}`}}>{kategori}</span>
                         </td>
+                        <td className="p-3 text-center text-sm">{unit}</td>
                         <td className="p-3">{jumlah}</td>
-                        <td className="p-3 text-center text-sm">kg</td>
                         <td className="p-3 text-sm">{lokasi}</td>
                         <td className="p-3 text-sm text-blue-600">{vendor}</td>
                         <td className="p-3">

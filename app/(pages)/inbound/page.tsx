@@ -121,7 +121,6 @@ export default function Page() {
         dispatch(setNominalModal(0))           
     }
 
-
     const filterDataPilihan = useMemo(()=>filterData({
         rawData,
         kategoriPilihan,
@@ -130,12 +129,17 @@ export default function Page() {
         findItem
     }),[kategoriPilihan,rawData,vendorPilihan,filterPilihan,findItem])
 
+
+
     const currentData = filterDataPilihan.slice(paginationId * itemPerPage, (paginationId + 1) * itemPerPage);
     const totalPages = Math.ceil(filterDataPilihan.length / itemPerPage);
     const dataSorting = sortingDataIn(currentData)
 
     const allStock = dataProduk ?  rawData.reduce((acc,item)=>{return acc + (item.jumlah_barang_masuk || 0)},0) : ""
-    const allModal = rawData.reduce((acc,item)=>{return acc + (item.nominal_modal || 0)},0)
+    const allModal = rawData.reduce((acc,item)=>{
+        const modal = item.jumlah_barang_masuk * item.nominal_modal
+        return acc + modal
+    },0)
     return (
         <div className="p-4 bg-white rounded-lg flex flex-col justify-center shadow-md h-screen">
                        
@@ -305,7 +309,8 @@ export default function Page() {
                         dataSorting.map((item, index) => (
                             <TableBodyInbound
                                 key={index}
-                                nominalModal={`${convertToIdr(item.nominal_modal)}`}
+                                unit={item.produk.unit?.nama_satuan}
+                                nominalModal={`${convertToIdr(item.nominal_modal * item.jumlah_barang_masuk)}`}
                                 tanggalMasuk={`${convertToDate(new Date(item.tanggal_masuk))}`}
                                 editClick={()=>{
                                     setSelectProdukId(item.id)
@@ -336,7 +341,8 @@ export default function Page() {
                         return(
                             <TableBodyInbound
                                 key={index++}
-                                nominalModal={`${convertToIdr(item.nominal_modal)}`}
+                                unit={item.produk.unit?.nama_satuan}
+                                nominalModal={`${convertToIdr(item.nominal_modal * item.jumlah_barang_masuk)}`}
                                 tanggalMasuk={`${convertToDate(new Date(item.tanggal_masuk))}`}
                                 editClick={()=>{
                                     setSelectProdukId(item.id)

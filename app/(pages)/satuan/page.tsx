@@ -18,7 +18,7 @@ export default function Page(){
     const [categorySelected, setCategorySelected] = useState<number[]>([])
     const [idSatuanTerpilih, setSatuanTerpilih] = useState<number | null>(null) 
     const [satuan,setSatuan] = useState<string[] | any>([])
-    const [satuanValue,setSatuanValue] = useState<string>('')
+    const [satuanValue,setSatuanValue] = useState<string | any>('')
 
     const addSatuanValue = async ()=>{
         const payload : any= {
@@ -42,7 +42,6 @@ export default function Page(){
             prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
         )
     }
-
 
     const satuanDelete = async ()=>{
         await deleteSatuan({
@@ -104,12 +103,7 @@ export default function Page(){
                                             setSatuanTerpilih(item.id)
                                             getSatuanDetail({
                                                 id:item.id,
-                                                dispatch,
-                                                actions:{
-                                                    setNamaGudang,
-                                                    setAlamatGudang,
-                                                    setWarnaGudang
-                                                }
+                                                setDetailSatuan:setSatuanValue
                                             })
                                             dispatch(setIsOpendit(true))
                                         }}
@@ -141,6 +135,8 @@ export default function Page(){
 
         {isOpenOverlay && <PopUpLayer.PopUpAddSatuan 
         confirm={addSatuanValue} 
+        title="Tambah satuan baru"
+        subtitle="Masukkan nama satuan yang ingin ditambahkan"
         cancel={()=>dispatch(setIsOpenOverlay(false))} 
         valueChanger={(e)=>setSatuanValue(e.target.value) } 
         satuanValue={satuanValue}/>}
@@ -150,7 +146,19 @@ export default function Page(){
        }
        
        {
-        isOpenEdit && (<></>)
+        isOpenEdit && (
+            <PopUpLayer.PopUpAddSatuan
+                title="Edit Satuan"
+                subtitle="Masukkan nama satuan yang ingin diedit"
+                confirm={satuanEdited}
+                cancel={()=>{
+                    dispatch(setIsOpendit(false))
+                    setSatuanValue("")
+                }}
+                valueChanger={(e)=>setSatuanValue(e.target.value)}
+                satuanValue={satuanValue}
+            />
+        )
        }
        </div>
         </>

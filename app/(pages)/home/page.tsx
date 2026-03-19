@@ -71,7 +71,10 @@ export default function Page() {
         label: item.produk.nama_produk
     }))
 
-    const countingOutcome = filterDataIn.reduce((acc, item) => acc + (item.nominal_modal || 0), 0)
+    const countingOutcome = filterDataIn.reduce((acc, item) => {
+        const modal = item.nominal_modal * item.jumlah_barang_masuk
+        return acc + modal
+    }, 0)
 
     const filterDataOuts = useMemo(() => {
         return filterDataOut({ rawData: rawDataOut, filterPilihan: filterPilihanOut })
@@ -83,7 +86,10 @@ export default function Page() {
         label: item.produk.nama_produk
     }))
 
-    const countingIncome = filterDataOuts.reduce((acc, item) => acc + (item.nominal_modal || 0), 0)
+    const countingIncome = filterDataOuts.reduce((acc, item) => {
+        const modal = item.nominal_modal * item.jumlah_barang_keluar
+        return acc + modal
+    }, 0)
 
     return (
         <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-8">

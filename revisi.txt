@@ -1,5 +1,5 @@
-dibuat tabel jumlah * harga barang (butir/kilo/karung)
-tabel jumlah menggunakan satuan kg dan per karung
+dibuat tabel jumlah * harga barang (butir/kilo/karung) (solve)
+tabel jumlah menggunakan satuan kg dan per karung (solve)
 
 
 pengeluaran fasilitas per bulan untuk kandang 

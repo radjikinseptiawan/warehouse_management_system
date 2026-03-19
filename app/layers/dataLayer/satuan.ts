@@ -1,7 +1,7 @@
 import { DataGudang, DataVendors, GudangType, VendorType } from "@/lib/type"
 import { SetStateAction, Dispatch, useEffect } from "react"
 
-export const getSatuan = async (setSatuan : Dispatch<SetStateAction<DataGudang[] | null>>) => {
+export const getSatuan = async (setSatuan : Dispatch<SetStateAction<{id:number,nama_satuan:string}[] | null>>) => {
         try {
             const response = await fetch("/api/satuan", { method: "GET" })
             const data = await response.json()
@@ -12,25 +12,19 @@ export const getSatuan = async (setSatuan : Dispatch<SetStateAction<DataGudang[]
     }
 
 
-export type GudangDetailType = {
-    id:number | null,
-    dispatch:any,
-    actions:{
-        setNamaGudang:(val : string)=>void,
-        setAlamatGudang:(val: string)=>void,
-        setWarnaGudang:(val: string)=>void
-    }
-}    
-
 export const getSatuanDetail = async ({
-    id,dispatch,actions
-}:GudangDetailType) => {
+    id,
+    setDetailSatuan
+}:{
+    id:number,
+    setDetailSatuan : SetStateAction<Dispatch <string | null>>
+}) => {
     try {
     const response = await fetch(`/api/satuan/${id}`, { method: "GET" })
     const data = await response.json()
-    dispatch(actions.setNamaGudang(data.data.nama_gudang))
-    dispatch(actions.setAlamatGudang(data.data.alamat_gudang))
-    dispatch(actions.setWarnaGudang(data.data.warna_gudang))
+    const satuanValue = data.data?.nama_satuan
+    setDetailSatuan(satuanValue)
+    console.log(satuanValue)
     } catch (e) {
     console.error(e)
     }

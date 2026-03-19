@@ -23,6 +23,11 @@ const listSliders = [
         text:"Outbound",
         params:"/outbound",
         icon:"/SVG/outbound-svgrepo-com.svg"
+    },
+    {
+        text:"Finansial",
+        params:"/finansial",
+        icon:"/SVG/dollars-svgrepo-com.svg"
     }
 ]
 

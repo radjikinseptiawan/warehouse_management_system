@@ -7,7 +7,8 @@ export async function GET(){
             include:{
                 vendors:true,
                 lokasi:true,
-                kategori:true
+                kategori:true,
+                unit:true
             }
         })
 

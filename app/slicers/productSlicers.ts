@@ -7,7 +7,8 @@ interface ProductType{
     gudang:number | string | null,
     public_id:string | null | number,
     productName:string | number | null,
-    image:null | string | number
+    image:null | string | number,
+    satuan:number|null|any
 }
 
 const initialState : ProductType= {
@@ -17,7 +18,8 @@ const initialState : ProductType= {
     public_id:"",
     gudang:"",
     image:"",
-    productName:""
+    productName:"",
+    satuan:""
 }
 
 const productSlicers = createSlice({
@@ -44,9 +46,12 @@ const productSlicers = createSlice({
         },
         setPublicId:(state,action:PayloadAction<string>)=>{
             state.public_id = action.payload
+        },
+        setSatuan:(state,action : PayloadAction<string | number | any>)=>{
+            state.satuan = action.payload
         }
     }
 })
 
-export const { setPublicId,setSuppliers,setImageProduct, setKategori, setJumlah, setGudang, setProductName } = productSlicers.actions
+export const { setPublicId,setSuppliers,setSatuan,setImageProduct, setKategori, setJumlah, setGudang, setProductName } = productSlicers.actions
 export default productSlicers.reducer
