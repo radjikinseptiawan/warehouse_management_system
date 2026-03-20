@@ -128,6 +128,15 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role'
 };
 
+exports.Prisma.KaryawanScalarFieldEnum = {
+  id: 'id',
+  nama_karyawan: 'nama_karyawan',
+  alamat_karyawan: 'alamat_karyawan',
+  gaji_karyawan: 'gaji_karyawan',
+  mulai_kerja: 'mulai_kerja',
+  status: 'status'
+};
+
 exports.Prisma.VendorsScalarFieldEnum = {
   id: 'id',
   nama_vendor: 'nama_vendor',
@@ -158,12 +167,12 @@ exports.Prisma.ProdukScalarFieldEnum = {
   nama_produk: 'nama_produk',
   kategoriId: 'kategoriId',
   vendorsId: 'vendorsId',
-  unitId: 'unitId',
   jumlah: 'jumlah',
   lokasiId: 'lokasiId',
   gambar_produk: 'gambar_produk',
   is_delete: 'is_delete',
-  public_id: 'public_id'
+  public_id: 'public_id',
+  unitId: 'unitId'
 };
 
 exports.Prisma.Barang_masukScalarFieldEnum = {
@@ -201,8 +210,14 @@ exports.Role = exports.$Enums.Role = {
   USER: 'USER'
 };
 
+exports.isActive = exports.$Enums.isActive = {
+  Aktif: 'Aktif',
+  NonAktif: 'NonAktif'
+};
+
 exports.Prisma.ModelName = {
   user: 'user',
+  Karyawan: 'Karyawan',
   vendors: 'vendors',
   category: 'category',
   satuan: 'satuan',

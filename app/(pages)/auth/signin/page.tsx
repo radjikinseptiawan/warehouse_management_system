@@ -1,16 +1,20 @@
 "use client"
 import Image from "next/image";
-import { ButtonLayer } from "./component/ui/Button";
-import Input from "./component/ui/Input";
+import { ButtonLayer } from "../../../component/ui/Button";
+import Input from "../../../component/ui/Input";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 
 export default function Home() {
   const [email,setEmail] = useState("")
   const [password, setPassword] = useState("")
-
+  const searchParams = useSearchParams()
+  const [showError,setShowError] = useState(true)
+  const error = searchParams.get("error")  
   const loginPages = async()=>{
-    const res = await signIn("credentials",{
+     await signIn("credentials",{
       email,
       password,
       redirect:true,
@@ -43,6 +47,35 @@ export default function Home() {
           mind={"Password"}
           types="password" 
           title="Password"/>
+
+      <div className="fixed top-5 right-5 z-[9999] overflow-hidden">
+        <AnimatePresence>
+          {showError && (
+            <motion.div
+              initial={{ x: 300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: 300, opacity: 0 }}
+              className="p-4 bg-white border-l-4 border-red-500 shadow-2xl rounded-md w-80 md:w-96 relative"
+            >
+              <div className="flex justify-between items-start">
+                <div className="text-red-600">
+                  <h1 className="font-bold text-sm">Permintaan gagal diproses!</h1>
+                  <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                    Sistem tidak mengenali username, atau password yang dimasukkan salah. Silakan coba lagi.
+                  </p>
+                </div>
+                <button 
+                  onClick={() => setShowError(false)}
+                  className="text-gray-400 hover:text-gray-600 font-bold"
+                >
+                  ✕
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
 
           <div className="font-bold text-white">
           <ButtonLayer.Button text="Login" clicker={loginPages}/>

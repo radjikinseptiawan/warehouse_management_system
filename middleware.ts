@@ -14,7 +14,6 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ token, req }) => {
-        // Izinkan akses ke "/" tanpa token, tapi route lain wajib punya token
         if (req.nextUrl.pathname === "/") return true;
         return !!token;
       },
@@ -32,6 +31,10 @@ export const config = {
     "/notification/:path*",
     "/inbound/:path*",
     "/outbound/:path*", 
+    "/satuan/:path*",
+    "/karyawan/:path*",
+    "/operasional/:path*",
+    "/finansial/:path*",
     "/"
   ],
 }

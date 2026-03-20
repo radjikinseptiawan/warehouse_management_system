@@ -2,6 +2,7 @@
 import { signOut } from "next-auth/react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import { useState } from "react"
 
 const listSliders = [
     {
@@ -38,7 +39,7 @@ export default function Sliders(){
         <div className="bg-white p-5 
         font-semibold sticky top-5 z-10
         min-h-screen shadow-xl lg:w-80 md:w-72 text-green-500">
-        <h1 className=" md:text-[17px] text-[12px] lg:text-xl text-center text-green-600 mt-5 font-bold">SiBumDes</h1>
+        <h1 className=" md:text-[17px] text-[12px] lg:text-xl text-center text-green-600 mt-5 font-bold">SiBumDes</h1>        
         <hr className="text-gray-400"/>
             <ul>
             {

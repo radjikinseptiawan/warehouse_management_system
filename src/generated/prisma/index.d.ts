@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type user = $Result.DefaultSelection<Prisma.$userPayload>
 /**
+ * Model Karyawan
+ * 
+ */
+export type Karyawan = $Result.DefaultSelection<Prisma.$KaryawanPayload>
+/**
  * Model vendors
  * 
  */
@@ -65,11 +70,23 @@ export namespace $Enums {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const isActive: {
+  Aktif: 'Aktif',
+  NonAktif: 'NonAktif'
+};
+
+export type isActive = (typeof isActive)[keyof typeof isActive]
+
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type isActive = $Enums.isActive
+
+export const isActive: typeof $Enums.isActive
 
 /**
  * ##  Prisma Client ʲˢ
@@ -201,6 +218,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.userDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.karyawan`: Exposes CRUD operations for the **Karyawan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Karyawans
+    * const karyawans = await prisma.karyawan.findMany()
+    * ```
+    */
+  get karyawan(): Prisma.KaryawanDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.vendors`: Exposes CRUD operations for the **vendors** model.
@@ -706,6 +733,7 @@ export namespace Prisma {
 
   export const ModelName: {
     user: 'user',
+    Karyawan: 'Karyawan',
     vendors: 'vendors',
     category: 'category',
     satuan: 'satuan',
@@ -728,7 +756,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "vendors" | "category" | "satuan" | "lokasi_gudang" | "produk" | "barang_masuk" | "barang_keluar"
+      modelProps: "user" | "karyawan" | "vendors" | "category" | "satuan" | "lokasi_gudang" | "produk" | "barang_masuk" | "barang_keluar"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -803,6 +831,80 @@ export namespace Prisma {
           count: {
             args: Prisma.userCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Karyawan: {
+        payload: Prisma.$KaryawanPayload<ExtArgs>
+        fields: Prisma.KaryawanFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KaryawanFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KaryawanFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload>
+          }
+          findFirst: {
+            args: Prisma.KaryawanFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KaryawanFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload>
+          }
+          findMany: {
+            args: Prisma.KaryawanFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload>[]
+          }
+          create: {
+            args: Prisma.KaryawanCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload>
+          }
+          createMany: {
+            args: Prisma.KaryawanCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KaryawanCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload>[]
+          }
+          delete: {
+            args: Prisma.KaryawanDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload>
+          }
+          update: {
+            args: Prisma.KaryawanUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload>
+          }
+          deleteMany: {
+            args: Prisma.KaryawanDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KaryawanUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KaryawanUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload>[]
+          }
+          upsert: {
+            args: Prisma.KaryawanUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KaryawanPayload>
+          }
+          aggregate: {
+            args: Prisma.KaryawanAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKaryawan>
+          }
+          groupBy: {
+            args: Prisma.KaryawanGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KaryawanGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KaryawanCountArgs<ExtArgs>
+            result: $Utils.Optional<KaryawanCountAggregateOutputType> | number
           }
         }
       }
@@ -1433,6 +1535,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: userOmit
+    karyawan?: KaryawanOmit
     vendors?: vendorsOmit
     category?: categoryOmit
     satuan?: satuanOmit
@@ -2675,6 +2778,1052 @@ export namespace Prisma {
      * Omit specific fields from the user
      */
     omit?: userOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Karyawan
+   */
+
+  export type AggregateKaryawan = {
+    _count: KaryawanCountAggregateOutputType | null
+    _avg: KaryawanAvgAggregateOutputType | null
+    _sum: KaryawanSumAggregateOutputType | null
+    _min: KaryawanMinAggregateOutputType | null
+    _max: KaryawanMaxAggregateOutputType | null
+  }
+
+  export type KaryawanAvgAggregateOutputType = {
+    id: number | null
+    gaji_karyawan: number | null
+  }
+
+  export type KaryawanSumAggregateOutputType = {
+    id: number | null
+    gaji_karyawan: number | null
+  }
+
+  export type KaryawanMinAggregateOutputType = {
+    id: number | null
+    nama_karyawan: string | null
+    alamat_karyawan: string | null
+    gaji_karyawan: number | null
+    mulai_kerja: string | null
+    status: $Enums.isActive | null
+  }
+
+  export type KaryawanMaxAggregateOutputType = {
+    id: number | null
+    nama_karyawan: string | null
+    alamat_karyawan: string | null
+    gaji_karyawan: number | null
+    mulai_kerja: string | null
+    status: $Enums.isActive | null
+  }
+
+  export type KaryawanCountAggregateOutputType = {
+    id: number
+    nama_karyawan: number
+    alamat_karyawan: number
+    gaji_karyawan: number
+    mulai_kerja: number
+    status: number
+    _all: number
+  }
+
+
+  export type KaryawanAvgAggregateInputType = {
+    id?: true
+    gaji_karyawan?: true
+  }
+
+  export type KaryawanSumAggregateInputType = {
+    id?: true
+    gaji_karyawan?: true
+  }
+
+  export type KaryawanMinAggregateInputType = {
+    id?: true
+    nama_karyawan?: true
+    alamat_karyawan?: true
+    gaji_karyawan?: true
+    mulai_kerja?: true
+    status?: true
+  }
+
+  export type KaryawanMaxAggregateInputType = {
+    id?: true
+    nama_karyawan?: true
+    alamat_karyawan?: true
+    gaji_karyawan?: true
+    mulai_kerja?: true
+    status?: true
+  }
+
+  export type KaryawanCountAggregateInputType = {
+    id?: true
+    nama_karyawan?: true
+    alamat_karyawan?: true
+    gaji_karyawan?: true
+    mulai_kerja?: true
+    status?: true
+    _all?: true
+  }
+
+  export type KaryawanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Karyawan to aggregate.
+     */
+    where?: KaryawanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Karyawans to fetch.
+     */
+    orderBy?: KaryawanOrderByWithRelationInput | KaryawanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KaryawanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Karyawans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Karyawans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Karyawans
+    **/
+    _count?: true | KaryawanCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KaryawanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KaryawanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KaryawanMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KaryawanMaxAggregateInputType
+  }
+
+  export type GetKaryawanAggregateType<T extends KaryawanAggregateArgs> = {
+        [P in keyof T & keyof AggregateKaryawan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKaryawan[P]>
+      : GetScalarType<T[P], AggregateKaryawan[P]>
+  }
+
+
+
+
+  export type KaryawanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KaryawanWhereInput
+    orderBy?: KaryawanOrderByWithAggregationInput | KaryawanOrderByWithAggregationInput[]
+    by: KaryawanScalarFieldEnum[] | KaryawanScalarFieldEnum
+    having?: KaryawanScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KaryawanCountAggregateInputType | true
+    _avg?: KaryawanAvgAggregateInputType
+    _sum?: KaryawanSumAggregateInputType
+    _min?: KaryawanMinAggregateInputType
+    _max?: KaryawanMaxAggregateInputType
+  }
+
+  export type KaryawanGroupByOutputType = {
+    id: number
+    nama_karyawan: string
+    alamat_karyawan: string
+    gaji_karyawan: number
+    mulai_kerja: string
+    status: $Enums.isActive
+    _count: KaryawanCountAggregateOutputType | null
+    _avg: KaryawanAvgAggregateOutputType | null
+    _sum: KaryawanSumAggregateOutputType | null
+    _min: KaryawanMinAggregateOutputType | null
+    _max: KaryawanMaxAggregateOutputType | null
+  }
+
+  type GetKaryawanGroupByPayload<T extends KaryawanGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KaryawanGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KaryawanGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KaryawanGroupByOutputType[P]>
+            : GetScalarType<T[P], KaryawanGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KaryawanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama_karyawan?: boolean
+    alamat_karyawan?: boolean
+    gaji_karyawan?: boolean
+    mulai_kerja?: boolean
+    status?: boolean
+  }, ExtArgs["result"]["karyawan"]>
+
+  export type KaryawanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama_karyawan?: boolean
+    alamat_karyawan?: boolean
+    gaji_karyawan?: boolean
+    mulai_kerja?: boolean
+    status?: boolean
+  }, ExtArgs["result"]["karyawan"]>
+
+  export type KaryawanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama_karyawan?: boolean
+    alamat_karyawan?: boolean
+    gaji_karyawan?: boolean
+    mulai_kerja?: boolean
+    status?: boolean
+  }, ExtArgs["result"]["karyawan"]>
+
+  export type KaryawanSelectScalar = {
+    id?: boolean
+    nama_karyawan?: boolean
+    alamat_karyawan?: boolean
+    gaji_karyawan?: boolean
+    mulai_kerja?: boolean
+    status?: boolean
+  }
+
+  export type KaryawanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_karyawan" | "alamat_karyawan" | "gaji_karyawan" | "mulai_kerja" | "status", ExtArgs["result"]["karyawan"]>
+
+  export type $KaryawanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Karyawan"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nama_karyawan: string
+      alamat_karyawan: string
+      gaji_karyawan: number
+      mulai_kerja: string
+      status: $Enums.isActive
+    }, ExtArgs["result"]["karyawan"]>
+    composites: {}
+  }
+
+  type KaryawanGetPayload<S extends boolean | null | undefined | KaryawanDefaultArgs> = $Result.GetResult<Prisma.$KaryawanPayload, S>
+
+  type KaryawanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KaryawanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KaryawanCountAggregateInputType | true
+    }
+
+  export interface KaryawanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Karyawan'], meta: { name: 'Karyawan' } }
+    /**
+     * Find zero or one Karyawan that matches the filter.
+     * @param {KaryawanFindUniqueArgs} args - Arguments to find a Karyawan
+     * @example
+     * // Get one Karyawan
+     * const karyawan = await prisma.karyawan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KaryawanFindUniqueArgs>(args: SelectSubset<T, KaryawanFindUniqueArgs<ExtArgs>>): Prisma__KaryawanClient<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Karyawan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KaryawanFindUniqueOrThrowArgs} args - Arguments to find a Karyawan
+     * @example
+     * // Get one Karyawan
+     * const karyawan = await prisma.karyawan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KaryawanFindUniqueOrThrowArgs>(args: SelectSubset<T, KaryawanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KaryawanClient<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Karyawan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KaryawanFindFirstArgs} args - Arguments to find a Karyawan
+     * @example
+     * // Get one Karyawan
+     * const karyawan = await prisma.karyawan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KaryawanFindFirstArgs>(args?: SelectSubset<T, KaryawanFindFirstArgs<ExtArgs>>): Prisma__KaryawanClient<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Karyawan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KaryawanFindFirstOrThrowArgs} args - Arguments to find a Karyawan
+     * @example
+     * // Get one Karyawan
+     * const karyawan = await prisma.karyawan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KaryawanFindFirstOrThrowArgs>(args?: SelectSubset<T, KaryawanFindFirstOrThrowArgs<ExtArgs>>): Prisma__KaryawanClient<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Karyawans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KaryawanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Karyawans
+     * const karyawans = await prisma.karyawan.findMany()
+     * 
+     * // Get first 10 Karyawans
+     * const karyawans = await prisma.karyawan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const karyawanWithIdOnly = await prisma.karyawan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KaryawanFindManyArgs>(args?: SelectSubset<T, KaryawanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Karyawan.
+     * @param {KaryawanCreateArgs} args - Arguments to create a Karyawan.
+     * @example
+     * // Create one Karyawan
+     * const Karyawan = await prisma.karyawan.create({
+     *   data: {
+     *     // ... data to create a Karyawan
+     *   }
+     * })
+     * 
+     */
+    create<T extends KaryawanCreateArgs>(args: SelectSubset<T, KaryawanCreateArgs<ExtArgs>>): Prisma__KaryawanClient<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Karyawans.
+     * @param {KaryawanCreateManyArgs} args - Arguments to create many Karyawans.
+     * @example
+     * // Create many Karyawans
+     * const karyawan = await prisma.karyawan.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KaryawanCreateManyArgs>(args?: SelectSubset<T, KaryawanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Karyawans and returns the data saved in the database.
+     * @param {KaryawanCreateManyAndReturnArgs} args - Arguments to create many Karyawans.
+     * @example
+     * // Create many Karyawans
+     * const karyawan = await prisma.karyawan.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Karyawans and only return the `id`
+     * const karyawanWithIdOnly = await prisma.karyawan.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KaryawanCreateManyAndReturnArgs>(args?: SelectSubset<T, KaryawanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Karyawan.
+     * @param {KaryawanDeleteArgs} args - Arguments to delete one Karyawan.
+     * @example
+     * // Delete one Karyawan
+     * const Karyawan = await prisma.karyawan.delete({
+     *   where: {
+     *     // ... filter to delete one Karyawan
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KaryawanDeleteArgs>(args: SelectSubset<T, KaryawanDeleteArgs<ExtArgs>>): Prisma__KaryawanClient<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Karyawan.
+     * @param {KaryawanUpdateArgs} args - Arguments to update one Karyawan.
+     * @example
+     * // Update one Karyawan
+     * const karyawan = await prisma.karyawan.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KaryawanUpdateArgs>(args: SelectSubset<T, KaryawanUpdateArgs<ExtArgs>>): Prisma__KaryawanClient<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Karyawans.
+     * @param {KaryawanDeleteManyArgs} args - Arguments to filter Karyawans to delete.
+     * @example
+     * // Delete a few Karyawans
+     * const { count } = await prisma.karyawan.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KaryawanDeleteManyArgs>(args?: SelectSubset<T, KaryawanDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Karyawans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KaryawanUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Karyawans
+     * const karyawan = await prisma.karyawan.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KaryawanUpdateManyArgs>(args: SelectSubset<T, KaryawanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Karyawans and returns the data updated in the database.
+     * @param {KaryawanUpdateManyAndReturnArgs} args - Arguments to update many Karyawans.
+     * @example
+     * // Update many Karyawans
+     * const karyawan = await prisma.karyawan.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Karyawans and only return the `id`
+     * const karyawanWithIdOnly = await prisma.karyawan.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KaryawanUpdateManyAndReturnArgs>(args: SelectSubset<T, KaryawanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Karyawan.
+     * @param {KaryawanUpsertArgs} args - Arguments to update or create a Karyawan.
+     * @example
+     * // Update or create a Karyawan
+     * const karyawan = await prisma.karyawan.upsert({
+     *   create: {
+     *     // ... data to create a Karyawan
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Karyawan we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KaryawanUpsertArgs>(args: SelectSubset<T, KaryawanUpsertArgs<ExtArgs>>): Prisma__KaryawanClient<$Result.GetResult<Prisma.$KaryawanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Karyawans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KaryawanCountArgs} args - Arguments to filter Karyawans to count.
+     * @example
+     * // Count the number of Karyawans
+     * const count = await prisma.karyawan.count({
+     *   where: {
+     *     // ... the filter for the Karyawans we want to count
+     *   }
+     * })
+    **/
+    count<T extends KaryawanCountArgs>(
+      args?: Subset<T, KaryawanCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KaryawanCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Karyawan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KaryawanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KaryawanAggregateArgs>(args: Subset<T, KaryawanAggregateArgs>): Prisma.PrismaPromise<GetKaryawanAggregateType<T>>
+
+    /**
+     * Group by Karyawan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KaryawanGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KaryawanGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KaryawanGroupByArgs['orderBy'] }
+        : { orderBy?: KaryawanGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KaryawanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKaryawanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Karyawan model
+   */
+  readonly fields: KaryawanFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Karyawan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KaryawanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Karyawan model
+   */
+  interface KaryawanFieldRefs {
+    readonly id: FieldRef<"Karyawan", 'Int'>
+    readonly nama_karyawan: FieldRef<"Karyawan", 'String'>
+    readonly alamat_karyawan: FieldRef<"Karyawan", 'String'>
+    readonly gaji_karyawan: FieldRef<"Karyawan", 'Int'>
+    readonly mulai_kerja: FieldRef<"Karyawan", 'String'>
+    readonly status: FieldRef<"Karyawan", 'isActive'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Karyawan findUnique
+   */
+  export type KaryawanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * Filter, which Karyawan to fetch.
+     */
+    where: KaryawanWhereUniqueInput
+  }
+
+  /**
+   * Karyawan findUniqueOrThrow
+   */
+  export type KaryawanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * Filter, which Karyawan to fetch.
+     */
+    where: KaryawanWhereUniqueInput
+  }
+
+  /**
+   * Karyawan findFirst
+   */
+  export type KaryawanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * Filter, which Karyawan to fetch.
+     */
+    where?: KaryawanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Karyawans to fetch.
+     */
+    orderBy?: KaryawanOrderByWithRelationInput | KaryawanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Karyawans.
+     */
+    cursor?: KaryawanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Karyawans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Karyawans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Karyawans.
+     */
+    distinct?: KaryawanScalarFieldEnum | KaryawanScalarFieldEnum[]
+  }
+
+  /**
+   * Karyawan findFirstOrThrow
+   */
+  export type KaryawanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * Filter, which Karyawan to fetch.
+     */
+    where?: KaryawanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Karyawans to fetch.
+     */
+    orderBy?: KaryawanOrderByWithRelationInput | KaryawanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Karyawans.
+     */
+    cursor?: KaryawanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Karyawans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Karyawans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Karyawans.
+     */
+    distinct?: KaryawanScalarFieldEnum | KaryawanScalarFieldEnum[]
+  }
+
+  /**
+   * Karyawan findMany
+   */
+  export type KaryawanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * Filter, which Karyawans to fetch.
+     */
+    where?: KaryawanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Karyawans to fetch.
+     */
+    orderBy?: KaryawanOrderByWithRelationInput | KaryawanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Karyawans.
+     */
+    cursor?: KaryawanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Karyawans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Karyawans.
+     */
+    skip?: number
+    distinct?: KaryawanScalarFieldEnum | KaryawanScalarFieldEnum[]
+  }
+
+  /**
+   * Karyawan create
+   */
+  export type KaryawanCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Karyawan.
+     */
+    data: XOR<KaryawanCreateInput, KaryawanUncheckedCreateInput>
+  }
+
+  /**
+   * Karyawan createMany
+   */
+  export type KaryawanCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Karyawans.
+     */
+    data: KaryawanCreateManyInput | KaryawanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Karyawan createManyAndReturn
+   */
+  export type KaryawanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * The data used to create many Karyawans.
+     */
+    data: KaryawanCreateManyInput | KaryawanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Karyawan update
+   */
+  export type KaryawanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Karyawan.
+     */
+    data: XOR<KaryawanUpdateInput, KaryawanUncheckedUpdateInput>
+    /**
+     * Choose, which Karyawan to update.
+     */
+    where: KaryawanWhereUniqueInput
+  }
+
+  /**
+   * Karyawan updateMany
+   */
+  export type KaryawanUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Karyawans.
+     */
+    data: XOR<KaryawanUpdateManyMutationInput, KaryawanUncheckedUpdateManyInput>
+    /**
+     * Filter which Karyawans to update
+     */
+    where?: KaryawanWhereInput
+    /**
+     * Limit how many Karyawans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Karyawan updateManyAndReturn
+   */
+  export type KaryawanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * The data used to update Karyawans.
+     */
+    data: XOR<KaryawanUpdateManyMutationInput, KaryawanUncheckedUpdateManyInput>
+    /**
+     * Filter which Karyawans to update
+     */
+    where?: KaryawanWhereInput
+    /**
+     * Limit how many Karyawans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Karyawan upsert
+   */
+  export type KaryawanUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Karyawan to update in case it exists.
+     */
+    where: KaryawanWhereUniqueInput
+    /**
+     * In case the Karyawan found by the `where` argument doesn't exist, create a new Karyawan with this data.
+     */
+    create: XOR<KaryawanCreateInput, KaryawanUncheckedCreateInput>
+    /**
+     * In case the Karyawan was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KaryawanUpdateInput, KaryawanUncheckedUpdateInput>
+  }
+
+  /**
+   * Karyawan delete
+   */
+  export type KaryawanDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
+    /**
+     * Filter which Karyawan to delete.
+     */
+    where: KaryawanWhereUniqueInput
+  }
+
+  /**
+   * Karyawan deleteMany
+   */
+  export type KaryawanDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Karyawans to delete
+     */
+    where?: KaryawanWhereInput
+    /**
+     * Limit how many Karyawans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Karyawan without action
+   */
+  export type KaryawanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Karyawan
+     */
+    select?: KaryawanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Karyawan
+     */
+    omit?: KaryawanOmit<ExtArgs> | null
   }
 
 
@@ -7019,18 +8168,18 @@ export namespace Prisma {
     id: number | null
     kategoriId: number | null
     vendorsId: number | null
-    unitId: number | null
     jumlah: number | null
     lokasiId: number | null
+    unitId: number | null
   }
 
   export type ProdukSumAggregateOutputType = {
     id: number | null
     kategoriId: number | null
     vendorsId: number | null
-    unitId: number | null
     jumlah: number | null
     lokasiId: number | null
+    unitId: number | null
   }
 
   export type ProdukMinAggregateOutputType = {
@@ -7038,12 +8187,12 @@ export namespace Prisma {
     nama_produk: string | null
     kategoriId: number | null
     vendorsId: number | null
-    unitId: number | null
     jumlah: number | null
     lokasiId: number | null
     gambar_produk: string | null
     is_delete: boolean | null
     public_id: string | null
+    unitId: number | null
   }
 
   export type ProdukMaxAggregateOutputType = {
@@ -7051,12 +8200,12 @@ export namespace Prisma {
     nama_produk: string | null
     kategoriId: number | null
     vendorsId: number | null
-    unitId: number | null
     jumlah: number | null
     lokasiId: number | null
     gambar_produk: string | null
     is_delete: boolean | null
     public_id: string | null
+    unitId: number | null
   }
 
   export type ProdukCountAggregateOutputType = {
@@ -7064,12 +8213,12 @@ export namespace Prisma {
     nama_produk: number
     kategoriId: number
     vendorsId: number
-    unitId: number
     jumlah: number
     lokasiId: number
     gambar_produk: number
     is_delete: number
     public_id: number
+    unitId: number
     _all: number
   }
 
@@ -7078,18 +8227,18 @@ export namespace Prisma {
     id?: true
     kategoriId?: true
     vendorsId?: true
-    unitId?: true
     jumlah?: true
     lokasiId?: true
+    unitId?: true
   }
 
   export type ProdukSumAggregateInputType = {
     id?: true
     kategoriId?: true
     vendorsId?: true
-    unitId?: true
     jumlah?: true
     lokasiId?: true
+    unitId?: true
   }
 
   export type ProdukMinAggregateInputType = {
@@ -7097,12 +8246,12 @@ export namespace Prisma {
     nama_produk?: true
     kategoriId?: true
     vendorsId?: true
-    unitId?: true
     jumlah?: true
     lokasiId?: true
     gambar_produk?: true
     is_delete?: true
     public_id?: true
+    unitId?: true
   }
 
   export type ProdukMaxAggregateInputType = {
@@ -7110,12 +8259,12 @@ export namespace Prisma {
     nama_produk?: true
     kategoriId?: true
     vendorsId?: true
-    unitId?: true
     jumlah?: true
     lokasiId?: true
     gambar_produk?: true
     is_delete?: true
     public_id?: true
+    unitId?: true
   }
 
   export type ProdukCountAggregateInputType = {
@@ -7123,12 +8272,12 @@ export namespace Prisma {
     nama_produk?: true
     kategoriId?: true
     vendorsId?: true
-    unitId?: true
     jumlah?: true
     lokasiId?: true
     gambar_produk?: true
     is_delete?: true
     public_id?: true
+    unitId?: true
     _all?: true
   }
 
@@ -7223,12 +8372,12 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
-    unitId: number | null
     jumlah: number
     lokasiId: number
     gambar_produk: string | null
     is_delete: boolean
     public_id: string | null
+    unitId: number | null
     _count: ProdukCountAggregateOutputType | null
     _avg: ProdukAvgAggregateOutputType | null
     _sum: ProdukSumAggregateOutputType | null
@@ -7255,12 +8404,12 @@ export namespace Prisma {
     nama_produk?: boolean
     kategoriId?: boolean
     vendorsId?: boolean
-    unitId?: boolean
     jumlah?: boolean
     lokasiId?: boolean
     gambar_produk?: boolean
     is_delete?: boolean
     public_id?: boolean
+    unitId?: boolean
     outbound?: boolean | produk$outboundArgs<ExtArgs>
     inbound?: boolean | produk$inboundArgs<ExtArgs>
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
@@ -7275,12 +8424,12 @@ export namespace Prisma {
     nama_produk?: boolean
     kategoriId?: boolean
     vendorsId?: boolean
-    unitId?: boolean
     jumlah?: boolean
     lokasiId?: boolean
     gambar_produk?: boolean
     is_delete?: boolean
     public_id?: boolean
+    unitId?: boolean
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     lokasi?: boolean | lokasi_gudangDefaultArgs<ExtArgs>
     unit?: boolean | produk$unitArgs<ExtArgs>
@@ -7292,12 +8441,12 @@ export namespace Prisma {
     nama_produk?: boolean
     kategoriId?: boolean
     vendorsId?: boolean
-    unitId?: boolean
     jumlah?: boolean
     lokasiId?: boolean
     gambar_produk?: boolean
     is_delete?: boolean
     public_id?: boolean
+    unitId?: boolean
     kategori?: boolean | categoryDefaultArgs<ExtArgs>
     lokasi?: boolean | lokasi_gudangDefaultArgs<ExtArgs>
     unit?: boolean | produk$unitArgs<ExtArgs>
@@ -7309,15 +8458,15 @@ export namespace Prisma {
     nama_produk?: boolean
     kategoriId?: boolean
     vendorsId?: boolean
-    unitId?: boolean
     jumlah?: boolean
     lokasiId?: boolean
     gambar_produk?: boolean
     is_delete?: boolean
     public_id?: boolean
+    unitId?: boolean
   }
 
-  export type produkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_produk" | "kategoriId" | "vendorsId" | "unitId" | "jumlah" | "lokasiId" | "gambar_produk" | "is_delete" | "public_id", ExtArgs["result"]["produk"]>
+  export type produkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_produk" | "kategoriId" | "vendorsId" | "jumlah" | "lokasiId" | "gambar_produk" | "is_delete" | "public_id" | "unitId", ExtArgs["result"]["produk"]>
   export type produkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     outbound?: boolean | produk$outboundArgs<ExtArgs>
     inbound?: boolean | produk$inboundArgs<ExtArgs>
@@ -7355,12 +8504,12 @@ export namespace Prisma {
       nama_produk: string
       kategoriId: number
       vendorsId: number
-      unitId: number | null
       jumlah: number
       lokasiId: number
       gambar_produk: string | null
       is_delete: boolean
       public_id: string | null
+      unitId: number | null
     }, ExtArgs["result"]["produk"]>
     composites: {}
   }
@@ -7794,12 +8943,12 @@ export namespace Prisma {
     readonly nama_produk: FieldRef<"produk", 'String'>
     readonly kategoriId: FieldRef<"produk", 'Int'>
     readonly vendorsId: FieldRef<"produk", 'Int'>
-    readonly unitId: FieldRef<"produk", 'Int'>
     readonly jumlah: FieldRef<"produk", 'Int'>
     readonly lokasiId: FieldRef<"produk", 'Int'>
     readonly gambar_produk: FieldRef<"produk", 'String'>
     readonly is_delete: FieldRef<"produk", 'Boolean'>
     readonly public_id: FieldRef<"produk", 'String'>
+    readonly unitId: FieldRef<"produk", 'Int'>
   }
     
 
@@ -10514,6 +11663,18 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const KaryawanScalarFieldEnum: {
+    id: 'id',
+    nama_karyawan: 'nama_karyawan',
+    alamat_karyawan: 'alamat_karyawan',
+    gaji_karyawan: 'gaji_karyawan',
+    mulai_kerja: 'mulai_kerja',
+    status: 'status'
+  };
+
+  export type KaryawanScalarFieldEnum = (typeof KaryawanScalarFieldEnum)[keyof typeof KaryawanScalarFieldEnum]
+
+
   export const VendorsScalarFieldEnum: {
     id: 'id',
     nama_vendor: 'nama_vendor',
@@ -10556,12 +11717,12 @@ export namespace Prisma {
     nama_produk: 'nama_produk',
     kategoriId: 'kategoriId',
     vendorsId: 'vendorsId',
-    unitId: 'unitId',
     jumlah: 'jumlah',
     lokasiId: 'lokasiId',
     gambar_produk: 'gambar_produk',
     is_delete: 'is_delete',
-    public_id: 'public_id'
+    public_id: 'public_id',
+    unitId: 'unitId'
   };
 
   export type ProdukScalarFieldEnum = (typeof ProdukScalarFieldEnum)[keyof typeof ProdukScalarFieldEnum]
@@ -10661,6 +11822,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'isActive'
+   */
+  export type EnumisActiveFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'isActive'>
+    
+
+
+  /**
+   * Reference to a field of type 'isActive[]'
+   */
+  export type ListEnumisActiveFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'isActive[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -10748,6 +11923,65 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"user"> | string | null
     password?: StringWithAggregatesFilter<"user"> | string
     role?: EnumRoleWithAggregatesFilter<"user"> | $Enums.Role
+  }
+
+  export type KaryawanWhereInput = {
+    AND?: KaryawanWhereInput | KaryawanWhereInput[]
+    OR?: KaryawanWhereInput[]
+    NOT?: KaryawanWhereInput | KaryawanWhereInput[]
+    id?: IntFilter<"Karyawan"> | number
+    nama_karyawan?: StringFilter<"Karyawan"> | string
+    alamat_karyawan?: StringFilter<"Karyawan"> | string
+    gaji_karyawan?: IntFilter<"Karyawan"> | number
+    mulai_kerja?: StringFilter<"Karyawan"> | string
+    status?: EnumisActiveFilter<"Karyawan"> | $Enums.isActive
+  }
+
+  export type KaryawanOrderByWithRelationInput = {
+    id?: SortOrder
+    nama_karyawan?: SortOrder
+    alamat_karyawan?: SortOrder
+    gaji_karyawan?: SortOrder
+    mulai_kerja?: SortOrder
+    status?: SortOrder
+  }
+
+  export type KaryawanWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: KaryawanWhereInput | KaryawanWhereInput[]
+    OR?: KaryawanWhereInput[]
+    NOT?: KaryawanWhereInput | KaryawanWhereInput[]
+    nama_karyawan?: StringFilter<"Karyawan"> | string
+    alamat_karyawan?: StringFilter<"Karyawan"> | string
+    gaji_karyawan?: IntFilter<"Karyawan"> | number
+    mulai_kerja?: StringFilter<"Karyawan"> | string
+    status?: EnumisActiveFilter<"Karyawan"> | $Enums.isActive
+  }, "id">
+
+  export type KaryawanOrderByWithAggregationInput = {
+    id?: SortOrder
+    nama_karyawan?: SortOrder
+    alamat_karyawan?: SortOrder
+    gaji_karyawan?: SortOrder
+    mulai_kerja?: SortOrder
+    status?: SortOrder
+    _count?: KaryawanCountOrderByAggregateInput
+    _avg?: KaryawanAvgOrderByAggregateInput
+    _max?: KaryawanMaxOrderByAggregateInput
+    _min?: KaryawanMinOrderByAggregateInput
+    _sum?: KaryawanSumOrderByAggregateInput
+  }
+
+  export type KaryawanScalarWhereWithAggregatesInput = {
+    AND?: KaryawanScalarWhereWithAggregatesInput | KaryawanScalarWhereWithAggregatesInput[]
+    OR?: KaryawanScalarWhereWithAggregatesInput[]
+    NOT?: KaryawanScalarWhereWithAggregatesInput | KaryawanScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Karyawan"> | number
+    nama_karyawan?: StringWithAggregatesFilter<"Karyawan"> | string
+    alamat_karyawan?: StringWithAggregatesFilter<"Karyawan"> | string
+    gaji_karyawan?: IntWithAggregatesFilter<"Karyawan"> | number
+    mulai_kerja?: StringWithAggregatesFilter<"Karyawan"> | string
+    status?: EnumisActiveWithAggregatesFilter<"Karyawan"> | $Enums.isActive
   }
 
   export type vendorsWhereInput = {
@@ -10951,12 +12185,12 @@ export namespace Prisma {
     nama_produk?: StringFilter<"produk"> | string
     kategoriId?: IntFilter<"produk"> | number
     vendorsId?: IntFilter<"produk"> | number
-    unitId?: IntNullableFilter<"produk"> | number | null
     jumlah?: IntFilter<"produk"> | number
     lokasiId?: IntFilter<"produk"> | number
     gambar_produk?: StringNullableFilter<"produk"> | string | null
     is_delete?: BoolFilter<"produk"> | boolean
     public_id?: StringNullableFilter<"produk"> | string | null
+    unitId?: IntNullableFilter<"produk"> | number | null
     outbound?: Barang_keluarListRelationFilter
     inbound?: Barang_masukListRelationFilter
     kategori?: XOR<CategoryScalarRelationFilter, categoryWhereInput>
@@ -10970,12 +12204,12 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
-    unitId?: SortOrderInput | SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrderInput | SortOrder
     is_delete?: SortOrder
     public_id?: SortOrderInput | SortOrder
+    unitId?: SortOrderInput | SortOrder
     outbound?: barang_keluarOrderByRelationAggregateInput
     inbound?: barang_masukOrderByRelationAggregateInput
     kategori?: categoryOrderByWithRelationInput
@@ -10992,12 +12226,12 @@ export namespace Prisma {
     nama_produk?: StringFilter<"produk"> | string
     kategoriId?: IntFilter<"produk"> | number
     vendorsId?: IntFilter<"produk"> | number
-    unitId?: IntNullableFilter<"produk"> | number | null
     jumlah?: IntFilter<"produk"> | number
     lokasiId?: IntFilter<"produk"> | number
     gambar_produk?: StringNullableFilter<"produk"> | string | null
     is_delete?: BoolFilter<"produk"> | boolean
     public_id?: StringNullableFilter<"produk"> | string | null
+    unitId?: IntNullableFilter<"produk"> | number | null
     outbound?: Barang_keluarListRelationFilter
     inbound?: Barang_masukListRelationFilter
     kategori?: XOR<CategoryScalarRelationFilter, categoryWhereInput>
@@ -11011,12 +12245,12 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
-    unitId?: SortOrderInput | SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrderInput | SortOrder
     is_delete?: SortOrder
     public_id?: SortOrderInput | SortOrder
+    unitId?: SortOrderInput | SortOrder
     _count?: produkCountOrderByAggregateInput
     _avg?: produkAvgOrderByAggregateInput
     _max?: produkMaxOrderByAggregateInput
@@ -11032,12 +12266,12 @@ export namespace Prisma {
     nama_produk?: StringWithAggregatesFilter<"produk"> | string
     kategoriId?: IntWithAggregatesFilter<"produk"> | number
     vendorsId?: IntWithAggregatesFilter<"produk"> | number
-    unitId?: IntNullableWithAggregatesFilter<"produk"> | number | null
     jumlah?: IntWithAggregatesFilter<"produk"> | number
     lokasiId?: IntWithAggregatesFilter<"produk"> | number
     gambar_produk?: StringNullableWithAggregatesFilter<"produk"> | string | null
     is_delete?: BoolWithAggregatesFilter<"produk"> | boolean
     public_id?: StringNullableWithAggregatesFilter<"produk"> | string | null
+    unitId?: IntNullableWithAggregatesFilter<"produk"> | number | null
   }
 
   export type barang_masukWhereInput = {
@@ -11208,6 +12442,66 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  }
+
+  export type KaryawanCreateInput = {
+    nama_karyawan: string
+    alamat_karyawan: string
+    gaji_karyawan: number
+    mulai_kerja: string
+    status: $Enums.isActive
+  }
+
+  export type KaryawanUncheckedCreateInput = {
+    id?: number
+    nama_karyawan: string
+    alamat_karyawan: string
+    gaji_karyawan: number
+    mulai_kerja: string
+    status: $Enums.isActive
+  }
+
+  export type KaryawanUpdateInput = {
+    nama_karyawan?: StringFieldUpdateOperationsInput | string
+    alamat_karyawan?: StringFieldUpdateOperationsInput | string
+    gaji_karyawan?: IntFieldUpdateOperationsInput | number
+    mulai_kerja?: StringFieldUpdateOperationsInput | string
+    status?: EnumisActiveFieldUpdateOperationsInput | $Enums.isActive
+  }
+
+  export type KaryawanUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama_karyawan?: StringFieldUpdateOperationsInput | string
+    alamat_karyawan?: StringFieldUpdateOperationsInput | string
+    gaji_karyawan?: IntFieldUpdateOperationsInput | number
+    mulai_kerja?: StringFieldUpdateOperationsInput | string
+    status?: EnumisActiveFieldUpdateOperationsInput | $Enums.isActive
+  }
+
+  export type KaryawanCreateManyInput = {
+    id?: number
+    nama_karyawan: string
+    alamat_karyawan: string
+    gaji_karyawan: number
+    mulai_kerja: string
+    status: $Enums.isActive
+  }
+
+  export type KaryawanUpdateManyMutationInput = {
+    nama_karyawan?: StringFieldUpdateOperationsInput | string
+    alamat_karyawan?: StringFieldUpdateOperationsInput | string
+    gaji_karyawan?: IntFieldUpdateOperationsInput | number
+    mulai_kerja?: StringFieldUpdateOperationsInput | string
+    status?: EnumisActiveFieldUpdateOperationsInput | $Enums.isActive
+  }
+
+  export type KaryawanUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama_karyawan?: StringFieldUpdateOperationsInput | string
+    alamat_karyawan?: StringFieldUpdateOperationsInput | string
+    gaji_karyawan?: IntFieldUpdateOperationsInput | number
+    mulai_kerja?: StringFieldUpdateOperationsInput | string
+    status?: EnumisActiveFieldUpdateOperationsInput | $Enums.isActive
   }
 
   export type vendorsCreateInput = {
@@ -11408,12 +12702,12 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
-    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
   }
@@ -11437,12 +12731,12 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
   }
@@ -11452,12 +12746,12 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
-    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
   }
 
   export type produkUpdateManyMutationInput = {
@@ -11473,12 +12767,12 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type barang_masukCreateInput = {
@@ -11708,6 +13002,76 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type EnumisActiveFilter<$PrismaModel = never> = {
+    equals?: $Enums.isActive | EnumisActiveFieldRefInput<$PrismaModel>
+    in?: $Enums.isActive[] | ListEnumisActiveFieldRefInput<$PrismaModel>
+    notIn?: $Enums.isActive[] | ListEnumisActiveFieldRefInput<$PrismaModel>
+    not?: NestedEnumisActiveFilter<$PrismaModel> | $Enums.isActive
+  }
+
+  export type KaryawanCountOrderByAggregateInput = {
+    id?: SortOrder
+    nama_karyawan?: SortOrder
+    alamat_karyawan?: SortOrder
+    gaji_karyawan?: SortOrder
+    mulai_kerja?: SortOrder
+    status?: SortOrder
+  }
+
+  export type KaryawanAvgOrderByAggregateInput = {
+    id?: SortOrder
+    gaji_karyawan?: SortOrder
+  }
+
+  export type KaryawanMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nama_karyawan?: SortOrder
+    alamat_karyawan?: SortOrder
+    gaji_karyawan?: SortOrder
+    mulai_kerja?: SortOrder
+    status?: SortOrder
+  }
+
+  export type KaryawanMinOrderByAggregateInput = {
+    id?: SortOrder
+    nama_karyawan?: SortOrder
+    alamat_karyawan?: SortOrder
+    gaji_karyawan?: SortOrder
+    mulai_kerja?: SortOrder
+    status?: SortOrder
+  }
+
+  export type KaryawanSumOrderByAggregateInput = {
+    id?: SortOrder
+    gaji_karyawan?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumisActiveWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.isActive | EnumisActiveFieldRefInput<$PrismaModel>
+    in?: $Enums.isActive[] | ListEnumisActiveFieldRefInput<$PrismaModel>
+    notIn?: $Enums.isActive[] | ListEnumisActiveFieldRefInput<$PrismaModel>
+    not?: NestedEnumisActiveWithAggregatesFilter<$PrismaModel> | $Enums.isActive
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumisActiveFilter<$PrismaModel>
+    _max?: NestedEnumisActiveFilter<$PrismaModel>
+  }
+
   export type ProdukListRelationFilter = {
     every?: produkWhereInput
     some?: produkWhereInput
@@ -11745,22 +13109,6 @@ export namespace Prisma {
 
   export type vendorsSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type categoryCountOrderByAggregateInput = {
@@ -11841,6 +13189,11 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -11850,11 +13203,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type Barang_keluarListRelationFilter = {
@@ -11902,21 +13250,21 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
-    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrder
     is_delete?: SortOrder
     public_id?: SortOrder
+    unitId?: SortOrder
   }
 
   export type produkAvgOrderByAggregateInput = {
     id?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
-    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
+    unitId?: SortOrder
   }
 
   export type produkMaxOrderByAggregateInput = {
@@ -11924,12 +13272,12 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
-    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrder
     is_delete?: SortOrder
     public_id?: SortOrder
+    unitId?: SortOrder
   }
 
   export type produkMinOrderByAggregateInput = {
@@ -11937,21 +13285,29 @@ export namespace Prisma {
     nama_produk?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
-    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
     gambar_produk?: SortOrder
     is_delete?: SortOrder
     public_id?: SortOrder
+    unitId?: SortOrder
   }
 
   export type produkSumOrderByAggregateInput = {
     id?: SortOrder
     kategoriId?: SortOrder
     vendorsId?: SortOrder
-    unitId?: SortOrder
     jumlah?: SortOrder
     lokasiId?: SortOrder
+    unitId?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -11968,14 +13324,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -12096,6 +13444,18 @@ export namespace Prisma {
     set?: $Enums.Role
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumisActiveFieldUpdateOperationsInput = {
+    set?: $Enums.isActive
+  }
+
   export type produkCreateNestedManyWithoutVendorsInput = {
     create?: XOR<produkCreateWithoutVendorsInput, produkUncheckedCreateWithoutVendorsInput> | produkCreateWithoutVendorsInput[] | produkUncheckedCreateWithoutVendorsInput[]
     connectOrCreate?: produkCreateOrConnectWithoutVendorsInput | produkCreateOrConnectWithoutVendorsInput[]
@@ -12122,14 +13482,6 @@ export namespace Prisma {
     update?: produkUpdateWithWhereUniqueWithoutVendorsInput | produkUpdateWithWhereUniqueWithoutVendorsInput[]
     updateMany?: produkUpdateManyWithWhereWithoutVendorsInput | produkUpdateManyWithWhereWithoutVendorsInput[]
     deleteMany?: produkScalarWhereInput | produkScalarWhereInput[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type produkUncheckedUpdateManyWithoutVendorsNestedInput = {
@@ -12559,6 +13911,13 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedEnumisActiveFilter<$PrismaModel = never> = {
+    equals?: $Enums.isActive | EnumisActiveFieldRefInput<$PrismaModel>
+    in?: $Enums.isActive[] | ListEnumisActiveFieldRefInput<$PrismaModel>
+    notIn?: $Enums.isActive[] | ListEnumisActiveFieldRefInput<$PrismaModel>
+    not?: NestedEnumisActiveFilter<$PrismaModel> | $Enums.isActive
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -12586,9 +13945,27 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumisActiveWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.isActive | EnumisActiveFieldRefInput<$PrismaModel>
+    in?: $Enums.isActive[] | ListEnumisActiveFieldRefInput<$PrismaModel>
+    notIn?: $Enums.isActive[] | ListEnumisActiveFieldRefInput<$PrismaModel>
+    not?: NestedEnumisActiveWithAggregatesFilter<$PrismaModel> | $Enums.isActive
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumisActiveFilter<$PrismaModel>
+    _max?: NestedEnumisActiveFilter<$PrismaModel>
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12616,14 +13993,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -12668,12 +14037,12 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     kategoriId: number
-    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
   }
@@ -12712,12 +14081,12 @@ export namespace Prisma {
     nama_produk?: StringFilter<"produk"> | string
     kategoriId?: IntFilter<"produk"> | number
     vendorsId?: IntFilter<"produk"> | number
-    unitId?: IntNullableFilter<"produk"> | number | null
     jumlah?: IntFilter<"produk"> | number
     lokasiId?: IntFilter<"produk"> | number
     gambar_produk?: StringNullableFilter<"produk"> | string | null
     is_delete?: BoolFilter<"produk"> | boolean
     public_id?: StringNullableFilter<"produk"> | string | null
+    unitId?: IntNullableFilter<"produk"> | number | null
   }
 
   export type produkCreateWithoutKategoriInput = {
@@ -12737,12 +14106,12 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     vendorsId: number
-    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
   }
@@ -12844,11 +14213,11 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
-    unitId?: number | null
     jumlah?: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
   }
@@ -13153,12 +14522,12 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
-    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
     outbound?: barang_keluarUncheckedCreateNestedManyWithoutProdukInput
   }
 
@@ -13196,12 +14565,12 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
   }
 
@@ -13223,12 +14592,12 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
-    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
     inbound?: barang_masukUncheckedCreateNestedManyWithoutProdukInput
   }
 
@@ -13266,12 +14635,12 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
   }
 
@@ -13279,12 +14648,12 @@ export namespace Prisma {
     id?: number
     nama_produk: string
     kategoriId: number
-    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
   }
 
   export type produkUpdateWithoutVendorsInput = {
@@ -13304,12 +14673,12 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
   }
@@ -13318,24 +14687,24 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type produkCreateManyKategoriInput = {
     id?: number
     nama_produk: string
     vendorsId: number
-    unitId?: number | null
     jumlah?: number
     lokasiId: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
   }
 
   export type produkUpdateWithoutKategoriInput = {
@@ -13355,12 +14724,12 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     vendorsId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
   }
@@ -13369,12 +14738,12 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nama_produk?: StringFieldUpdateOperationsInput | string
     vendorsId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     lokasiId?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type produkCreateManyUnitInput = {
@@ -13433,11 +14802,11 @@ export namespace Prisma {
     nama_produk: string
     kategoriId: number
     vendorsId: number
-    unitId?: number | null
     jumlah?: number
     gambar_produk?: string | null
     is_delete?: boolean
     public_id?: string | null
+    unitId?: number | null
   }
 
   export type produkUpdateWithoutLokasiInput = {
@@ -13458,11 +14827,11 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     outbound?: barang_keluarUncheckedUpdateManyWithoutProdukNestedInput
     inbound?: barang_masukUncheckedUpdateManyWithoutProdukNestedInput
   }
@@ -13472,11 +14841,11 @@ export namespace Prisma {
     nama_produk?: StringFieldUpdateOperationsInput | string
     kategoriId?: IntFieldUpdateOperationsInput | number
     vendorsId?: IntFieldUpdateOperationsInput | number
-    unitId?: NullableIntFieldUpdateOperationsInput | number | null
     jumlah?: IntFieldUpdateOperationsInput | number
     gambar_produk?: NullableStringFieldUpdateOperationsInput | string | null
     is_delete?: BoolFieldUpdateOperationsInput | boolean
     public_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type barang_keluarCreateManyProdukInput = {

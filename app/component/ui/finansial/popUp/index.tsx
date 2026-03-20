@@ -15,6 +15,7 @@ function PopUpLayer({children}:{children:ReactNode}){
 function AddItems({
     title,
     cancelClick,
+    confirm,
     namaKaryawan,
     namaKaryawanChange,
     alamatKaryawan,
@@ -26,6 +27,7 @@ function AddItems({
     status,
     statusChange
 }:{
+    confirm:()=>void,
     mulaiKerja:string,
     mulaiKerjaChange:(e:ChangeEvent<HTMLInputElement>)=>void,
     status:string,
@@ -102,7 +104,7 @@ function AddItems({
                                    text="Cancel"
                                  />
                                  <ButtonNewLayers.Success
-                                   click={() => console.log("Confirm")}
+                                   click={confirm}
                                     text="Confirm"
                                 />
                     </div>

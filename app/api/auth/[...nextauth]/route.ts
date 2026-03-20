@@ -69,7 +69,8 @@ export const authOptions: NextAuthOptions = {
   },
 
   pages: {
-    signIn: "/" // Redirect ke sini jika belum login
+    signIn: "/",
+    error:"/auth/signin"
   },
 
   secret: process.env.NEXTAUTH_SECRET

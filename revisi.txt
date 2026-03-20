@@ -2,7 +2,10 @@ dibuat tabel jumlah * harga barang (butir/kilo/karung) (solve)
 tabel jumlah menggunakan satuan kg dan per karung (solve)
 
 
-pengeluaran fasilitas per bulan untuk kandang 
+pengeluaran fasilitas per bulan untuk kandang :
+- Fitur kelola karyawan (solve)
+- Fitur pengeluaran paten perbulan 
+- Fitur finansial tracking
 
 bug fixing == jumlah ga bisa minus (solve)
 

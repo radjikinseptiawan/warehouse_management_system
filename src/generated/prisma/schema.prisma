@@ -15,6 +15,15 @@ model user {
   role     Role
 }
 
+model Karyawan {
+  id              Int      @id @default(autoincrement())
+  nama_karyawan   String
+  alamat_karyawan String
+  gaji_karyawan   Int
+  mulai_kerja     String
+  status          isActive
+}
+
 model vendors {
   id            Int      @id @default(autoincrement())
   nama_vendor   String
@@ -49,12 +58,12 @@ model produk {
   nama_produk   String
   kategoriId    Int
   vendorsId     Int
-  unitId        Int?
   jumlah        Int             @default(0)
   lokasiId      Int
   gambar_produk String?
   is_delete     Boolean         @default(false)
   public_id     String?
+  unitId        Int?
   outbound      barang_keluar[]
   inbound       barang_masuk[]
   kategori      category        @relation(fields: [kategoriId], references: [id])
@@ -84,4 +93,9 @@ model barang_keluar {
 enum Role {
   ADMIN
   USER
+}
+
+enum isActive {
+  Aktif
+  NonAktif
 }

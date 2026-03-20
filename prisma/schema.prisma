@@ -15,13 +15,13 @@ model user {
   role     Role
 }
 
-model Karyawan{
-  id Int @id @default(autoincrement())
-  nama_karyawan String 
+model Karyawan {
+  id              Int      @id @default(autoincrement())
+  nama_karyawan   String
   alamat_karyawan String
-  gaji_karyawan Int
-  mulai_kerja String
-  status isActive
+  gaji_karyawan   Int
+  mulai_kerja     String
+  status          isActive
 }
 
 model vendors {
@@ -39,10 +39,10 @@ model category {
   produk         produk[]
 }
 
-model satuan{
-  id Int @id @default(autoincrement())
+model satuan {
+  id          Int      @id @default(autoincrement())
   nama_satuan String?
-  produk produk[]
+  produk      produk[]
 }
 
 model lokasi_gudang {
@@ -58,17 +58,17 @@ model produk {
   nama_produk   String
   kategoriId    Int
   vendorsId     Int
-  unitId        Int?
   jumlah        Int             @default(0)
   lokasiId      Int
   gambar_produk String?
   is_delete     Boolean         @default(false)
   public_id     String?
+  unitId        Int?
   outbound      barang_keluar[]
   inbound       barang_masuk[]
   kategori      category        @relation(fields: [kategoriId], references: [id])
   lokasi        lokasi_gudang   @relation(fields: [lokasiId], references: [id])
-  unit          satuan?          @relation(fields: [unitId], references: [id])
+  unit          satuan?         @relation(fields: [unitId], references: [id])
   vendors       vendors         @relation(fields: [vendorsId], references: [id])
 }
 
