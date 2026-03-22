@@ -1,27 +1,27 @@
 "use client"
 
+import UnauthIcon from "@/app/component/ui/icon/Unauth"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
-import BadgeIcon from "./component/ui/icon/NotFound"
 
 export default function NotFound(){
   const { status } = useSession()
   const response = (status === "authenticated")
   return(
    <div className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
-      <BadgeIcon/>  
-      <h2 className="text-4xl font-bold text-gray-800 mb-2">404</h2>
+    <UnauthIcon/>
+      <h2 className="text-4xl font-bold text-gray-800 mb-2">401</h2>
       <h3 className="text-xl font-semibold text-gray-600 mb-4">
-        Halaman Tidak Ditemukan
+            Unauthorized!
       </h3>
       {
         response ?       
       <p className="text-gray-500 mb-8 text-center">
-        Maaf, sepertinya kamu tersesat. Halaman yang kamu cari tidak ada.
+        Sistem tidak mengenali perangkat yang mencoba mengakses rute ini!
       </p>
         :
       <p className="text-gray-500 mb-8 text-center">
-        Maaf, sistem tidak mengenali anda!, harap login terlebih dahulu.
+        Harap Login terlebih dahulu.
       </p>
   
       }

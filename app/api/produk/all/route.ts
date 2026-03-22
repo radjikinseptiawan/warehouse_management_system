@@ -1,15 +1,13 @@
 import { prisma } from "@/lib/prisma"
 import { getServerSession } from "next-auth"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { authOptions } from "../../auth/[...nextauth]/route"
 
-export async function GET(){
+export async function GET(req:NextRequest){
         // Mengecek Session untuk mencegah kebocorand ata
         const session = await getServerSession(authOptions)
         if(!session){
-            return NextResponse.json({
-                message:"Unauthorize",
-            },{status:401})
+            return NextResponse.redirect(new URL("/unauthorized",req.url))
         }
     
     try{

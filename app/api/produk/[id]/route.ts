@@ -8,13 +8,11 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 // Menghapus Produk
 export async function DELETE(req:NextRequest,{params}:{params:Promise<{id:string}>}){
        // Mengecek Session untuk mencegah kebocorand ata
-       const session = await getServerSession(authOptions)
-       if(!session){
-           return NextResponse.json({
-               message:"Unauthorize",
-           },{status:401})
-       }
-   
+        const session = await getServerSession(authOptions)
+        if(!session){
+            return NextResponse.redirect(new URL("/unauthorized",req.url))
+        }
+           
     try{
     const {id} = await params
 
@@ -31,9 +29,6 @@ export async function DELETE(req:NextRequest,{params}:{params:Promise<{id:string
         await cloudinary.uploader.destroy(deleteVendor.public_id)
     }
 
-    // await prisma.produk.delete({
-    //     where:{id : parseInt(id)}
-    // })
     return NextResponse.json({
         message:"Produk berhasil dihapus",
         data:deleteVendor
@@ -46,15 +41,12 @@ export async function DELETE(req:NextRequest,{params}:{params:Promise<{id:string
 }
 
 // Melihat Detail Produk
-export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>}){
+export async function GET(req:NextRequest,{params}:{params:Promise<{id:string}>}){
         // Mengecek Session untuk mencegah kebocorand ata
         const session = await getServerSession(authOptions)
         if(!session){
-            return NextResponse.json({
-                message:"Unauthorize",
-            },{status:401})
-        }
-    
+            return NextResponse.redirect(new URL("/unauthorized",req.url))
+        }    
     try{
         const { id } = await params
 
@@ -91,11 +83,8 @@ export async function PATCH(req:NextRequest,{params}:{params:Promise<{id:string}
         // Mengecek Session untuk mencegah kebocorand ata
         const session = await getServerSession(authOptions)
         if(!session){
-            return NextResponse.json({
-                message:"Unauthorize",
-            },{status:401})
+            return NextResponse.redirect(new URL("/unauthorized",req.url))
         }
-    
     try{
         const { id } = await params
         const body = await req.json()
