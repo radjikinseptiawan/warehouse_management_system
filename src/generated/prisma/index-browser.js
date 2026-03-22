@@ -155,6 +155,12 @@ exports.Prisma.SatuanScalarFieldEnum = {
   nama_satuan: 'nama_satuan'
 };
 
+exports.Prisma.OperasionalScalarFieldEnum = {
+  id: 'id',
+  nama_operasional: 'nama_operasional',
+  biaya_operasional: 'biaya_operasional'
+};
+
 exports.Prisma.Lokasi_gudangScalarFieldEnum = {
   id: 'id',
   nama_gudang: 'nama_gudang',
@@ -221,6 +227,7 @@ exports.Prisma.ModelName = {
   vendors: 'vendors',
   category: 'category',
   satuan: 'satuan',
+  operasional: 'operasional',
   lokasi_gudang: 'lokasi_gudang',
   produk: 'produk',
   barang_masuk: 'barang_masuk',

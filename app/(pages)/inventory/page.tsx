@@ -99,11 +99,11 @@ export default function Page() {
         }
 
     // Hapus Produk
-    const deleteProductValue= async()=>{
+    const deleteProductValue= async(id:number)=>{
         try{
             await deleteProduct({
                 dispatch,
-                id:idTarget,
+                id,
                 actions:{
                     setIsOpenDelete
                 }
@@ -208,7 +208,7 @@ export default function Page() {
                             <div className="flex items-center justify-center align-middle">
                             <PopUpLayer.PopUpDelete
                             cancel={()=>dispatch(setIsOpenDelete(false))}
-                            click={deleteProductValue}
+                            click={()=>deleteProductValue(idTarget)}
                             section="Produk"/>
                             </div>
                         )
@@ -280,7 +280,7 @@ export default function Page() {
                                 kategori={item.kategori.nama_kategori}
                                 lokasi={item.lokasi.nama_gudang}
                                 vendor={item.vendors.nama_vendor || ""}
-                                nomor={(paginationId * itemPerPage) + index + 1} // Agar nomor urut kontinu
+                                nomor={(paginationId * itemPerPage) + index + 1} 
                             />
                         ))
                     ) : (

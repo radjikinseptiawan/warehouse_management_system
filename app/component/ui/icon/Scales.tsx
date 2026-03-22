@@ -1,6 +1,6 @@
 export default function ScalesIcon(){
     return(
-        <svg width="64px" height="64px" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="lg:w-10 md:w-8 w-5" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
             <g id="SVGRepo_iconCarrier"> 
                 <path d="M196.191 86C195.797 89.4692 195.363 94.0887 194.889 99.8584C194.178 108.513 192.164 118.656 192.164 181.632C192.164 223.616 193.072 267.738 194.889 314" stroke="#a8a8a8" strokeOpacity="0.9" strokeWidth="16" strokeLinecap="round" strokeLinejoin="round"></path> 

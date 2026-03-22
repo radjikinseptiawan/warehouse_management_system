@@ -113,5 +113,70 @@ function AddItems({
     )
 }
 
+
+function AddOperationalItems({
+    title,
+    cancelClick,
+    confirm,
+    namaOperasional,
+    namaOperasionalChange,
+    biayaOperasional,
+    biayaOperasionalChange,
+}:{
+    confirm:()=>void,
+    biayaOperasional:any ,
+    biayaOperasionalChange:(e:ChangeEvent<HTMLInputElement>)=>void,
+    namaOperasional:string,
+    namaOperasionalChange:(e:ChangeEvent<HTMLInputElement>)=>void,
+    cancelClick:()=>void,
+    title:string}){
+    const dispatch = useAppDispatch()
+    return(
+                          <div className="fixed inset-0 flex items-center justify-center  z-50 pointer-events-none">
+                            <motion.div
+                              initial={{ y: 100, opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              exit={{ y: 100, opacity: 0 }}
+                              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                              className="bg-white p-6 rounded-xl shadow-2xl w-[95%] max-w-3xl pointer-events-auto"
+                            >
+                              <h1 className="text-center text-3xl font-bold mb-8 text-black">{title}</h1>
+        
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <Input.Basic
+                  value={namaOperasional}
+                  change={namaOperasionalChange}
+                  types="text"
+                  mind="Masukkan nama Operasional"
+                  title="Nama Operasional"
+                />
+              </div>
+                <Input.Basic
+                  value={biayaOperasional}
+                  change={biayaOperasionalChange}
+                  types="number"
+                  mind="Masukkan biaya Operasioanl"
+                  title="Biaya Operasional/bulan"
+                />
+                </div>
+                               <div className="flex justify-end gap-3 mt-10">
+                                 <ButtonNewLayers.Failed
+                                   click={cancelClick}
+                                   text="Cancel"
+                                 />
+                                 <ButtonNewLayers.Success
+                                   click={confirm}
+                                    text="Confirm"
+                                />
+                    </div>
+                    </motion.div>
+                  </div>
+    )
+}
+
+
+
+PopUpLayer.AddOperational = AddOperationalItems
 PopUpLayer.Add = AddItems
 export default PopUpLayer

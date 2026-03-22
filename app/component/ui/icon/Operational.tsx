@@ -1,10 +1,9 @@
 import React from 'react';
 
-const AbstractIcon = ({ size = 54, color = "#b8b8b8", className = "" }) => {
+const AbstractIcon = ({ color = "#b8b8b8"}) => {
   return (
     <svg
-      height={size}
-      width={size}
+      className="lg:w-10 md:w-8 w-5"
       viewBox="0 0 512 512"
       version="1.1"
       id="Layer_1"
@@ -12,7 +11,6 @@ const AbstractIcon = ({ size = 54, color = "#b8b8b8", className = "" }) => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       fill={color}
       stroke={color}
-      className={className}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0" />
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />

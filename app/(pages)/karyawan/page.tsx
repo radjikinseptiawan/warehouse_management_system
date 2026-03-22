@@ -10,11 +10,13 @@ import EyeOffIcon from "@/app/component/ui/icon/eye-off"
 import Money from "@/app/component/ui/icon/Money"
 import Input from "@/app/component/ui/Input"
 import { useAppDispatch, useAppSelector } from "@/app/hooks"
+import { isCantMinus } from "@/app/layers/businessLogic/karyawan"
 import { convertToDate, convertToIdr } from "@/app/layers/businessLogic/pagination"
+import { addKaryawanLogic, editKaryawanLogic, getAllKaryawan, getKaryawanById } from "@/app/layers/dataLayer/karyawan"
 import { setAlamatKaryawan, setGajiKaryawan, setMulaiKerja, setNamaKaryawan, setStatus } from "@/app/slicers/karyawanSlicers"
 import { setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer"
 import { AnimatePresence, motion } from "motion/react"
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 
 export default function Page(){
     const [allKaryawan,setAllKaryawan] = useState<{
@@ -53,79 +55,60 @@ export default function Page(){
     }
 
 
-    const getAllKaryawan = async()=>{
-        try{
-            const res= await fetch("/api/karyawan",{
-                method:"GET"
-            })
-
-            const data = await res.json()
-            setAllKaryawan(data.data)
-        }catch(e){
-            return console.error(e)
-        }
-    }
 
     const updateKaryawan = async()=>{
         try{
-            const res = await fetch(`/api/karyawan/${selectKayawan}`,{
-                method:"PATCH",
-                body:JSON.stringify({
-                    nama_karyawan:namaKaryawan,
-                    alamat_karyawan:alamatKaryawan,
-                    gaji_karyawan:gajiKaryawan,
-                    status_karyawan:statusKaryawan,
-                    mulai_kerja:mulaiKerja,                                   
-                })
-            })
-
-            const data = await res.json()
-            getAllKaryawan()
+            const payload = {
+                namaKaryawan,
+                alamatKaryawan,
+                gajiKaryawan,
+                statusKaryawan,
+                mulaiKerja
+            }
+            await editKaryawanLogic({payload,id:selectKayawan})
+            getAllKaryawan(setAllKaryawan)
             resetValue()
         }catch(e){
             console.error(e)
         }
     }
 
-    const getSelectedKaryawan = async()=>{
+    const getSelectedKaryawan = async(id:number)=>{
        try
        {    
-        const res= await fetch(`/api/karyawan/${selectKayawan}`,{
-                method:"GET"
-            })
-            const data = await res.json()
-            dispatch(setNamaKaryawan(data.data?.nama_karyawan || ""))
-            dispatch(setAlamatKaryawan(data.data?.alamat_karyawan || ""))
-            dispatch(setMulaiKerja(data.data?.mulai_kerja || ""))
-            dispatch(setStatus(data.data?.status || ""))
-            dispatch(setGajiKaryawan(data.data?.gaji_karyawan || 0))
-            console.log(data)
+        await getKaryawanById({
+            id,
+            dispatch,
+            state:{
+                setNamaKaryawan,
+                setAlamatKaryawan,
+                setMulaiKerja,
+                setStatus,
+                setGajiKaryawan
+            }
+        })
+        
         }catch(e){
             return console.error(e)
         }    
     }
 
     useEffect(()=>{
-        getAllKaryawan()
+        getAllKaryawan(setAllKaryawan)
     },[])
 
     const addKaryawan = async()=>{
         try{
-            const res = await fetch("/api/karyawan",{
-                method:"POST",
-                body:JSON.stringify({
-                    nama_karyawan:namaKaryawan,
-                    alamat_karyawan:alamatKaryawan,
-                    gaji_karyawan:gajiKaryawan,
-                    status_karyawan:statusKaryawan,
-                    mulai_kerja:mulaiKerja,                
-                })
-            })
-
-            const data = await res.json()
-            if(!data) console.log("failed catch data",data)
+            const payload = {
+                namaKaryawan,
+                alamatKaryawan,
+                gajiKaryawan,
+                statusKaryawan,
+                mulaiKerja
+            }
+            await addKaryawanLogic(payload)
             resetValue()    
-            getAllKaryawan()
+            getAllKaryawan(setAllKaryawan)
         }catch(e){
             console.error(e)
         }
@@ -156,7 +139,7 @@ export default function Page(){
                     clickRow={()=>{
                         setSelectKaryawan(item.id)
                         dispatch(setIsOpendit(true))
-                        getSelectedKaryawan()
+                        getSelectedKaryawan(item.id)
                     }}
                     key={index}
                     salary={`${convertToIdr(item.gaji_karyawan)}`}
@@ -191,7 +174,7 @@ export default function Page(){
                 mulaiKerjaChange={(e)=>dispatch(setMulaiKerja(e.target.value))}
                 alamatKaryawanChange={(e)=>dispatch(setAlamatKaryawan(e.target.value))}
                 gajiKaryawan={Number(gajiKaryawan)}
-                gajiKaryawanChange={(e)=>dispatch(setGajiKaryawan(Number(e.target.value)))}
+                gajiKaryawanChange={(e)=>isCantMinus(e,{dispatch,setGajiKaryawan})}
                 cancelClick={()=>{
                     dispatch(setIsOpenOverlay(false))
                     resetValue()
@@ -222,7 +205,7 @@ export default function Page(){
                         mulaiKerjaChange={(e)=>dispatch(setMulaiKerja(e.target.value))}
                         alamatKaryawanChange={(e)=>dispatch(setAlamatKaryawan(e.target.value))}
                         gajiKaryawan={Number(gajiKaryawan || 0)}
-                        gajiKaryawanChange={(e)=>dispatch(setGajiKaryawan(Number(e.target.value)))}
+                        gajiKaryawanChange={(e)=>isCantMinus(e,{dispatch,setGajiKaryawan})}
                         cancelClick={()=>{
                             dispatch(setIsOpendit(false))
                             resetValue()

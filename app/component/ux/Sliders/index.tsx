@@ -1,6 +1,7 @@
 "use client"
 import { signOut } from "next-auth/react"
 import Image from "next/image"
+import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 
@@ -45,14 +46,14 @@ export default function Sliders(){
             {
                 listSliders.map((item,index)=>{
                     return(
-                        <a href={item.params} className={`p-3 flex items-center 
+                        <Link href={item.params} className={`p-3 flex items-center 
                         rounded-md
                         gap-2 text-72 hover:bg-green-200/20 ${item.params == params ? "bg-green-200/80":""}`} key={index}>
                             <div>
                             <Image src={item.icon as string} width={30} height={50} alt={item.text}/>
                             </div>
                             <li >{item.text}</li>
-                        </a>
+                        </Link>
                     )
                 })
             }   

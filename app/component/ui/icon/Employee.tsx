@@ -1,18 +1,16 @@
 import React from 'react';
 
-const TeamIcon = ({ size = 60, color = "#bababa", className = "" }) => {
+const TeamIcon = ({ size = 60, color = "#bababa"}) => {
   return (
     <svg
-      height={size}
-      width={size}
       viewBox="0 0 512 512"
       version="1.1"
       id="_x32_"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       fill="none"
-      className={className}
-    >
+      className="lg:w-10 md:w-8 w-5"    
+      >
       <g id="SVGRepo_bgCarrier" strokeWidth="0" />
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
       <g id="SVGRepo_iconCarrier">

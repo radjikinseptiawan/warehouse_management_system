@@ -39,6 +39,11 @@ export type category = $Result.DefaultSelection<Prisma.$categoryPayload>
  */
 export type satuan = $Result.DefaultSelection<Prisma.$satuanPayload>
 /**
+ * Model operasional
+ * 
+ */
+export type operasional = $Result.DefaultSelection<Prisma.$operasionalPayload>
+/**
  * Model lokasi_gudang
  * 
  */
@@ -258,6 +263,16 @@ export class PrismaClient<
     * ```
     */
   get satuan(): Prisma.satuanDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.operasional`: Exposes CRUD operations for the **operasional** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Operasionals
+    * const operasionals = await prisma.operasional.findMany()
+    * ```
+    */
+  get operasional(): Prisma.operasionalDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.lokasi_gudang`: Exposes CRUD operations for the **lokasi_gudang** model.
@@ -737,6 +752,7 @@ export namespace Prisma {
     vendors: 'vendors',
     category: 'category',
     satuan: 'satuan',
+    operasional: 'operasional',
     lokasi_gudang: 'lokasi_gudang',
     produk: 'produk',
     barang_masuk: 'barang_masuk',
@@ -756,7 +772,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "karyawan" | "vendors" | "category" | "satuan" | "lokasi_gudang" | "produk" | "barang_masuk" | "barang_keluar"
+      modelProps: "user" | "karyawan" | "vendors" | "category" | "satuan" | "operasional" | "lokasi_gudang" | "produk" | "barang_masuk" | "barang_keluar"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1127,6 +1143,80 @@ export namespace Prisma {
           count: {
             args: Prisma.satuanCountArgs<ExtArgs>
             result: $Utils.Optional<SatuanCountAggregateOutputType> | number
+          }
+        }
+      }
+      operasional: {
+        payload: Prisma.$operasionalPayload<ExtArgs>
+        fields: Prisma.operasionalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.operasionalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.operasionalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload>
+          }
+          findFirst: {
+            args: Prisma.operasionalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.operasionalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload>
+          }
+          findMany: {
+            args: Prisma.operasionalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload>[]
+          }
+          create: {
+            args: Prisma.operasionalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload>
+          }
+          createMany: {
+            args: Prisma.operasionalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.operasionalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload>[]
+          }
+          delete: {
+            args: Prisma.operasionalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload>
+          }
+          update: {
+            args: Prisma.operasionalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload>
+          }
+          deleteMany: {
+            args: Prisma.operasionalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.operasionalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.operasionalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload>[]
+          }
+          upsert: {
+            args: Prisma.operasionalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$operasionalPayload>
+          }
+          aggregate: {
+            args: Prisma.OperasionalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOperasional>
+          }
+          groupBy: {
+            args: Prisma.operasionalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OperasionalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.operasionalCountArgs<ExtArgs>
+            result: $Utils.Optional<OperasionalCountAggregateOutputType> | number
           }
         }
       }
@@ -1539,6 +1629,7 @@ export namespace Prisma {
     vendors?: vendorsOmit
     category?: categoryOmit
     satuan?: satuanOmit
+    operasional?: operasionalOmit
     lokasi_gudang?: lokasi_gudangOmit
     produk?: produkOmit
     barang_masuk?: barang_masukOmit
@@ -7062,6 +7153,1013 @@ export namespace Prisma {
 
 
   /**
+   * Model operasional
+   */
+
+  export type AggregateOperasional = {
+    _count: OperasionalCountAggregateOutputType | null
+    _avg: OperasionalAvgAggregateOutputType | null
+    _sum: OperasionalSumAggregateOutputType | null
+    _min: OperasionalMinAggregateOutputType | null
+    _max: OperasionalMaxAggregateOutputType | null
+  }
+
+  export type OperasionalAvgAggregateOutputType = {
+    id: number | null
+    biaya_operasional: number | null
+  }
+
+  export type OperasionalSumAggregateOutputType = {
+    id: number | null
+    biaya_operasional: number | null
+  }
+
+  export type OperasionalMinAggregateOutputType = {
+    id: number | null
+    nama_operasional: string | null
+    biaya_operasional: number | null
+  }
+
+  export type OperasionalMaxAggregateOutputType = {
+    id: number | null
+    nama_operasional: string | null
+    biaya_operasional: number | null
+  }
+
+  export type OperasionalCountAggregateOutputType = {
+    id: number
+    nama_operasional: number
+    biaya_operasional: number
+    _all: number
+  }
+
+
+  export type OperasionalAvgAggregateInputType = {
+    id?: true
+    biaya_operasional?: true
+  }
+
+  export type OperasionalSumAggregateInputType = {
+    id?: true
+    biaya_operasional?: true
+  }
+
+  export type OperasionalMinAggregateInputType = {
+    id?: true
+    nama_operasional?: true
+    biaya_operasional?: true
+  }
+
+  export type OperasionalMaxAggregateInputType = {
+    id?: true
+    nama_operasional?: true
+    biaya_operasional?: true
+  }
+
+  export type OperasionalCountAggregateInputType = {
+    id?: true
+    nama_operasional?: true
+    biaya_operasional?: true
+    _all?: true
+  }
+
+  export type OperasionalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which operasional to aggregate.
+     */
+    where?: operasionalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of operasionals to fetch.
+     */
+    orderBy?: operasionalOrderByWithRelationInput | operasionalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: operasionalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` operasionals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` operasionals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned operasionals
+    **/
+    _count?: true | OperasionalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OperasionalAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OperasionalSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OperasionalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OperasionalMaxAggregateInputType
+  }
+
+  export type GetOperasionalAggregateType<T extends OperasionalAggregateArgs> = {
+        [P in keyof T & keyof AggregateOperasional]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOperasional[P]>
+      : GetScalarType<T[P], AggregateOperasional[P]>
+  }
+
+
+
+
+  export type operasionalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: operasionalWhereInput
+    orderBy?: operasionalOrderByWithAggregationInput | operasionalOrderByWithAggregationInput[]
+    by: OperasionalScalarFieldEnum[] | OperasionalScalarFieldEnum
+    having?: operasionalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OperasionalCountAggregateInputType | true
+    _avg?: OperasionalAvgAggregateInputType
+    _sum?: OperasionalSumAggregateInputType
+    _min?: OperasionalMinAggregateInputType
+    _max?: OperasionalMaxAggregateInputType
+  }
+
+  export type OperasionalGroupByOutputType = {
+    id: number
+    nama_operasional: string
+    biaya_operasional: number
+    _count: OperasionalCountAggregateOutputType | null
+    _avg: OperasionalAvgAggregateOutputType | null
+    _sum: OperasionalSumAggregateOutputType | null
+    _min: OperasionalMinAggregateOutputType | null
+    _max: OperasionalMaxAggregateOutputType | null
+  }
+
+  type GetOperasionalGroupByPayload<T extends operasionalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OperasionalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OperasionalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OperasionalGroupByOutputType[P]>
+            : GetScalarType<T[P], OperasionalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type operasionalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama_operasional?: boolean
+    biaya_operasional?: boolean
+  }, ExtArgs["result"]["operasional"]>
+
+  export type operasionalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama_operasional?: boolean
+    biaya_operasional?: boolean
+  }, ExtArgs["result"]["operasional"]>
+
+  export type operasionalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama_operasional?: boolean
+    biaya_operasional?: boolean
+  }, ExtArgs["result"]["operasional"]>
+
+  export type operasionalSelectScalar = {
+    id?: boolean
+    nama_operasional?: boolean
+    biaya_operasional?: boolean
+  }
+
+  export type operasionalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama_operasional" | "biaya_operasional", ExtArgs["result"]["operasional"]>
+
+  export type $operasionalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "operasional"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nama_operasional: string
+      biaya_operasional: number
+    }, ExtArgs["result"]["operasional"]>
+    composites: {}
+  }
+
+  type operasionalGetPayload<S extends boolean | null | undefined | operasionalDefaultArgs> = $Result.GetResult<Prisma.$operasionalPayload, S>
+
+  type operasionalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<operasionalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OperasionalCountAggregateInputType | true
+    }
+
+  export interface operasionalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['operasional'], meta: { name: 'operasional' } }
+    /**
+     * Find zero or one Operasional that matches the filter.
+     * @param {operasionalFindUniqueArgs} args - Arguments to find a Operasional
+     * @example
+     * // Get one Operasional
+     * const operasional = await prisma.operasional.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends operasionalFindUniqueArgs>(args: SelectSubset<T, operasionalFindUniqueArgs<ExtArgs>>): Prisma__operasionalClient<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Operasional that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {operasionalFindUniqueOrThrowArgs} args - Arguments to find a Operasional
+     * @example
+     * // Get one Operasional
+     * const operasional = await prisma.operasional.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends operasionalFindUniqueOrThrowArgs>(args: SelectSubset<T, operasionalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__operasionalClient<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Operasional that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {operasionalFindFirstArgs} args - Arguments to find a Operasional
+     * @example
+     * // Get one Operasional
+     * const operasional = await prisma.operasional.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends operasionalFindFirstArgs>(args?: SelectSubset<T, operasionalFindFirstArgs<ExtArgs>>): Prisma__operasionalClient<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Operasional that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {operasionalFindFirstOrThrowArgs} args - Arguments to find a Operasional
+     * @example
+     * // Get one Operasional
+     * const operasional = await prisma.operasional.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends operasionalFindFirstOrThrowArgs>(args?: SelectSubset<T, operasionalFindFirstOrThrowArgs<ExtArgs>>): Prisma__operasionalClient<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Operasionals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {operasionalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Operasionals
+     * const operasionals = await prisma.operasional.findMany()
+     * 
+     * // Get first 10 Operasionals
+     * const operasionals = await prisma.operasional.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const operasionalWithIdOnly = await prisma.operasional.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends operasionalFindManyArgs>(args?: SelectSubset<T, operasionalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Operasional.
+     * @param {operasionalCreateArgs} args - Arguments to create a Operasional.
+     * @example
+     * // Create one Operasional
+     * const Operasional = await prisma.operasional.create({
+     *   data: {
+     *     // ... data to create a Operasional
+     *   }
+     * })
+     * 
+     */
+    create<T extends operasionalCreateArgs>(args: SelectSubset<T, operasionalCreateArgs<ExtArgs>>): Prisma__operasionalClient<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Operasionals.
+     * @param {operasionalCreateManyArgs} args - Arguments to create many Operasionals.
+     * @example
+     * // Create many Operasionals
+     * const operasional = await prisma.operasional.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends operasionalCreateManyArgs>(args?: SelectSubset<T, operasionalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Operasionals and returns the data saved in the database.
+     * @param {operasionalCreateManyAndReturnArgs} args - Arguments to create many Operasionals.
+     * @example
+     * // Create many Operasionals
+     * const operasional = await prisma.operasional.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Operasionals and only return the `id`
+     * const operasionalWithIdOnly = await prisma.operasional.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends operasionalCreateManyAndReturnArgs>(args?: SelectSubset<T, operasionalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Operasional.
+     * @param {operasionalDeleteArgs} args - Arguments to delete one Operasional.
+     * @example
+     * // Delete one Operasional
+     * const Operasional = await prisma.operasional.delete({
+     *   where: {
+     *     // ... filter to delete one Operasional
+     *   }
+     * })
+     * 
+     */
+    delete<T extends operasionalDeleteArgs>(args: SelectSubset<T, operasionalDeleteArgs<ExtArgs>>): Prisma__operasionalClient<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Operasional.
+     * @param {operasionalUpdateArgs} args - Arguments to update one Operasional.
+     * @example
+     * // Update one Operasional
+     * const operasional = await prisma.operasional.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends operasionalUpdateArgs>(args: SelectSubset<T, operasionalUpdateArgs<ExtArgs>>): Prisma__operasionalClient<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Operasionals.
+     * @param {operasionalDeleteManyArgs} args - Arguments to filter Operasionals to delete.
+     * @example
+     * // Delete a few Operasionals
+     * const { count } = await prisma.operasional.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends operasionalDeleteManyArgs>(args?: SelectSubset<T, operasionalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Operasionals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {operasionalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Operasionals
+     * const operasional = await prisma.operasional.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends operasionalUpdateManyArgs>(args: SelectSubset<T, operasionalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Operasionals and returns the data updated in the database.
+     * @param {operasionalUpdateManyAndReturnArgs} args - Arguments to update many Operasionals.
+     * @example
+     * // Update many Operasionals
+     * const operasional = await prisma.operasional.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Operasionals and only return the `id`
+     * const operasionalWithIdOnly = await prisma.operasional.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends operasionalUpdateManyAndReturnArgs>(args: SelectSubset<T, operasionalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Operasional.
+     * @param {operasionalUpsertArgs} args - Arguments to update or create a Operasional.
+     * @example
+     * // Update or create a Operasional
+     * const operasional = await prisma.operasional.upsert({
+     *   create: {
+     *     // ... data to create a Operasional
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Operasional we want to update
+     *   }
+     * })
+     */
+    upsert<T extends operasionalUpsertArgs>(args: SelectSubset<T, operasionalUpsertArgs<ExtArgs>>): Prisma__operasionalClient<$Result.GetResult<Prisma.$operasionalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Operasionals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {operasionalCountArgs} args - Arguments to filter Operasionals to count.
+     * @example
+     * // Count the number of Operasionals
+     * const count = await prisma.operasional.count({
+     *   where: {
+     *     // ... the filter for the Operasionals we want to count
+     *   }
+     * })
+    **/
+    count<T extends operasionalCountArgs>(
+      args?: Subset<T, operasionalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OperasionalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Operasional.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OperasionalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OperasionalAggregateArgs>(args: Subset<T, OperasionalAggregateArgs>): Prisma.PrismaPromise<GetOperasionalAggregateType<T>>
+
+    /**
+     * Group by Operasional.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {operasionalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends operasionalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: operasionalGroupByArgs['orderBy'] }
+        : { orderBy?: operasionalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, operasionalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOperasionalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the operasional model
+   */
+  readonly fields: operasionalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for operasional.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__operasionalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the operasional model
+   */
+  interface operasionalFieldRefs {
+    readonly id: FieldRef<"operasional", 'Int'>
+    readonly nama_operasional: FieldRef<"operasional", 'String'>
+    readonly biaya_operasional: FieldRef<"operasional", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * operasional findUnique
+   */
+  export type operasionalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * Filter, which operasional to fetch.
+     */
+    where: operasionalWhereUniqueInput
+  }
+
+  /**
+   * operasional findUniqueOrThrow
+   */
+  export type operasionalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * Filter, which operasional to fetch.
+     */
+    where: operasionalWhereUniqueInput
+  }
+
+  /**
+   * operasional findFirst
+   */
+  export type operasionalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * Filter, which operasional to fetch.
+     */
+    where?: operasionalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of operasionals to fetch.
+     */
+    orderBy?: operasionalOrderByWithRelationInput | operasionalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for operasionals.
+     */
+    cursor?: operasionalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` operasionals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` operasionals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of operasionals.
+     */
+    distinct?: OperasionalScalarFieldEnum | OperasionalScalarFieldEnum[]
+  }
+
+  /**
+   * operasional findFirstOrThrow
+   */
+  export type operasionalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * Filter, which operasional to fetch.
+     */
+    where?: operasionalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of operasionals to fetch.
+     */
+    orderBy?: operasionalOrderByWithRelationInput | operasionalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for operasionals.
+     */
+    cursor?: operasionalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` operasionals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` operasionals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of operasionals.
+     */
+    distinct?: OperasionalScalarFieldEnum | OperasionalScalarFieldEnum[]
+  }
+
+  /**
+   * operasional findMany
+   */
+  export type operasionalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * Filter, which operasionals to fetch.
+     */
+    where?: operasionalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of operasionals to fetch.
+     */
+    orderBy?: operasionalOrderByWithRelationInput | operasionalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing operasionals.
+     */
+    cursor?: operasionalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` operasionals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` operasionals.
+     */
+    skip?: number
+    distinct?: OperasionalScalarFieldEnum | OperasionalScalarFieldEnum[]
+  }
+
+  /**
+   * operasional create
+   */
+  export type operasionalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * The data needed to create a operasional.
+     */
+    data: XOR<operasionalCreateInput, operasionalUncheckedCreateInput>
+  }
+
+  /**
+   * operasional createMany
+   */
+  export type operasionalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many operasionals.
+     */
+    data: operasionalCreateManyInput | operasionalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * operasional createManyAndReturn
+   */
+  export type operasionalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * The data used to create many operasionals.
+     */
+    data: operasionalCreateManyInput | operasionalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * operasional update
+   */
+  export type operasionalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * The data needed to update a operasional.
+     */
+    data: XOR<operasionalUpdateInput, operasionalUncheckedUpdateInput>
+    /**
+     * Choose, which operasional to update.
+     */
+    where: operasionalWhereUniqueInput
+  }
+
+  /**
+   * operasional updateMany
+   */
+  export type operasionalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update operasionals.
+     */
+    data: XOR<operasionalUpdateManyMutationInput, operasionalUncheckedUpdateManyInput>
+    /**
+     * Filter which operasionals to update
+     */
+    where?: operasionalWhereInput
+    /**
+     * Limit how many operasionals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * operasional updateManyAndReturn
+   */
+  export type operasionalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * The data used to update operasionals.
+     */
+    data: XOR<operasionalUpdateManyMutationInput, operasionalUncheckedUpdateManyInput>
+    /**
+     * Filter which operasionals to update
+     */
+    where?: operasionalWhereInput
+    /**
+     * Limit how many operasionals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * operasional upsert
+   */
+  export type operasionalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * The filter to search for the operasional to update in case it exists.
+     */
+    where: operasionalWhereUniqueInput
+    /**
+     * In case the operasional found by the `where` argument doesn't exist, create a new operasional with this data.
+     */
+    create: XOR<operasionalCreateInput, operasionalUncheckedCreateInput>
+    /**
+     * In case the operasional was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<operasionalUpdateInput, operasionalUncheckedUpdateInput>
+  }
+
+  /**
+   * operasional delete
+   */
+  export type operasionalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+    /**
+     * Filter which operasional to delete.
+     */
+    where: operasionalWhereUniqueInput
+  }
+
+  /**
+   * operasional deleteMany
+   */
+  export type operasionalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which operasionals to delete
+     */
+    where?: operasionalWhereInput
+    /**
+     * Limit how many operasionals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * operasional without action
+   */
+  export type operasionalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the operasional
+     */
+    select?: operasionalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the operasional
+     */
+    omit?: operasionalOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model lokasi_gudang
    */
 
@@ -11702,6 +12800,15 @@ export namespace Prisma {
   export type SatuanScalarFieldEnum = (typeof SatuanScalarFieldEnum)[keyof typeof SatuanScalarFieldEnum]
 
 
+  export const OperasionalScalarFieldEnum: {
+    id: 'id',
+    nama_operasional: 'nama_operasional',
+    biaya_operasional: 'biaya_operasional'
+  };
+
+  export type OperasionalScalarFieldEnum = (typeof OperasionalScalarFieldEnum)[keyof typeof OperasionalScalarFieldEnum]
+
+
   export const Lokasi_gudangScalarFieldEnum: {
     id: 'id',
     nama_gudang: 'nama_gudang',
@@ -12123,6 +13230,50 @@ export namespace Prisma {
     NOT?: satuanScalarWhereWithAggregatesInput | satuanScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"satuan"> | number
     nama_satuan?: StringNullableWithAggregatesFilter<"satuan"> | string | null
+  }
+
+  export type operasionalWhereInput = {
+    AND?: operasionalWhereInput | operasionalWhereInput[]
+    OR?: operasionalWhereInput[]
+    NOT?: operasionalWhereInput | operasionalWhereInput[]
+    id?: IntFilter<"operasional"> | number
+    nama_operasional?: StringFilter<"operasional"> | string
+    biaya_operasional?: IntFilter<"operasional"> | number
+  }
+
+  export type operasionalOrderByWithRelationInput = {
+    id?: SortOrder
+    nama_operasional?: SortOrder
+    biaya_operasional?: SortOrder
+  }
+
+  export type operasionalWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: operasionalWhereInput | operasionalWhereInput[]
+    OR?: operasionalWhereInput[]
+    NOT?: operasionalWhereInput | operasionalWhereInput[]
+    nama_operasional?: StringFilter<"operasional"> | string
+    biaya_operasional?: IntFilter<"operasional"> | number
+  }, "id">
+
+  export type operasionalOrderByWithAggregationInput = {
+    id?: SortOrder
+    nama_operasional?: SortOrder
+    biaya_operasional?: SortOrder
+    _count?: operasionalCountOrderByAggregateInput
+    _avg?: operasionalAvgOrderByAggregateInput
+    _max?: operasionalMaxOrderByAggregateInput
+    _min?: operasionalMinOrderByAggregateInput
+    _sum?: operasionalSumOrderByAggregateInput
+  }
+
+  export type operasionalScalarWhereWithAggregatesInput = {
+    AND?: operasionalScalarWhereWithAggregatesInput | operasionalScalarWhereWithAggregatesInput[]
+    OR?: operasionalScalarWhereWithAggregatesInput[]
+    NOT?: operasionalScalarWhereWithAggregatesInput | operasionalScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"operasional"> | number
+    nama_operasional?: StringWithAggregatesFilter<"operasional"> | string
+    biaya_operasional?: IntWithAggregatesFilter<"operasional"> | number
   }
 
   export type lokasi_gudangWhereInput = {
@@ -12631,6 +13782,45 @@ export namespace Prisma {
   export type satuanUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama_satuan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type operasionalCreateInput = {
+    nama_operasional: string
+    biaya_operasional: number
+  }
+
+  export type operasionalUncheckedCreateInput = {
+    id?: number
+    nama_operasional: string
+    biaya_operasional: number
+  }
+
+  export type operasionalUpdateInput = {
+    nama_operasional?: StringFieldUpdateOperationsInput | string
+    biaya_operasional?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type operasionalUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama_operasional?: StringFieldUpdateOperationsInput | string
+    biaya_operasional?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type operasionalCreateManyInput = {
+    id?: number
+    nama_operasional: string
+    biaya_operasional: number
+  }
+
+  export type operasionalUpdateManyMutationInput = {
+    nama_operasional?: StringFieldUpdateOperationsInput | string
+    biaya_operasional?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type operasionalUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama_operasional?: StringFieldUpdateOperationsInput | string
+    biaya_operasional?: IntFieldUpdateOperationsInput | number
   }
 
   export type lokasi_gudangCreateInput = {
@@ -13158,6 +14348,34 @@ export namespace Prisma {
 
   export type satuanSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type operasionalCountOrderByAggregateInput = {
+    id?: SortOrder
+    nama_operasional?: SortOrder
+    biaya_operasional?: SortOrder
+  }
+
+  export type operasionalAvgOrderByAggregateInput = {
+    id?: SortOrder
+    biaya_operasional?: SortOrder
+  }
+
+  export type operasionalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nama_operasional?: SortOrder
+    biaya_operasional?: SortOrder
+  }
+
+  export type operasionalMinOrderByAggregateInput = {
+    id?: SortOrder
+    nama_operasional?: SortOrder
+    biaya_operasional?: SortOrder
+  }
+
+  export type operasionalSumOrderByAggregateInput = {
+    id?: SortOrder
+    biaya_operasional?: SortOrder
   }
 
   export type lokasi_gudangCountOrderByAggregateInput = {

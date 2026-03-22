@@ -189,3 +189,50 @@ export type AddProductParams = {
 }
 
 
+export type EmployeeAction= {
+    payload:{
+        nama_karyawan: string | any,
+        id:number,
+        status: string,
+        gaji_karyawan:number | any,
+        mulai_kerja: string,
+        alamat_karyawan:string
+    },
+    dispatch:any
+    actions:{
+        setNamaKaryawan:(val : string | any)=>void,
+        setAlamatKaryawan:(val: string)=>void,
+        setMulaiKerja:(val:string)=>void,
+        setStatus:(val:string)=>void,
+        setGajiKaryawan:(val:number)=>void
+    }
+}
+
+
+export type EmployeeDetail = {
+    dispatch:any,
+    id:number,
+    state:{
+        setNamaKaryawan:(val : string)=>void,
+        setAlamatKaryawan:(val:string)=>void,
+        setMulaiKerja:(val:string)=>void,
+        setStatus:(val:string)=>void,
+        setGajiKaryawan:(val:number)=>void
+    }
+}
+
+export type EmployeeAdd = {
+        namaKaryawan : string,
+        alamatKaryawan : string,
+        gajiKaryawan : number,
+        statusKaryawan : string,
+        mulaiKerja:string,                
+}
+
+export type EmployeeEdit = {
+        namaKaryawan : string,
+        alamatKaryawan : string,
+        gajiKaryawan : number,
+        statusKaryawan : string,
+        mulaiKerja:string,                
+}

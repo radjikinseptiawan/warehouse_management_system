@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type InitialState = {
     namaKaryawan:string,
     alamatKaryawan:string,
-    gajiKaryawan:number,
+    gajiKaryawan:number | any,
     mulaiKerja:string,
     status:string
 
@@ -28,7 +28,7 @@ const Karyawan = createSlice({
         setAlamatKaryawan:(state,action:PayloadAction<string>)=>{
             state.alamatKaryawan = action.payload
         },
-        setGajiKaryawan:(state,action:PayloadAction<number>)=>{
+        setGajiKaryawan:(state,action:PayloadAction<number | any>)=>{
             state.gajiKaryawan = action.payload
         },
         setMulaiKerja:(state,action:PayloadAction<string>)=>{

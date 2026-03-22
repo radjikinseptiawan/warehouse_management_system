@@ -25,10 +25,10 @@ export default function TableBodyOutbound({
                             </div>
                         </td>
                         <td className="p-3 font-medium">{nama}</td>
-                        <td className="p-3">
+                        <td className="p-3 text-center text-sm">
                             <span className="px-2 py-1 rounded-full text-xs text-white" style={{backgroundColor:`${color}`}}>{kategori}</span>
                         </td>
-                        <td className="p-3 text-sm">{lokasi}</td>
+                        <td className="p-3 text-sm text-center">{lokasi}</td>
                         <td className="p-3 text-sm text-blue-600">{vendor}</td>
                         <td className="p-3 text-center text-sm">{jumlah}</td>
                         <td className="p-3 text-center text-sm">{unit}</td>

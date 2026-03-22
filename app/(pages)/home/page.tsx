@@ -24,8 +24,8 @@ const pieSettings : any = {
         legend: {
             direction: 'row' as const, 
             position: { 
-                vertical: 'bottom' as const, // Tambahkan 'as const'
-                horizontal: 'middle' as const // Tambahkan 'as const'
+                vertical: 'bottom' as const, 
+                horizontal: 'middle' as const 
             },
             padding: 0,
         },

@@ -45,6 +45,12 @@ model satuan {
   produk      produk[]
 }
 
+model operasional{
+  id Int @id @default(autoincrement())
+  nama_operasional String
+  biaya_operasional Int
+}
+
 model lokasi_gudang {
   id            Int      @id @default(autoincrement())
   nama_gudang   String

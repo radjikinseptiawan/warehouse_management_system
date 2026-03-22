@@ -8,6 +8,8 @@ import InboundSlicersReducers from './slicers/inboundSlicers'
 import OutboundSlicersReducers from "./slicers/outboundSlicers"
 import  FilterSlicersReducers from "./slicers/FilterSlicers";
 import KaryawanReducers from "./slicers/karyawanSlicers"
+import operasionalReducers from "./slicers/operasionalSlicer"
+
 export const store = configureStore({
     reducer:{
         vendor:VendorSliceReducers,
@@ -18,7 +20,8 @@ export const store = configureStore({
         inbound:InboundSlicersReducers,
         outbound:OutboundSlicersReducers,
         filter:FilterSlicersReducers,
-        karyawan:KaryawanReducers
+        karyawan:KaryawanReducers,
+        operasional:operasionalReducers
     }
 })
 
