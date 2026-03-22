@@ -1,8 +1,18 @@
 import { prisma } from "@/lib/prisma"
+import { getServerSession } from "next-auth"
 import { NextRequest, NextResponse } from "next/server"
+import { authOptions } from "../auth/[...nextauth]/route"
 
 // Menambahkan produk baru
 export async function POST(req:NextRequest){
+    // Mengecek Session untuk mencegah kebocorand ata
+    const session = await getServerSession(authOptions)
+    if(!session){
+        return NextResponse.json({
+            message:"Unauthorize",
+        },{status:401})
+    }
+
     try{
     const body =await req.json()
     console.log(body)

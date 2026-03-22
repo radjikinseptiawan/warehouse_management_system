@@ -1,10 +1,20 @@
 import { prisma } from "@/lib/prisma";
 import { CategoryType, VendorType } from "@/lib/type";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 
 // Menambahkan vendor/supplier baru
 export async function POST(req:NextRequest){
+        // Mengecek Session untuk mencegah kebocorand ata
+        const session = await getServerSession(authOptions)
+        if(!session){
+            return NextResponse.json({
+                message:"Unauthorize",
+            },{status:401})
+        }
+    
     try{
     const rawData :CategoryType | any = await req.json()
 
@@ -28,6 +38,14 @@ export async function POST(req:NextRequest){
 
 // Mengambil data vendor/supplier
 export async function GET(){
+        // Mengecek Session untuk mencegah kebocorand ata
+        const session = await getServerSession(authOptions)
+        if(!session){
+            return NextResponse.json({
+                message:"Unauthorize",
+            },{status:401})
+        }
+    
     try{
         const data = await prisma.category.findMany()
 
@@ -42,6 +60,14 @@ export async function GET(){
 }
 
 export async function DELETE(req:NextRequest){
+        // Mengecek Session untuk mencegah kebocorand ata
+        const session = await getServerSession(authOptions)
+        if(!session){
+            return NextResponse.json({
+                message:"Unauthorize",
+            },{status:401})
+        }
+    
     try{
         const body = await req.json()
         const dataDelete = await prisma.category.deleteMany({
