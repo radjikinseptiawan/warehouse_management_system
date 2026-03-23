@@ -216,7 +216,7 @@ export default function Page() {
                                    </div> 
 
                                 <div className="mt-10 flex flex-col text-black">
-                                    <Selector.OptionFilterTime/>
+                                    <Selector.OptionFilterTime label="Rentang Waktu"/>
                                 </div> 
 
                                 <div className="mt-20 flex items-center justify-center">

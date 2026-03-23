@@ -1,7 +1,7 @@
 import { EmployeeAction, EmployeeAdd, EmployeeDetail, EmployeeEdit } from "@/lib/type"
 import { Dispatch, SetStateAction } from "react"
 
-type Employee = {
+export type Employee = {
         nama_karyawan: string,
         id:number,
         status: string,

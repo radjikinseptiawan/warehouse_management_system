@@ -65,10 +65,10 @@ function OptionVendors() {
     );
 }
 
-function OptionFilterTime() {
+function OptionFilterTime({label}:{label?:string}) {
     const dispatch = useAppDispatch()
     return (
-        <FieldWrapper label="Rentang Waktu">
+        <FieldWrapper label={label || ""}>
             <select className={selectStyle} onChange={(e)=>dispatch(setFilterPilihan(e.target.value))}>
                 <option value="">Semua Hari</option>
                 <option value="0">Hari Ini</option>

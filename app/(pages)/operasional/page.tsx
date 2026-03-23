@@ -12,6 +12,7 @@ import ProductIcon from "@/app/component/ui/icon/Product"
 import { useAppDispatch, useAppSelector } from "@/app/hooks"
 import { isCantMinus } from "@/app/layers/businessLogic/karyawan"
 import { convertToIdr } from "@/app/layers/businessLogic/pagination"
+import { addOperasionalLayer, getAllOperasional, getSelectedOperasionalLayer, updateOperasionalLayer } from "@/app/layers/dataLayer/operasional"
 import { setAlamatKaryawan, setGajiKaryawan, setMulaiKerja, setNamaKaryawan, setStatus } from "@/app/slicers/karyawanSlicers"
 import { setIsOpendit, setIsOpenOverlay } from "@/app/slicers/openOverlaySlicer"
 import { setBiayaOperasional, setNamaOperasional } from "@/app/slicers/operasionalSlicer"
@@ -46,73 +47,42 @@ export default function Page(){
             dispatch(setBiayaOperasional(0))
     }
 
-
-    const getAllOperasional = async()=>{
-        try{
-            const res= await fetch("/api/operasional",{
-                method:"GET"
-            })
-
-            const data = await res.json()
-            setAllOperasional(data.data)
-        }catch(e){
-            return console.error(e)
-        }
-    }
-
     const updateOperasional = async()=>{
-        try{
-            const res = await fetch(`/api/operasional/${selectOperasional}`,{
-                method:"PATCH",
-                body:JSON.stringify({
-                    nama_operasional:namaOperasional,
-                    biaya_operasional:biayaOperasional,
-                })
-            })
-
-            const data = await res.json()
-            getAllOperasional()
-            resetValue()
-        }catch(e){
-            console.error(e)
+        const payload = {
+            namaOperasional,
+            biayaOperasional
         }
+
+        await updateOperasionalLayer({payload,id:selectOperasional})
+
+        getAllOperasional(setAllOperasional)
+        resetValue()
     }
 
-    const getSelectedOperasional = async(id: number)=>{
-       try
-       {    
-        const res= await fetch(`/api/operasional/${id}`,{
-                method:"GET"
-            })
-            const data = await res.json()
-            dispatch(setNamaOperasional(data.data?.nama_operasional || ""))
-            dispatch(setBiayaOperasional(data.data?.biaya_operasional || 0))
-        }catch(e){
-            return console.error(e)
-        }    
+    const getSelectedOperasional = async(id:number)=>{
+        await getSelectedOperasionalLayer({
+            state:{
+                id,
+                dispatch,
+                actions:{
+                    setNamaOperasional,
+                    setBiayaOperasional
+                }
+            }
+        })
     }
-
     useEffect(()=>{
-        getAllOperasional()
+        getAllOperasional(setAllOperasional)
     },[])
 
     const addOperasional = async()=>{
-        try{
-            const res = await fetch("/api/operasional",{
-                method:"POST",
-                body:JSON.stringify({
-                    biaya_operasional:biayaOperasional,
-                    nama_operasional:namaOperasional
-                })
-            })
-
-            const data = await res.json()
-            if(!data) console.log("failed catch data",data)
-            resetValue()    
-            getAllOperasional()
-        }catch(e){
-            console.error(e)
-        }
+        const payload = {
+            biayaOperasional,
+            namaOperasional
+        }    
+        await addOperasionalLayer({payload})
+        resetValue()
+        getAllOperasional(setAllOperasional)
     }
 
     return(

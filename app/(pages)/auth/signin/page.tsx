@@ -3,16 +3,14 @@ import Image from "next/image";
 import { ButtonLayer } from "../../../component/ui/Button";
 import Input from "../../../component/ui/Input";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 
 export default function Home() {
   const [email,setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const searchParams = useSearchParams()
   const [showError,setShowError] = useState(true)
-  const error = searchParams.get("error")  
   const loginPages = async()=>{
      await signIn("credentials",{
       email,
@@ -25,7 +23,6 @@ export default function Home() {
   return (
   <div className="mt-20 w-full h-full">
     <div className="flex items-center justify-center">
-    
       <div className="bg-white shadow-xl p-3 
       rounded-md md:w-1/2 w-xl md:h-1/2 text-center">
         <h1 className="text-green-500 text-xl font-bold">Login</h1>

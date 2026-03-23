@@ -18,8 +18,9 @@ export function Button({clicker,text,color = "bg-[#048720]" }:{color?:string,cli
     hover:shadow-2xs 
     lg:text-[17px] text-[12px] md:text-[14px]
     transition-all
-    lg:w-50 md:w-30 w-20
-    lg:p-2  md:p-1 my-1 p-1
+    font-semibold
+    lg:w-50 md:w-30 w-30
+    lg:p-2  md:p-2 my-1 p-2
     `}
     type="button"
     >{text}</button>

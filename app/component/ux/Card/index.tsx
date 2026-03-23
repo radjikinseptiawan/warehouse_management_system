@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 
 function CardView({card}:{card:ReactNode}){
@@ -116,7 +117,21 @@ function BasicSkeleton(){
         </div>    )
 }
 
+function FinanceCard({text,nominal,to}:{text:string,nominal:string | number, to:string}){
+    return(
+        <div className="bg-white rounded-md text-black shadow-xl w-72 p-2">
+                <h1 className="font-bold">{text}</h1>
+                <p>{nominal}</p>
+                <hr className="text-gray-300"/>
+                <span>
+                    <Link href={to}><p className="text-[12px] text-gray-400 underline">Lihat Detail</p></Link>
+                </span>
+            </div>
+    )
+}
+
 CardView.BasicSkeleton = BasicSkeleton
 CardView.Basic = Basic
 CardView.BasicSatuan = BasicSatuan
+CardView.FinanceCard = FinanceCard
 export default CardView

@@ -14,7 +14,7 @@ const ProductIcon = ({
       viewBox="0 0 512 512"
       fill={color}
       xmlns="http://www.w3.org/2000/svg"
-      className={"w-12 h-12"}
+      className={"md:w-12 h-6 w-6 md:h-12"}
     >
       <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="icon" fill={color} transform="translate(42.666667, 34.346667)">

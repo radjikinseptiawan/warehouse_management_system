@@ -2,7 +2,7 @@ import { AddProductParams, EditProductType, EditProductTypeIn, GetDataByIdType, 
 import { SetStateAction,Dispatch } from "react";
 
 // Mengambil data barang masuk
-export const syncAllDataProduct = async (setDataRaw:Dispatch<SetStateAction<InboundProductType[]>>) => {
+export const syncAllDataProduct = async (setDataRaw:Dispatch<SetStateAction<InboundProductType[] | any>>) => {
         try {
             const response = await fetch("/api/barang_masuk", { method: "GET" });
             await fetch("/api/produk",{method:"GET"})
