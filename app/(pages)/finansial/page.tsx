@@ -5,6 +5,7 @@ import SelectorLayers from "@/app/component/ui/Selector";
 import CardView from "@/app/component/ux/Card";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { convertToIdr } from "@/app/layers/businessLogic/pagination";
+import { sumAll } from "@/app/layers/dataLayer/finansial";
 import { syncAllDataProduct } from "@/app/layers/dataLayer/inbound";
 import { Employee, getAllKaryawan } from "@/app/layers/dataLayer/karyawan";
 import { getAllOperasional } from "@/app/layers/dataLayer/operasional";
@@ -16,38 +17,22 @@ import { useEffect, useState } from "react";
 
 export default function Page(){
     const [biayaKaryawan,setBiayaKaryawan] = useState<Employee[] | null>([])
-    const [uangKeluar,setUangKeluar] = useState<InboundProductType[] | null>([])
-    const [uangMasuk,setUangMasuk] = useState<OutboundProductType[] | null>([])
-    const [biayaOperasional,setBiayaOperasional] = useState([])
+    const [uangKeluar,setUangKeluar] = useState<InboundProductType[] | any | null>([])
+    const [uangMasuk,setUangMasuk] = useState<OutboundProductType[] | any | null>([])
+    const [biayaOperasional,setBiayaOperasional] = useState<{biaya_operasional:number | null}[] | any>([])
+    
+    
+    const allUangKeluar = sumAll(uangKeluar)
+    const allBiayaKaryawan = sumAll(biayaKaryawan)
+    const allBiayaoperasional = sumAll(biayaOperasional)
+    const allUangMasuk = sumAll(uangMasuk)
+
     useEffect(()=>{
         getAllKaryawan(setBiayaKaryawan)
         syncAllDataProduct(setUangKeluar)
         syncAllDataProductOut(setUangMasuk)
         getAllOperasional(setBiayaOperasional)
     },[])
-
-
-
-    const sumAllUangKeluar = uangKeluar?.reduce((acc:any,item:any)=>{
-        const filterUangKeluar = item.nominal_modal
-
-        return acc += filterUangKeluar
-    },0)
-    const sumAllGajiKaryawan = biayaKaryawan?.reduce((acc:any,item:any)=>{
-        const gajiKaryawan = item.gaji_karyawan
-        
-        return acc += gajiKaryawan
-    },0)
-
-    const sumAllUangMasuk = uangMasuk?.reduce((acc:any,item:any)=>{
-        const filterUangMasuk = item.nominal_modal
-        return acc += filterUangMasuk
-    },0)
-
-    const sumAllBiayaOperasional = biayaOperasional.reduce((acc:any,item:any)=>{
-        const filterBiayaOperasional = item.biaya_operasional
-        return acc += filterBiayaOperasional
-    },0)
 
     return( 
     <div className="flex flex-col items-center justify-center">
@@ -61,27 +46,48 @@ export default function Page(){
 
             <CardView.FinanceCard
             text="Total Biaya Operasional"
-            nominal={convertToIdr(sumAllBiayaOperasional)}
+            nominal={convertToIdr(allBiayaoperasional)}
             to="/operasional"
             />    
 
             <CardView.FinanceCard
             text="Total Biaya karyawan"
-            nominal={convertToIdr(sumAllGajiKaryawan)}
+            nominal={convertToIdr(allBiayaKaryawan)}
             to="/karyawan"
             />    
 
             <CardView.FinanceCard
             text="Total Uang Keluar (inbound)"
-            nominal={convertToIdr(sumAllUangKeluar)}
+            nominal={convertToIdr(allUangKeluar)}
             to="/inbound"
             />    
 
             <CardView.FinanceCard
             text="Total Uang Masuk (outbound)"
-            nominal={convertToIdr(sumAllUangMasuk)}
+            nominal={convertToIdr(allUangMasuk)}
             to="/outbound"
             />    
+    </div>
+    
+    <div className="flex flex-col md:flex-row">
+        <div className="shadow p-2 w-72 text-black md:w-xl bg-white my-10 rounded-md">
+                <h1 className="font-bold text-black">Total Pengeluaran</h1>
+                <p className="text-red-500">
+                {
+                    convertToIdr(allUangKeluar + allBiayaKaryawan + allBiayaoperasional)
+                }
+                </p>
+        </div>
+
+        <div className="shadow w-72 p-2 md:w-xl text-black bg-white my-10 rounded-md">
+                <h1 className="font-bold text-black">Total Pemasukkan</h1>
+                <p className="text-green-500">
+                    {
+                        convertToIdr(allUangMasuk)
+                    }
+                </p>
+        </div>
+
     </div>
     </div>
     )
