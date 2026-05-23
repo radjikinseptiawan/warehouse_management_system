@@ -26,9 +26,9 @@ export default function Home() {
       <div className="bg-white shadow-xl p-3 
       rounded-md md:w-1/2 w-xl md:h-1/2 text-center">
         <h1 className="text-green-500 text-xl font-bold">Login</h1>
-        <p className="text-gray-500">Sistem Informasi Badan Usaha Milik <a target="_blank" href="https://maps.app.goo.gl/1eHCAJTjfRGiTiFAA"><i>Desa Setiadarma</i></a></p>
+        <p className="text-gray-500">Sistem Informasi Badan Usaha Milik <a target="_blank" href="#"><i>Himpunan Mahasiswa Teknik Informatika Pelita Bangsa</i></a></p>
         <div className="flex items-center justify-center">
-        <Image src={"/lambang_kabupaten_bekasi.png"} alt="lambang_kabupaten_bekasi.png" width={300} height={300}/>
+        <Image src={"/him.png"} alt="lambang_kabupaten_bekasi.png" width={300} height={300}/>
         </div>
         <div className="flex text-black gap-5 my-5 flex-col justify-center items-center">
           <Input.Basic
